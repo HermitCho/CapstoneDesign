@@ -78,3 +78,11 @@ MonoBehaviour:
     - Settings Icon
     customIcons: []
     enabled: 1
+  - builtinIcons: []
+    customIcons:
+    - Sprite Icon
+    - Texture Icon
+    enabled: 1
+  - builtinIcons: []
+    customIcons: []
+    enabled: 1

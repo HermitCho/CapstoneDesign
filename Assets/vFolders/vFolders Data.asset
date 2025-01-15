@@ -16,13 +16,68 @@ MonoBehaviour:
     keys:
     - c12f8d4b983bd0f499098fb812692f1f
     - a093361d8db79ea439b54db6e7a65e99
+    - 4f5bd85bd8edad54fa9b85f642cc20be
+    - 7b44a5a3b2cd6dc469cfb1d8d129b6e5
+    - 717d97f2f432dcc4ab91b5db86b0dc3a
+    - a0b2c748fc97fe84ba7cde4d03e8cc4d
+    - d5bf25707df0be94c8ac2ecc393cb483
+    - 9e4147c50d1e8564aa1ebdf586877341
+    - 7e1becbc8994c454f9d6edc747b1fa03
+    - 691a8cd40a517a94a9f1efc0a45dbd67
+    - bc2d9d317234d9e47bcffa943698a49f
+    - c5687c5c44806794c9d124e5df30a117
+    - df28d03a6452abb45a999d9d69351a1d
     values:
     - iconNameOrGuid: cs Script Icon
-      colorIndex: 3
+      colorIndex: 4
       isIconRecursive: 0
       isColorRecursive: 0
     - iconNameOrGuid: Material Icon
       colorIndex: 1
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: ScriptableObject Icon
+      colorIndex: 3
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: ScriptableObject Icon
+      colorIndex: 3
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: SceneAsset Icon
+      colorIndex: 8
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: Prefab Icon
+      colorIndex: 5
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: AudioClip Icon
+      colorIndex: 2
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: TextAsset Icon
+      colorIndex: 0
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: PrefabModel Icon
+      colorIndex: 7
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: AnimationClip Icon
+      colorIndex: 1
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: Sprite Icon
+      colorIndex: 0
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: Texture Icon
+      colorIndex: 0
+      isIconRecursive: 0
+      isColorRecursive: 0
+    - iconNameOrGuid: 
+      colorIndex: 10
       isIconRecursive: 0
       isColorRecursive: 0
   bookmarks: []
