@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI; // UI 관련 코드
 
 // 해당 스크립트는 '레트로의 유니티 게임 프로그래밍 에센스 개정판'의 스크립트를 수정함
@@ -37,7 +37,10 @@ public class PlayerHealth : LivingEntity
         base.OnEnable();
 
         healthSlider.gameObject.SetActive(true);
-        health = playerCharacter.maxHealth;
+
+        startingHealth = playerCharacter.maxHealth;
+        health = startingHealth;
+
         healthSlider.maxValue = health;
         healthSlider.value = health;
         moveSpeed = playerCharacter.defaultMoveSpeed;
@@ -77,22 +80,9 @@ public class PlayerHealth : LivingEntity
         //playerShooter.enabled = false;//구현 x라 주석처리
     }
 
-    //스킬 사용 메서드(해당 메서드는 디버그용으로 잠시 여기에 배치, 후에 다른 스크립트에 배치 예정)
-    public void SkillActive()
-    {
-        if(playerInput.skill_1_Button)
-        {
-            Debug.Log(health);
-        }
-        if(playerInput.skill_2_Button)
-        {
-            Debug.Log("스킬 2");
-        }
-    }
-
     //업데이트
     void Update()
     {
-        SkillActive();
+
     }
 }

@@ -138,6 +138,8 @@ GameObject:
   - component: {fileID: 525153522}
   - component: {fileID: 525153521}
   - component: {fileID: 525153523}
+  - component: {fileID: 525153525}
+  - component: {fileID: 525153524}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -319,8 +321,30 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bc20f4d43e2fad4796602081058d44e, type: 2}
   playerCharacter: {fileID: 11400000, guid: b31867158a45039469cd2261c166450f, type: 2}
   healthSlider: {fileID: 1527010909}
-  deathClip: {fileID: 8300000, guid: 94c9093e557563542aad2dca90f18a28, type: 3}
-  hitClip: {fileID: 8300000, guid: 260851f55e57b364dbfb8c573982bfca, type: 3}
+--- !u!114 &525153524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525153515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf88d99c3eb5da4889e3d33cce6bf7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &525153525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525153515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6872783a156028b419bc49799efcc154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
