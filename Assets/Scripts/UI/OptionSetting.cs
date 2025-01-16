@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using TMPro;
+using JetBrains.Annotations;
 
 
 
@@ -27,8 +28,13 @@ public class OptionSetting : MonoBehaviour
     private float yParsedValue;
     private float xParsedValue;
 
+
+    private PlayerMovement playerMovement;
+
     private void Awake()
     {
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+
         //슬라이더 상요작용 여부
         xMouseSensitivitySlider.interactable = true;
         yMouseSensitivitySlider.interactable = true;
@@ -38,25 +44,29 @@ public class OptionSetting : MonoBehaviour
         yMouseSensitivitySlider.minValue = 0f;
 
         // 슬라이더의 최댓값
-        xMouseSensitivitySlider.maxValue = 10f;
-        yMouseSensitivitySlider.maxValue = 10f;
+        xMouseSensitivitySlider.maxValue = 20f;
+        yMouseSensitivitySlider.maxValue = 20f;
 
 
         // 슬라이더의 값 실수로 사용
         xMouseSensitivitySlider.wholeNumbers = false;
         yMouseSensitivitySlider.wholeNumbers = false;
 
+        xMouseSensitivitySlider.value = 1f;//좌우 감도 값을 슬라이더값으로 설정
+        yMouseSensitivitySlider.value = 1f; //상하 감도 값을 슬라이더값으로 설정 
 
-
-
+        xMouseSensitivityField.text = "1";
+        yMouseSensitivityField.text = "1";
     }
 
-
+    
 
     private void Update()
     {
         ChangeToSlider();
         ChangeToInputField();
+
+        SetSensitivityValue();
     }
 
 
@@ -114,17 +124,15 @@ public class OptionSetting : MonoBehaviour
     }
 
 
-    //실제 감도를 설정하기 위한 값 반환 메서드
-    public float GetSensitivityValue(int i)
+    //실제 감도를 설정하기 위한 메서드
+    public void SetSensitivityValue() 
     {
-        if(i == 0)
-        {
-            return xMouseSensitivity;
-        }
-        else
-        {
-            return yMouseSensitivity;
-        }
+
+        playerMovement.xMouseSensitivity = xMouseSensitivity;
+        playerMovement.yMouseSensitivity = yMouseSensitivity;
+
+
     }
+
 
 }

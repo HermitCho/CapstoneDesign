@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Button : MonoBehaviour
 {
-    public GameObject optionCanvas;
+    public GameObject optionCanvas; //Option Panel Object 
 
-    private bool isOptionClick;
+    private bool isOptionClick; //bool Option Panel 
 
     private void Awake()
     {
@@ -44,6 +44,8 @@ public class Button : MonoBehaviour
 
     }
 
+
+    //test code
     public void TestCode()
     {
   
