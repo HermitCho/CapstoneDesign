@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\scriptableobject\\skill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scriptableobject\\skill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\ui\\optionsetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\optionsetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\livingentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\livingentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\entity\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\entity\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\entity\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\entity\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\manager scrpit\\soundmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager scrpit\\soundmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\ui\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\scriptableobject\\playercharacter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scriptableobject\\playercharacter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\entity\\skill\\grenadeskill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\entity\\skill\\grenadeskill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "PlayerMovement.cs",
-              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\PlayerMovement.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerMovement.cs",
-              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\PlayerMovement.cs",
-              "RelativeToolTip": "Assets\\Scripts\\PlayerMovement.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAUwD4AAABZAAAAAAAAAA==",
+              "Title": "PlayerHealth.cs",
+              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Entity\\PlayerHealth.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Entity\\PlayerHealth.cs",
+              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Entity\\PlayerHealth.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Entity\\PlayerHealth.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAUwFMAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T06:24:59.859Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SoundManager.cs",
-              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Manager Scrpit\\SoundManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Manager Scrpit\\SoundManager.cs",
-              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Manager Scrpit\\SoundManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Manager Scrpit\\SoundManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T06:23:14.775Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "PlayerCharacter.cs",
-              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\ScriptableObject\\PlayerCharacter.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\ScriptableObject\\PlayerCharacter.cs",
-              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\ScriptableObject\\PlayerCharacter.cs",
-              "RelativeToolTip": "Assets\\Scripts\\ScriptableObject\\PlayerCharacter.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T06:22:43.11Z",
+              "WhenOpened": "2025-01-16T06:17:56.306Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Skill.cs",
-              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\ScriptableObject\\Skill.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\ScriptableObject\\Skill.cs",
-              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\ScriptableObject\\Skill.cs",
-              "RelativeToolTip": "Assets\\Scripts\\ScriptableObject\\Skill.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAADAAAAAAAAAA==",
+              "Title": "OptionSetting.cs",
+              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\UI\\OptionSetting.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\OptionSetting.cs",
+              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\UI\\OptionSetting.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\OptionSetting.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAAwDoAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T06:22:34.59Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PlayerHealth.cs",
-              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\PlayerHealth.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerHealth.cs",
-              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\PlayerHealth.cs",
-              "RelativeToolTip": "Assets\\Scripts\\PlayerHealth.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAAwCoAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T06:21:40.869Z",
+              "WhenOpened": "2025-01-16T06:06:47.137Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "LivingEntity.cs",
-              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\LivingEntity.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\LivingEntity.cs",
-              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\LivingEntity.cs",
-              "RelativeToolTip": "Assets\\Scripts\\LivingEntity.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
+              "Title": "PlayerMovement.cs",
+              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Entity\\PlayerMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Entity\\PlayerMovement.cs",
+              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Entity\\PlayerMovement.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Entity\\PlayerMovement.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAADwvy0AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T06:21:29.1Z",
+              "WhenOpened": "2025-01-16T06:10:42.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Button.cs",
+              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\UI\\Button.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Button.cs",
+              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\UI\\Button.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Button.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAUwCUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-16T06:07:53.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GrenadeSkill.cs",
+              "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Entity\\Skill\\GrenadeSkill.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Entity\\Skill\\GrenadeSkill.cs",
+              "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Entity\\Skill\\GrenadeSkill.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Entity\\Skill\\GrenadeSkill.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwcAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-16T05:41:55.186Z",
               "EditorCaption": ""
             }
           ]

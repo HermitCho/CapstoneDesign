@@ -5,7 +5,7 @@ public class SoundManager : Singleton<SoundManager>
 
     [SerializeField] private AudioClip[] soundClips;
 
-    public void GetSound(AudioSource currentAudio, int index, float volume = 1f, float? pitch = null, float? speed = null)
+    public void GetSound(AudioSource currentAudio, int index, float? pitch = null, float? speed = null) //볼륨 설정 제거
     {
         if (index < 0 || index >= soundClips.Length)
         {
@@ -22,7 +22,7 @@ public class SoundManager : Singleton<SoundManager>
             currentAudio.pitch = 1.0f; // Default pitch
         }
 
-        currentAudio.volume = Mathf.Clamp01(volume);
+        //currentAudio.volume = Mathf.Clamp01(volume);
         currentAudio.clip = soundClips[index];
 
         if (speed.HasValue && currentAudio.clip != null)
@@ -30,7 +30,7 @@ public class SoundManager : Singleton<SoundManager>
             currentAudio.pitch *= Mathf.Clamp(speed.Value, 0.1f, 3.0f);
         }
 
-        currentAudio.Play();
+        currentAudio.PlayOneShot(currentAudio.clip);
 
     }
 }
