@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public float horizontalMoveSpeed = 2.5f;//양옆 움직임 속도
     [HideInInspector] public float xMouseSensitivity = 1f; //좌우 마우스 움직임 속도
     [HideInInspector] public float yMouseSensitivity = 1f; //상하 마우스 움직임 속도
+    [HideInInspector] public float sprintSpeed = 3f;//달리기 속도
     public RectTransform uiElement; // 이동할 UI 요소의 RectTransform
     private RectTransform parentRectTransform;
 
@@ -77,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             playerAnimator.SetBool("IsSideMove", false);
-            playerAnimator.SetFloat("Move", playerInput.verticalMove);
+            playerAnimator.SetFloat("Move", playerInput.verticalMove * (playerInput.sprintButton+1));
         }
        
 
@@ -88,8 +89,11 @@ public class PlayerMovement : MonoBehaviour
     //움직임 메서드
     private void Move()
     {
+        float totalVerticalMoveSpeed = verticalMoveSpeed + (sprintSpeed * Mathf.Abs(playerInput.sprintButton));
+
         //상대적으로 이동할 거리 계산
-        Vector3 moveDistance = ((playerInput.verticalMove * transform.forward * verticalMoveSpeed) + (playerInput.horizontalMove * transform.right * horizontalMoveSpeed)) * Time.deltaTime;
+        Vector3 moveDistance = ((playerInput.verticalMove * transform.forward * totalVerticalMoveSpeed)
+                                + (playerInput.horizontalMove * transform.right * horizontalMoveSpeed)) * Time.deltaTime;
 
         //리지드바디를 이용해 플레이어 위치 변경
         playerRigidbody.MovePosition(playerRigidbody.position + moveDistance);
