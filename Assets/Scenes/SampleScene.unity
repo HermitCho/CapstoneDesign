@@ -713,6 +713,7 @@ MonoBehaviour:
   horizontalMoveSpeed: 2.5
   xMouseSensitivity: 1
   yMouseSensitivity: 1
+  sprintSpeed: 3
   uiElement: {fileID: 1695888976}
   virtualCamera: {fileID: 778582565}
 --- !u!114 &228866266
@@ -7785,6 +7786,7 @@ MonoBehaviour:
   horizontalMoveSpeed: 2.5
   xMouseSensitivity: 1
   yMouseSensitivity: 1
+  sprintSpeed: 3
   uiElement: {fileID: 1695888976}
   virtualCamera: {fileID: 778582565}
 --- !u!114 &1001739527
@@ -19505,6 +19507,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 228866264}
     m_Modifications:
+    - target: {fileID: 3439125304327574857, guid: 9870780e43bf71546b5c815eeed254fb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.026
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439125304327574857, guid: 9870780e43bf71546b5c815eeed254fb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.388
+      objectReference: {fileID: 0}
     - target: {fileID: 4738410619881363758, guid: 9870780e43bf71546b5c815eeed254fb, type: 3}
       propertyPath: m_TagString
       value: Gun
@@ -19523,7 +19533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5387456982640655255, guid: 9870780e43bf71546b5c815eeed254fb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.191
+      value: 0.326
       objectReference: {fileID: 0}
     - target: {fileID: 5387456982640655255, guid: 9870780e43bf71546b5c815eeed254fb, type: 3}
       propertyPath: m_LocalRotation.w
