@@ -65,21 +65,25 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        MoveUIElement();
-        Rotation();
-        Move();
 
-        playerAnimator.SetFloat("SideMove", playerInput.horizontalMove);
-
-        if (playerInput.verticalMove ==0f )
+        if (playerInput.verticalMove == 0f)
         {
             playerAnimator.SetBool("IsSideMove", true);
         }
         else
         {
             playerAnimator.SetBool("IsSideMove", false);
-            playerAnimator.SetFloat("Move", playerInput.verticalMove * (playerInput.sprintButton+1));
+            playerAnimator.SetFloat("Move", playerInput.verticalMove * (playerInput.sprintButton + 1));
         }
+        playerAnimator.SetFloat("SideMove", playerInput.horizontalMove);
+
+
+        MoveUIElement();
+        Rotation();
+        Move();
+
+        
+
        
 
 

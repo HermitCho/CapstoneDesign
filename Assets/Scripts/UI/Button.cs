@@ -1,25 +1,31 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Button : MonoBehaviour
 {
-    public GameObject optionCanvas; //Option Panel Object 
+    public GameObject optionPanel; //Option Panel Object 
+    public GameObject pausePanel; //Pause Panel Object
 
     private bool isOptionClick; //bool Option Panel 
+    private bool isPauseClick; //bool Pause Panel
 
     private void Awake()
     {
-        optionCanvas.SetActive(false);
+        optionPanel.SetActive(false);
+        pausePanel.SetActive(false);
         isOptionClick = false;
+        isPauseClick = false;
     }
 
 
 
     private void Update()
     {
-        TestCode();
+        Pause();
+        IsExitOption();
     }
 
     public void OnClickGameStart()
@@ -27,15 +33,25 @@ public class Button : MonoBehaviour
         //GmaeManager.cs 메서드 불러오기
         //photon 사용 필요
     }
+
+
+    public void IsExitOption()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && optionPanel != null && isOptionClick == true)
+        {
+            OnClickOption();
+        }
+       
+    }
     
     public void OnClickOption()
     {
-
-        if (optionCanvas != null) 
+        if (optionPanel != null) 
         {
             isOptionClick = !isOptionClick;
-            optionCanvas.SetActive(isOptionClick);     
+            optionPanel.SetActive(isOptionClick);     
         }
+
         
     }
 
@@ -44,26 +60,37 @@ public class Button : MonoBehaviour
 
     }
 
+    public void ExitPause()
+    {
+        isPauseClick = false;
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        pausePanel.SetActive(false);
+
+    }
+
 
     //test code
-    public void TestCode()
+    public void Pause()
     {
   
-        if (Input.GetKeyDown(KeyCode.Escape) && !isOptionClick)
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPauseClick)
         {
-  
+            isPauseClick = true;
             UnityEngine.Cursor.visible = true;
             UnityEngine.Cursor.lockState = CursorLockMode.Confined;
-            OnClickOption();
+            pausePanel.SetActive(isPauseClick);
+            
 
         }
 
-        else if (Input.GetKeyDown(KeyCode.Escape) && isOptionClick)
+        else if (Input.GetKeyDown(KeyCode.Escape) && isPauseClick && !isOptionClick ) 
         {
-
+            isPauseClick = false;
             UnityEngine.Cursor.visible = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            OnClickOption();
+            pausePanel.SetActive(isPauseClick);
+            
 
         }
     }
