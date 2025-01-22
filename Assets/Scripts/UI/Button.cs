@@ -12,8 +12,12 @@ public class Button : MonoBehaviour
     private bool isOptionClick; //bool Option Panel 
     private bool isPauseClick; //bool Pause Panel
 
+    private GameObject player;
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
+
         optionPanel.SetActive(false);
         pausePanel.SetActive(false);
         isOptionClick = false;
@@ -76,11 +80,16 @@ public class Button : MonoBehaviour
   
         if (Input.GetKeyDown(KeyCode.Escape) && !isPauseClick)
         {
+            PlayerInput playerInput = player.GetComponent<PlayerInput>();
+            playerInput.enabled = false;
+
             isPauseClick = true;
             UnityEngine.Cursor.visible = true;
             UnityEngine.Cursor.lockState = CursorLockMode.Confined;
             pausePanel.SetActive(isPauseClick);
             
+
+
 
         }
 
@@ -90,8 +99,9 @@ public class Button : MonoBehaviour
             UnityEngine.Cursor.visible = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             pausePanel.SetActive(isPauseClick);
-            
 
+            PlayerInput playerInput = player.GetComponent<PlayerInput>();
+            playerInput.enabled = true;
         }
     }
 }

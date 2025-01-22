@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\assets\\scripts\\ui\\optionsetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\optionsetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\assets\\scripts\\ui\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\ui\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBB38\uC11C\\github\\capstonedesign\\assets\\scripts\\ui\\optionsetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\optionsetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\assets\\scripts\\entity\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
@@ -106,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "OptionSetting.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\UI\\OptionSetting.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\OptionSetting.cs",
@@ -119,13 +119,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Button.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\UI\\Button.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Button.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\\uBB38\uC11C\\GitHub\\CapstoneDesign\\Assets\\Scripts\\UI\\Button.cs",
               "RelativeToolTip": "Assets\\Scripts\\UI\\Button.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAIwDwAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAgwGIAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-16T06:07:53.031Z",
               "EditorCaption": ""
