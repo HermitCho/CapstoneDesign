@@ -60,7 +60,7 @@ public class OptionSetting : MonoBehaviour
         //감도 설정 슬라이더의 최댓값
         xMouseSensitivitySlider.maxValue = 20f;
         yMouseSensitivitySlider.maxValue = 20f;
-        soundSlider.maxValue = 10f;
+        soundSlider.maxValue = 1f;
 
         // 슬라이더의 값 실수로 사용
         xMouseSensitivitySlider.wholeNumbers = false;
@@ -78,6 +78,23 @@ public class OptionSetting : MonoBehaviour
 
         //소리 크기 텍스트(TMP) 값 초기 설정
         soundTextTMP.text = soundSlider.value.ToString();
+
+        sound = soundSlider.value;
+    }
+
+
+    private void OnEnable()
+    {
+        //오브젝트 활성화시 초기화
+        xMouseSensitivitySlider.value = playerMovement.xMouseSensitivity;
+        yMouseSensitivitySlider.value = playerMovement.yMouseSensitivity;
+        xParsedValue = playerMovement.xMouseSensitivity;
+        yParsedValue = playerMovement.yMouseSensitivity;
+
+        soundSlider.value = sound;
+        soundTextTMP.text = sound.ToString();
+
+
     }
 
     private void Update()
@@ -86,7 +103,7 @@ public class OptionSetting : MonoBehaviour
         SensitivityChangeToInputField();
         SetSoundToSlider();
 
-        SetValue();
+      //  SetValue();
     }
 
 
@@ -97,9 +114,9 @@ public class OptionSetting : MonoBehaviour
         xMouseSensitivitySlider.value = float.Parse(xMouseSensitivitySlider.value.ToString("N2"));
         yMouseSensitivitySlider.value = float.Parse(yMouseSensitivitySlider.value.ToString("N2"));
 
-        //감도 값을 슬라이더값으로 설정
+/*        //감도 값을 슬라이더값으로 설정
         xMouseSensitivity = xMouseSensitivitySlider.value;
-        yMouseSensitivity = yMouseSensitivitySlider.value; 
+        yMouseSensitivity = yMouseSensitivitySlider.value; */
     }
 
     //사용자 입력값으로 감도 조절
@@ -110,8 +127,9 @@ public class OptionSetting : MonoBehaviour
         if (float.TryParse(xMouseSensitivityField.text, out xParsedValue) && float.TryParse(yMouseSensitivityField.text, out yParsedValue))
         {
             // 감도 값 설정
-            xMouseSensitivity = xParsedValue;
-            yMouseSensitivity = yParsedValue;
+            xMouseSensitivityField.text = xParsedValue.ToString();
+            yMouseSensitivityField.text = yParsedValue.ToString();
+
 
         }
     }
@@ -124,20 +142,22 @@ public class OptionSetting : MonoBehaviour
         soundSlider.value = float.Parse(soundSlider.value.ToString("N2"));
         soundSlider.value = float.Parse(soundSlider.value.ToString("N2"));
 
-        //총소리 크기 변수에 슬라이더 값 저장
-        sound = soundSlider.value;
+/*        //총소리 크기 변수에 슬라이더 값 저장
+        sound = soundSlider.value;*/
     }
 
     //실제 설정값을 적용하기 위한 메서드
     public void SetValue() 
     {
         //감도값을 실제로 적용
-        playerMovement.xMouseSensitivity = xMouseSensitivity;
-        playerMovement.yMouseSensitivity = yMouseSensitivity;
+        playerMovement.xMouseSensitivity = xMouseSensitivitySlider.value;
+        playerMovement.yMouseSensitivity = yMouseSensitivitySlider.value;
 
         //소리크기값을 실제로 적용
-        playerAudioSource.volume = sound;
-        gunAudioSource.volume = sound;
+        playerAudioSource.volume = soundSlider.value;
+        gunAudioSource.volume = soundSlider.value;
+
+        sound = soundSlider.value;
     }
 
 
@@ -165,6 +185,10 @@ public class OptionSetting : MonoBehaviour
     public void SoundSyncSlider()
     {
         //Slider의 값을 TMP_text에 동기화
-        soundTextTMP.text = sound.ToString();
+        soundTextTMP.text = soundSlider.value.ToString();
     }
+
+
+
+
 }
