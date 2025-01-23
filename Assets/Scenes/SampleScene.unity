@@ -1086,9 +1086,9 @@ RectTransform:
   - {fileID: 1249420834}
   m_Father: {fileID: 1767491319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30, y: -25.314999}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 114.4, y: 30.63}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &149299493
@@ -1526,6 +1526,7 @@ MonoBehaviour:
   reloadButtonName: Reload
   skill_1_ButtonName: Skill 1
   skill_2_ButtonName: Skill 2
+  handleGunButtonName: Handle Gun
 --- !u!54 &228866267
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1705,18 +1706,6 @@ MonoBehaviour:
   skills: []
   playerCharacter: {fileID: 11400000, guid: 77a57f982947c1f4cac3165e2f88e540, type: 2}
   healthSlider: {fileID: 0}
---- !u!114 &228866274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 228866262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a1eaa2d27827f4bb7c8260e8efb327, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &228866275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,6 +1718,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3f10834bee6f140985aa346fb488b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkSkill: 0
+--- !u!114 &228866277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228866262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c900d161c0bcf434f9f43ff9eb3cea22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkSkill: 0
+  smokePrefab: {fileID: 5370471694265881074, guid: bdce808795e400e49b45fd6bdd898b75, type: 3}
+--- !u!114 &228866278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228866262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584726e8f4901a54d8935adc1cf1faa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkSkill: 0
+  grenadePrefab: {fileID: 2573602346511189180, guid: efd05f1068e97004898fefa02c516125, type: 3}
 --- !u!1 &236861915
 GameObject:
   m_ObjectHideFlags: 0
@@ -6850,6 +6868,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288233150}
   m_CullTransparentMesh: 1
+--- !u!1 &312401103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 312401104}
+  m_Layer: 0
+  m_Name: Grenade Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &312401104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312401103}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 228866264}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &329875194
 GameObject:
   m_ObjectHideFlags: 0
@@ -8234,9 +8283,9 @@ RectTransform:
   - {fileID: 967959788}
   m_Father: {fileID: 1767491319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30, y: -125.945}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 114.4, y: 30.63}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &455372775
@@ -9516,6 +9565,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c682f365417003e4c997b0708840dcd1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 169534958}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c682f365417003e4c997b0708840dcd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 312401104}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c682f365417003e4c997b0708840dcd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 973197192}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c682f365417003e4c997b0708840dcd1, type: 3}
       insertIndex: -1
@@ -9537,13 +9592,16 @@ PrefabInstance:
       addedObject: {fileID: 228866271}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c682f365417003e4c997b0708840dcd1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 228866274}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c682f365417003e4c997b0708840dcd1, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 228866273}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c682f365417003e4c997b0708840dcd1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 228866275}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c682f365417003e4c997b0708840dcd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 228866278}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c682f365417003e4c997b0708840dcd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 228866277}
   m_SourcePrefab: {fileID: 100100000, guid: c682f365417003e4c997b0708840dcd1, type: 3}
 --- !u!1 &756230713
 GameObject:
@@ -9627,7 +9685,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 371292577}
   m_HandleRect: {fileID: 371292576}
   m_Direction: 2
-  m_Value: 0.50000006
+  m_Value: 0.5
   m_Size: 0.41593876
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10268,6 +10326,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 967959787}
   m_CullTransparentMesh: 1
+--- !u!1 &973197191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 973197192}
+  m_Layer: 0
+  m_Name: Smoke Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &973197192
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973197191}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 228866264}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1001739524
 GameObject:
   m_ObjectHideFlags: 0
@@ -10348,6 +10437,7 @@ MonoBehaviour:
   reloadButtonName: Reload
   skill_1_ButtonName: Skill 1
   skill_2_ButtonName: Skill 2
+  handleGunButtonName: Handle Gun
 --- !u!54 &1001739528
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14028,9 +14118,9 @@ RectTransform:
   - {fileID: 1087131705}
   m_Father: {fileID: 1767491319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 380, y: -461.26}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1783631080
@@ -24880,7 +24970,7 @@ ParticleSystem:
   LightsModule:
     enabled: 1
     ratio: 1
-    light: {fileID: 108000013609061350, guid: fa35d75604d172d48b7a6b62a07c7dbf, type: 2}
+    light: {fileID: 108000013609061350, guid: fa35d75604d172d48b7a6b62a07c7dbf, type: 3}
     randomDistribution: 0
     color: 1
     range: 0

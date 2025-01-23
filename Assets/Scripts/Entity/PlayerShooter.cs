@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-//Gun ¿ÀºêÁ§Æ®¸¦ ½î°Å³ª ÀçÀåÀü 
-//IK »ç¿ë
+//Gun ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+//IK ï¿½ï¿½ï¿½
 public class PlayerShooter : MonoBehaviour
 {
     public Gun gun;
@@ -33,6 +33,8 @@ public class PlayerShooter : MonoBehaviour
 
     private void Update()
     {
+        gun.Handling();
+        
         if (playerInput.fireButton) 
         {
             gun.Fire();
@@ -41,28 +43,28 @@ public class PlayerShooter : MonoBehaviour
         {
             if (gun.Reload())
             {
-                //ÀçÀåÀü ¼º°ø½Ã¿¡¸¸ ¾Ö´Ï¸ÞÀÌ¼Ç Àç»ý
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½
                 playerAnimator.SetTrigger("Reload");
             }
         }
 
-        //UI°»½Å
+        //UIï¿½ï¿½ï¿½ï¿½
         //UpdateUI();
     }
 
     private void OnAnimatorIK(int layerIndex)
     {
-        //ÃÑÀÇ ±âÁØÁ¡ gunPivotÀ» 3D¸ðµ¨ÀÇ ¿À¸¥ÂÊ ÆÈ²ÞÄ¡ À§Ä¡·Î ÀÌµ¿
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ gunPivotï¿½ï¿½ 3Dï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È²ï¿½Ä¡ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ìµï¿½
         gunPivot.position = playerAnimator.GetIKHintPosition(AvatarIKHint.RightElbow);
 
-        //IK¸¦ ÀÌ¿ëÇÏ¿© ¿Þ¼ÕÀÇ À§Ä¡¿Í È¸ÀüÀ» ÃÑÀÇ ¿ÞÂÊ ¼ÕÀâÀÌ¿¡ ¸ÂÃã
+        //IKï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï¿ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½ï¿½
         playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1.0f);
         playerAnimator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1.0f);
 
         playerAnimator.SetIKPosition(AvatarIKGoal.LeftHand, LeftHandMount.position);
         playerAnimator.SetIKRotation(AvatarIKGoal.LeftHand, LeftHandMount.rotation);
 
-        //IK¸¦ ÀÌ¿ëÇÏ¿© ¿À¸¥¼ÕÀÇ À§Ä¡¿Í È¸ÀüÀ» ÃÑÀÇ ¿ÞÂÊ ¼ÕÀâÀÌ¿¡ ¸ÂÃã
+        //IKï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½ï¿½
         playerAnimator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
         playerAnimator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
 

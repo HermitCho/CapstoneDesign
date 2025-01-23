@@ -10,6 +10,7 @@ public class Skill : MonoBehaviour
     public float currentCoolTime { get; protected set; } // 현재 쿨타임
     public int maxSkillCount { get; protected set; } // 한 판당 사용 가능 횟수
     public int currentSkillCount { get; protected set; } // 현재 사용 가능 횟수
+    public bool checkSkill = false; // 스킬이 사용가능한지 확인
 
 
     // 시작할 때 스킬 초기화
@@ -28,10 +29,10 @@ public class Skill : MonoBehaviour
     // 스킬 버튼 클릭 시 조건을 확인하는 메서드
     public virtual void inputSkillKey()
     {
-        //스킬 쿨타임이 0이고, 스킬 횟수가 있는 경우에만 스킬 발동
+        //스킬 쿨타임이 0이고, 스킬 횟수가 있는 경우에만 스킬 사용 가능 확인
         if (currentCoolTime <= 0f && currentSkillCount > 0)
         {
-            invokeSkill();
+            checkSkill = true;
         }
         else
         {
@@ -42,9 +43,13 @@ public class Skill : MonoBehaviour
     // 스킬을 직접 사용하는 메서드
     public virtual void invokeSkill()
     {
-        //사용하면 쿨타임이 도는 것과 사용 횟수가 주는 것만 구현
-        currentCoolTime = maxCoolTime;
-        currentSkillCount--;
+        // 스킬 사용가능 시, 사용하면 쿨타임이 도는 것과 사용 횟수가 주는 것만 구현
+        if (checkSkill == true)
+        {
+            currentCoolTime = maxCoolTime;
+            currentSkillCount--;
+            checkSkill = false;
+        }
     }
 
     // 쿨타임이 도는 것 구현(해당 메서드는 각 스킬 Update()문에 넣어줘야 함)
@@ -58,7 +63,7 @@ public class Skill : MonoBehaviour
         }
         else if (currentCoolTime <= 0f && currentSkillCount > 0)
         {
-            Debug.Log("사용 가능");
+            //Debug.Log("사용 가능");
         }
     }
 }

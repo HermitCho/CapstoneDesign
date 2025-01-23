@@ -5,49 +5,52 @@ using UnityEngine.Assertions.Comparers;
 
 public class PlayerInput : MonoBehaviour
 {
-    [HideInInspector] public string verticalMoveAxisName = "Vertical";//¾ÕµÚ ÀÌµ¿ ¹æÇâÅ° ÀÔ·Â ¹öÆ° ÀÌ¸§
-    [HideInInspector] public string horizontalMoveAxisName = "Horizontal";//¿· ÀÌµ¿ ¹æÇâÅ° ÀÔ·Â ¹öÆ° ÀÌ¸§
-    [HideInInspector] public string xMouseMoveAxisName = "Mouse X";//xÃà ¸¶¿ì½º ÀÔ·Â ¹æÇâ ÀÌ¸§
-    [HideInInspector] public string yMouseMoveAxisName = "Mouse Y";//yÃà ¸¶¿ì½º ÀÔ·Â ¹æÇâ ÀÌ¸§
-    [HideInInspector] public string sprintButtonName = "Sprint";//´Þ¸®±â ÀÔ·Â ¹öÆ° ÀÌ¸§
-    [HideInInspector] public string crouchButtonName = "Crouch";//¾É±â ÀÔ·Â ¹öÆ° ÀÌ¸§
-    [HideInInspector] public string fireButtonName = "Fire1";//¹ß»ç ÀÔ·Â ¹öÆ° ÀÌ¸§
-    [HideInInspector] public string reloadButtonName = "Reload";//ÀçÀåÀü ÀÔ·Â ¹öÆ° ÀÌ¸§
-    [HideInInspector] public string skill_1_ButtonName = "Skill 1";//1¹ø ½ºÅ³ ÀÔ·Â ¹öÆ° ÀÌ¸§ 
-    [HideInInspector] public string skill_2_ButtonName = "Skill 2";//2¹ø ½ºÅ³ ÀÔ·Â ¹öÆ° ÀÌ¸§ 
-       // [HideInInspector] public string skill_3_ButtonName = "Skill 3";//3¹ø ½ºÅ³ ÀÔ·Â ¹öÆ° ÀÌ¸§
+  [HideInInspector] public string verticalMoveAxisName = "Vertical";//ï¿½Õµï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Å° ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½
+  [HideInInspector] public string horizontalMoveAxisName = "Horizontal";//ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Å° ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½
+  [HideInInspector] public string xMouseMoveAxisName = "Mouse X";//xï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+  [HideInInspector] public string yMouseMoveAxisName = "Mouse Y";//yï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+  [HideInInspector] public string sprintButtonName = "Sprint";//ï¿½Þ¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½
+  [HideInInspector] public string crouchButtonName = "Crouch";//ï¿½É±ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½
+  [HideInInspector] public string fireButtonName = "Fire1";//ï¿½ß»ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½
+  [HideInInspector] public string reloadButtonName = "Reload";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½
+  [HideInInspector] public string skill_1_ButtonName = "Skill 1";//1ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½ 
+  [HideInInspector] public string skill_2_ButtonName = "Skill 2";//2ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½
+  [HideInInspector] public string handleGunButtonName = "Handle Gun";//2ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½ 
+                                                                     // [HideInInspector] public string skill_3_ButtonName = "Skill 3";//3ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½Ô·ï¿½ ï¿½ï¿½Æ° ï¿½Ì¸ï¿½
 
-    public Vector3 mousePoint { get; private set; }
-    public float verticalMove { get; private set; }
-    public float horizontalMove { get; private set; }
-    public float xMouseMove { get; private set; }
-    public float yMouseMove { get; private set; }
-    public float sprintButton { get; private set; }
-    public bool crouchButton { get; private set; }
-    public bool fireButton { get; private set; }
-    public bool reloadButton { get; private set; }
-    public bool skill_1_Button { get; private set; }
-    public bool skill_2_Button { get; private set; }
-      //  public bool skill_3_Button { get; private set; }
+  public Vector3 mousePoint { get; private set; }
+  public float verticalMove { get; private set; }
+  public float horizontalMove { get; private set; }
+  public float xMouseMove { get; private set; }
+  public float yMouseMove { get; private set; }
+  public float sprintButton { get; private set; }
+  public bool crouchButton { get; private set; }
+  public bool fireButton { get; private set; }
+  public bool reloadButton { get; private set; }
+  public bool skill_1_Button { get; private set; }
+  public bool skill_2_Button { get; private set; }
+  public bool handleGunButton { get; private set; }
+  //  public bool skill_3_Button { get; private set; }
 
 
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        mousePoint = Input.mousePosition;
-        verticalMove = Input.GetAxis(verticalMoveAxisName);
-        horizontalMove = Input.GetAxis(horizontalMoveAxisName);
-        xMouseMove = Input.GetAxis(xMouseMoveAxisName);
-        yMouseMove = Input.GetAxis(yMouseMoveAxisName);
-        sprintButton = Input.GetAxis(sprintButtonName);
-        crouchButton = Input.GetButton(crouchButtonName);
-        fireButton = Input.GetButton(fireButtonName);
-        reloadButton = Input.GetButtonDown(reloadButtonName);
-        skill_1_Button = Input.GetButtonDown(skill_1_ButtonName);
-        skill_2_Button = Input.GetButtonDown(skill_2_ButtonName);
-       // skill_3_Button = Input.GetButtonDown(skill_3_ButtonName);
+  // Update is called once per frame
+  void Update()
+  {
+    mousePoint = Input.mousePosition;
+    verticalMove = Input.GetAxis(verticalMoveAxisName);
+    horizontalMove = Input.GetAxis(horizontalMoveAxisName);
+    xMouseMove = Input.GetAxis(xMouseMoveAxisName);
+    yMouseMove = Input.GetAxis(yMouseMoveAxisName);
+    sprintButton = Input.GetAxis(sprintButtonName);
+    crouchButton = Input.GetButton(crouchButtonName);
+    fireButton = Input.GetButton(fireButtonName);
+    reloadButton = Input.GetButtonDown(reloadButtonName);
+    skill_1_Button = Input.GetButtonDown(skill_1_ButtonName);
+    skill_2_Button = Input.GetButtonDown(skill_2_ButtonName);
+    handleGunButton = Input.GetButtonDown(handleGunButtonName);
+    // skill_3_Button = Input.GetButtonDown(skill_3_ButtonName);
 
-    }
+  }
 }
