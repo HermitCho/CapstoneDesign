@@ -45,7 +45,6 @@ public class GrenadeSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
-        grenade.Throwing();
     }
 
     void Update()
@@ -60,7 +59,11 @@ public class GrenadeSkill : Skill
         if (grenade != null) // grenade가 null이 아닌 경우에만 Handling 호출
         {
             grenade.Handling();
-            invokeSkill();
+            grenade.Throwing();
+            if (grenade.state == Grenade.State.Fire)
+            {
+                invokeSkill();
+            }
         }
         else
         {

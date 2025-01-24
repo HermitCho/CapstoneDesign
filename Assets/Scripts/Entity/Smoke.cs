@@ -26,6 +26,7 @@ public class Smoke : MonoBehaviour
     float throwingPower = 20f; // 연막탄 투척 속도
     float throwingDelay = 2f; // 연막탄을 던질 때 너무 빨리 던지면 isKinematic이 off되기 전에 바닥을 뚫고 지나감, 그래서 약간의 딜레이를 넣음
     bool throwingDelayBool = false;
+    private bool alreadyThrown; // 던져진 상태인지 확인
 
     void Start()
     {
@@ -35,24 +36,26 @@ public class Smoke : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
         playerMovement = GetComponentInParent<PlayerMovement>();
+        alreadyThrown = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         Explosion();
+        Debug.Log(state);
     }
 
     // 2번 키를 누르면 연막탄을 손에 들게 됨
     public void Handling()
     {
-        if (state == State.Empty && playerInput.skill_2_Button)
+        if (state == State.Empty && playerInput.skill_2_Button && !alreadyThrown)
         {
             state = State.Ready;
             Debug.Log(state);
             gameObject.SetActive(true);
         }
-        else if (state == State.Ready && playerInput.skill_1_Button || playerInput.handleGunButton )
+        else if (state == State.Ready && (playerInput.skill_1_Button || playerInput.handleGunButton) && !alreadyThrown)
         {
             state = State.Empty;
             Debug.Log(state);
@@ -66,7 +69,7 @@ public class Smoke : MonoBehaviour
         Debug.Log(cookingTime);
         if (state == State.Ready || state == State.Cooking)
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !alreadyThrown)
             {
                 state = State.Cooking;
             }
@@ -78,6 +81,7 @@ public class Smoke : MonoBehaviour
                 Vector3 fireDirection = playerMovement.LocalPosToWorldDirection();
                 rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
                 state = State.Fire;
+                alreadyThrown = true;
             }
         }
     }

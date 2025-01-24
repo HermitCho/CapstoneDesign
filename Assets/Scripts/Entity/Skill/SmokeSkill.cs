@@ -45,7 +45,6 @@ public class SmokeSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
-        smoke.Throwing();
     }
 
     void Update()
@@ -60,7 +59,11 @@ public class SmokeSkill : Skill
         if (smoke != null) // smoke가 null이 아닌 경우에만 Handling 호출
         {
             smoke.Handling();
-            invokeSkill();
+            smoke.Throwing();
+            if (smoke.state == Smoke.State.Fire)
+            {
+                invokeSkill();
+            }
         }
         else
         {

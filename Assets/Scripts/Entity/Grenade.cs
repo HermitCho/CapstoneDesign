@@ -19,6 +19,7 @@ public class Grenade : MonoBehaviour
     private Rigidbody rigidbody; // 수류탄의 리지드바디
     private Collider collider; // 수류탄의 콜라이더
     [SerializeField] ParticleSystem explosionParticle; // 수류탄 폭발 파티클
+    private bool alreadyThrown; // 던져진 상태인지 확인
 
     // Start is called before the first frame update
 
@@ -36,6 +37,7 @@ public class Grenade : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
         playerMovement = GetComponentInParent<PlayerMovement>();
+        alreadyThrown = false;
     }
 
     // Update is called once per frame
@@ -47,13 +49,13 @@ public class Grenade : MonoBehaviour
     // 2번 키를 누르면 수류탄을 손에 들게 됨
     public void Handling()
     {
-        if (state == State.Empty && playerInput.skill_1_Button)
+        if (state == State.Empty && playerInput.skill_1_Button && !alreadyThrown)
         {
             state = State.Ready;
             Debug.Log(state);
             gameObject.SetActive(true);
         }
-        else if (state == State.Ready && playerInput.skill_2_Button || playerInput.handleGunButton)
+        else if (state == State.Ready && (playerInput.skill_1_Button || playerInput.handleGunButton) && !alreadyThrown)
         {
             state = State.Empty;
             Debug.Log(state);
@@ -67,11 +69,11 @@ public class Grenade : MonoBehaviour
         Debug.Log(cookingTime);
         if (state == State.Ready || state == State.Cooking)
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !alreadyThrown)
             {
                 state = State.Cooking;
             }
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) & !alreadyThrown)
             {
                 rigidbody.isKinematic = false;
                 gameObject.transform.SetParent(null);
@@ -79,6 +81,7 @@ public class Grenade : MonoBehaviour
                 Vector3 fireDirection = playerMovement.LocalPosToWorldDirection();
                 rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
                 state = State.Fire;
+                alreadyThrown = true;
             }
         }
     }
