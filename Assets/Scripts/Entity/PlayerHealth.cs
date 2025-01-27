@@ -9,6 +9,7 @@ public class PlayerHealth : LivingEntity
     public Skill[] skills; // 플레이어 캐릭터의 스킬
     public PlayerCharacter playerCharacter; //플레이어 캐릭터 종류
     public Slider healthSlider; // 체력을 표시할 UI 슬라이더
+    public Slider shieldSlider; // 추가 방어막을 표시할 UI 슬라이더
 
     private AudioSource playerAudioPlayer; // 플레이어 소리 재생기
     private Animator playerAnimator; // 플레이어의 애니메이터
@@ -43,6 +44,9 @@ public class PlayerHealth : LivingEntity
 
         healthSlider.maxValue = health;
         healthSlider.value = health;
+        shieldSlider.maxValue = shield;
+        shieldSlider.value = shield;
+        
         moveSpeed = playerCharacter.defaultMoveSpeed;
     }
 

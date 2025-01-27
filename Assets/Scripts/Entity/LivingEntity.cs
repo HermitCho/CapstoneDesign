@@ -9,6 +9,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
 {
     public float startingHealth = 100f; // 시작 체력
     public float health { get; protected set; } // 현재 체력
+    public float shield { get; protected set; } // 현재 추가 방어막
     public float defaultMoveSpeed = 5f; // 기본 이동 속도
     public float moveSpeed { get; protected set; } // 이동 속도
     public bool dead { get; protected set; } // 사망 상태
