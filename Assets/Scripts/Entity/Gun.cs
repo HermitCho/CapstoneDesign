@@ -120,10 +120,8 @@ public class Gun : MonoBehaviour
         //ź���� ���� �� ���� ����
         Vector3 hitPosition = Vector3.zero;
 
-        Vector3 fireDirection = PlayerMovement.LocalPosToWorldDirection();
-
         //����ĳ��Ʈ(��������, ����, �浹���� �����̳�, �����Ÿ�)
-        if (Physics.Raycast(fireTransform.position, fireDirection, out hit, fireDistance))
+        if (Physics.Raycast(fireTransform.position, fireTransform.forward, out hit, fireDistance))
         {
             //���̰� ��ü�� �浹�� ���
             //�浹�� ��ü�� ���� IDamageable ������Ʈ �������� �õ�
@@ -143,7 +141,7 @@ public class Gun : MonoBehaviour
         {
             //���̰� ��ü�� �浹���� �ʾҴٸ�
             //ź���� �ִ� �����Ÿ����� ���ư������� ��ġ�� �浹��ġ�� ���
-            hitPosition = fireTransform.position + fireDirection * fireDistance; //fireTransform.forward �κ� ���� �ʿ� 
+            hitPosition = fireTransform.position + fireTransform.forward * fireDistance; //fireTransform.forward �κ� ���� �ʿ� 
         }
 
         //�߻� ����Ʈ ����

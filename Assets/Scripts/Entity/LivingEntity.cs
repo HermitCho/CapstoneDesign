@@ -7,7 +7,8 @@ using UnityEngine;
 // 체력, 데미지 받아들이기, 사망 기능, 사망 이벤트를 제공
 public class LivingEntity : MonoBehaviour, IDamageable
 {
-    public float startingHealth = 100f; // 시작 체력
+    public float startingHealth; // 시작 체력
+    public float startingShield; // 시작 체력
     public float health { get; protected set; } // 현재 체력
     public float shield { get; protected set; } // 현재 추가 방어막
     public float defaultMoveSpeed = 5f; // 기본 이동 속도
@@ -22,15 +23,25 @@ public class LivingEntity : MonoBehaviour, IDamageable
         // 사망하지 않은 상태로 시작
         dead = false;
         // 체력을 시작 체력으로 초기화(플레이어 캐릭터는 PlayerHealth에서 지정됨)
-        health = startingHealth;
+        //health = startingHealth;
+        //shield = startingShield;
         moveSpeed = defaultMoveSpeed;
     }
 
     // 데미지를 입는 기능
     public virtual void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
     {
+        Debug.Log(damage);
+
         // 데미지만큼 체력 감소
-        health -= damage;
+        if (shield >= damage)
+            shield -= damage;
+        else if (shield < damage)
+        {
+            shield -= damage;
+            damage = damage - shield;
+            health -= damage;
+        }
 
         // 체력이 0 이하 && 아직 죽지 않았다면 사망 처리 실행
         if (health <= 0 && !dead)

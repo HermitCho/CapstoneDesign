@@ -10,6 +10,7 @@ public class PlayerHealth : LivingEntity
     public PlayerCharacter playerCharacter; //플레이어 캐릭터 종류
     public Slider healthSlider; // 체력을 표시할 UI 슬라이더
     public Slider shieldSlider; // 추가 방어막을 표시할 UI 슬라이더
+    public Slider energySlider; // 기력을 표시할 UI 슬라이더
 
     private AudioSource playerAudioPlayer; // 플레이어 소리 재생기
     private Animator playerAnimator; // 플레이어의 애니메이터
@@ -17,10 +18,7 @@ public class PlayerHealth : LivingEntity
     private PlayerInput playerInput; // 플레이어 키 바인드 컴포넌트
     private PlayerMovement playerMovement; // 플레이어 움직임 컴포넌트
 
-    /// <summary>
-    /// 플레이어 슈터는 구현되면 연동
-    /// </summary>
-    //private PlayerShooter playerShooter; // 플레이어 슈터 컴포넌트
+    private PlayerShooter playerShooter; // 플레이어 슈터 컴포넌트
 
     private void Awake()
     {
@@ -29,7 +27,7 @@ public class PlayerHealth : LivingEntity
         playerAnimator = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
         playerInput = GetComponent<PlayerInput>();
-        //playerShooter = GetComponent<PlayerShooter>(); //구현 x라 주석처리
+        playerShooter = GetComponent<PlayerShooter>();
     }
 
     protected override void OnEnable()
@@ -41,12 +39,15 @@ public class PlayerHealth : LivingEntity
 
         startingHealth = playerCharacter.maxHealth;
         health = startingHealth;
+        startingShield = playerCharacter.maxShield;
+        shield = startingShield;
 
-        healthSlider.maxValue = health;
+
+        healthSlider.maxValue = startingHealth;
         healthSlider.value = health;
-        shieldSlider.maxValue = shield;
+        shieldSlider.maxValue = startingShield;
         shieldSlider.value = shield;
-        
+
         moveSpeed = playerCharacter.defaultMoveSpeed;
     }
 
@@ -61,7 +62,6 @@ public class PlayerHealth : LivingEntity
     // 데미지 처리
     public override void OnDamage(float damage, Vector3 hitPoint, Vector3 hitDirection)
     {
-
         if (!dead)
         {
             playerAudioPlayer.PlayOneShot(playerCharacter.hitClip);
@@ -69,6 +69,7 @@ public class PlayerHealth : LivingEntity
         // LivingEntity의 OnDamage() 실행(데미지 적용)
         base.OnDamage(damage, hitPoint, hitDirection);
         healthSlider.value = health;
+        shieldSlider.value = shield;
     }
 
     // 사망 처리
@@ -77,16 +78,31 @@ public class PlayerHealth : LivingEntity
         // LivingEntity의 Die() 실행(사망 적용)
         base.Die();
         healthSlider.gameObject.SetActive(false);
+        shieldSlider.gameObject.SetActive(false);
+        energySlider.gameObject.SetActive(false);
         playerAudioPlayer.PlayOneShot(playerCharacter.deathClip);
         playerAnimator.SetTrigger("Die");
 
         playerMovement.enabled = false;
-        //playerShooter.enabled = false;//구현 x라 주석처리
+        playerShooter.enabled = false;
     }
 
-    //업데이트
-    void Update()
-    {
+    private Vector3 lastScreenPosition;
 
+    void LateUpdate()
+    {
+        Vector3 targetPosition = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 2.4f, 0));
+
+        // 카메라가 급격히 회전하면 즉시 이동, 아니면 Lerp 적용
+        if (Vector3.Distance(lastScreenPosition, targetPosition) > Screen.width * 0.07f)
+        {
+            healthSlider.transform.position = targetPosition; // 즉시 반응
+        }
+        else
+        {
+            healthSlider.transform.position = Vector3.Lerp(healthSlider.transform.position, targetPosition, Time.deltaTime * 20f);
+        }
+
+        lastScreenPosition = targetPosition; // 현재 위치 저장
     }
 }

@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathClip: {fileID: 0}
   hitClip: {fileID: 0}
-  maxHealth: 0
-  currentHealth: 0
+  maxHealth: 100
+  maxShield: 100
   defaultMoveSpeed: 0
-  currentMoveSpeed: 0

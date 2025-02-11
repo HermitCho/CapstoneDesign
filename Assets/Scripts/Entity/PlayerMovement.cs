@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using Cinemachine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using Unity.VisualScripting;
 
 public class PlayerMovement : MonoBehaviour
@@ -29,6 +29,21 @@ public class PlayerMovement : MonoBehaviour
 
     private Camera mainCamera;
     private Vector3 lookAtPoint;
+
+    public Slider energySlider; // 기력을 표시할 UI 슬라이더
+
+    float maxEnergy = 100f;
+    float startEnergy;
+    float energy;
+
+    private void OnEnable()
+    {
+        startEnergy = maxEnergy;
+        energy = startEnergy;
+
+        energySlider.maxValue = startEnergy;
+        energySlider.value = energy;
+    }
 
     // Start is called before the first frame update
     private void Start()
@@ -57,9 +72,10 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Vector3 firePos = LocalPosToWorldDirection();
-        Debug.Log(lookAtPoint);
+        EnergyControl();
+        /////////////Debug.Log(lookAtPoint);
 
-       // Debug.Log(playerInput.xMouseMove);
+        // Debug.Log(playerInput.xMouseMove);
     }
 
     // Update is called once per frame
@@ -82,9 +98,9 @@ public class PlayerMovement : MonoBehaviour
         Rotation();
         Move();
 
-        
 
-       
+
+
 
 
     }
@@ -96,6 +112,11 @@ public class PlayerMovement : MonoBehaviour
         float totalVerticalMoveSpeed = verticalMoveSpeed + (sprintSpeed * Mathf.Abs(playerInput.sprintButton));
 
         //상대적으로 이동할 거리 계산
+        if (energy <= 6f)
+        {
+            totalVerticalMoveSpeed = verticalMoveSpeed;
+        }
+
         Vector3 moveDistance = ((playerInput.verticalMove * transform.forward * totalVerticalMoveSpeed)
                                 + (playerInput.horizontalMove * transform.right * horizontalMoveSpeed)) * Time.deltaTime;
 
@@ -121,13 +142,13 @@ public class PlayerMovement : MonoBehaviour
 
         transform.Rotate(0f, yRotation, 0f);
 
-       
+
         // x축 회전 (카메라 pitch 적용)
         float pitch = deltaY;
         xRotation -= pitch; // 위로 움직이면 각도 감소, 아래로 움직이면 각도 증가
 
         // 카메라의 x축 회전 적용
-       // Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        // Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
 
         // Cinemachine의 m_ScreenY 값을 uiElement의 y 위치에 따라 제한된 범위로 설정
@@ -177,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 LocalPosToWorldDirection()
     {
         Ray ray = mainCamera.ScreenPointToRay(uiElement.position);
-        
+
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             lookAtPoint = hitInfo.point; // 마우스가 가리키는 월드 좌표
@@ -187,4 +208,16 @@ public class PlayerMovement : MonoBehaviour
         return direction;
     }
 
+    private void EnergyControl()
+    {
+        if (Mathf.Abs(playerInput.sprintButton) >= 0.2f && energy > 0)
+        {
+            energy -= 100f * Time.deltaTime;
+        }
+        else if (energy < startEnergy)
+        {
+            energy += 100f * Time.deltaTime;
+        }
+        energySlider.value = energy;
+    }
 }

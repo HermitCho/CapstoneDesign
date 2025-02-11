@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Grenade : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class Grenade : MonoBehaviour
     float throwingPower = 20f; // 수류탄 투척 속도
     float throwingDelay = 2f; // 수류탄을 던질 때 너무 빨리 던지면 isKinematic이 off되기 전에 바닥을 뚫고 지나감, 그래서 약간의 딜레이를 넣음
     bool throwingDelayBool = false;
+    bool exploded = false;
 
     void Start()
     {
@@ -66,7 +68,7 @@ public class Grenade : MonoBehaviour
     // 수류탄 쿠킹 및 투척을 위한 메서드
     public void Throwing()
     {
-        Debug.Log(cookingTime);
+        ///////////////Debug.Log(cookingTime);
         if (state == State.Ready || state == State.Cooking)
         {
             if (Input.GetMouseButton(0) && !alreadyThrown)
@@ -89,14 +91,73 @@ public class Grenade : MonoBehaviour
     //수류탄이 터지는 것을 구현한 메서드
     void Explosion()
     {
+        bool damaged = false;
         if (state == State.Cooking || state == State.Fire)
         {
             cookingTime -= Time.deltaTime;
 
             // explosionTime이 7초 근처에 도달했을 때 파티클 실행
-            if (cookingTime <= 2f && cookingTime > 1.9f)
+            if (cookingTime <= 2f && cookingTime > 1.99f)
             {
                 explosionParticle.Play();
+                if (!exploded)
+                {
+                    Collider[] colls = Physics.OverlapSphere(transform.position, 7f);
+
+                    for (int i = 0; i < colls.Length; i++)
+                    {
+                        if (colls[i].TryGetComponent<IDamageable>(out var damageable))
+                        {
+                            Vector3 hitPoint = colls[i].ClosestPoint(transform.position); // 충돌 지점 추정
+                            Debug.Log(hitPoint);
+
+                            for (int j = 0; j < 50; j++)
+                            {
+                                if (damaged)
+                                    break;
+                                hitPoint.x = Random.Range(hitPoint.x - 0.18f, hitPoint.x + 0.18f);
+                                hitPoint.y = Random.Range(hitPoint.y - 0.9f, hitPoint.y + 0.9f);
+                                hitPoint.z = Random.Range(hitPoint.z - 0.18f, hitPoint.z + 0.18f);
+
+                                Vector3 direction = (hitPoint - transform.position).normalized; // 폭발 지점 → 대상 방향
+                                float distance = Vector3.Distance(transform.position, hitPoint); // 폭발 지점과 대상 사이 거리
+
+                                // 벽이 있는지 Raycast로 체크 (LayerMask 사용 가능)
+                                if (!Physics.Raycast(transform.position, direction, distance, LayerMask.GetMask("Wall")))
+                                {
+                                    Debug.DrawRay(transform.position, direction * distance, Color.red, 100f);
+                                    Vector3 hitNormal = direction; // 폭발 방향을 그대로 사용
+                                    switch (distance)
+                                    {
+                                        case <= 1f:
+                                            damageable.OnDamage(damage, hitPoint, hitNormal);
+                                            damaged = true;
+                                            break;
+                                        case <= 2f:
+                                            damageable.OnDamage(damage * 0.8f, hitPoint, hitNormal);
+                                            damaged = true;
+                                            break;
+                                        case <= 3f:
+                                            damageable.OnDamage(damage * 0.6f, hitPoint, hitNormal);
+                                            damaged = true;
+                                            break;
+                                        case <= 4f:
+                                            damageable.OnDamage(damage * 0.4f, hitPoint, hitNormal);
+                                            damaged = true;
+                                            break;
+                                        case <= 5f:
+                                            damageable.OnDamage(damage * 0.2f, hitPoint, hitNormal);
+                                            damaged = true;
+                                            break;
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+                    exploded = true;
+                }
             }
             // explosionTime이 9초 근처에 도달했을 때 오브젝트 파괴
             if (cookingTime <= 0f)
