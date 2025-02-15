@@ -71,6 +71,8 @@ public class Button : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         pausePanel.SetActive(false);
 
+        PlayerInput playerInput = player.GetComponent<PlayerInput>();
+        playerInput.enabled = true;
     }
 
 

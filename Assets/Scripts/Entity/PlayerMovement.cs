@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        Vector3 firePos = LocalPosToWorldDirection();
+       // Vector3 firePos = LocalPosToWorldDirection();
         EnergyControl();
         /////////////Debug.Log(lookAtPoint);
 
