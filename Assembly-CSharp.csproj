@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Entity\IDamageable.cs" />
     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
     <Compile Include="Assets\Packages\UnityTechnologies\ParticlePack\Shared\Ramps\Runtime\RampAsset.cs" />
+    <Compile Include="Assets\Scripts\Entity\View\PlayerViewEditor.cs" />
     <Compile Include="Assets\Packages\UnityTechnologies\ParticlePack\Shared\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\Scripts\Entity\Grenade.cs" />
     <Compile Include="Assets\Scripts\UI\Button.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Assets\Packages\UnityTechnologies\ParticlePack\Shared\Scripts\ProximityActivate.cs" />
     <Compile Include="Assets\Scripts\Entity\CameraControl.cs" />
     <Compile Include="Assets\Scripts\Entity\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\Entity\View\PlayerView.cs" />
     <Compile Include="Assets\Scripts\UI\Character Canvas Manager.cs" />
     <Compile Include="Assets\Scripts\Entity\Smoke.cs" />
     <Compile Include="Assets\Scripts\Entity\Gun.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Assets\Scripts\Entity\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Entity\PlayerShooter.cs" />
     <Compile Include="Assets\Scripts\Entity\Skill\SmokeSkill.cs" />
+    <Compile Include="Assets\Scripts\Entity\ViewController.cs" />
     <Compile Include="Assets\Scripts\Entity\Skill\GrenadeSkill.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\PlayerCharacter.cs" />
   </ItemGroup>
@@ -109,10 +112,12 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Packages\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Shaders\FireFly.shader" />
+    <None Include="Assets\Shader\StencilMask.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Shader\StencilObject.shader" />
     <None Include="Assets\Packages\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Shaders\Dissolve.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>

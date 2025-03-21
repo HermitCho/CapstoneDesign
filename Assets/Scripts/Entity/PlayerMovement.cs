@@ -110,15 +110,26 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         float totalVerticalMoveSpeed = verticalMoveSpeed + (sprintSpeed * Mathf.Abs(playerInput.sprintButton));
-
+        Vector3 moveDistance = Vector3.zero;
         //상대적으로 이동할 거리 계산
         if (energy <= 6f)
         {
             totalVerticalMoveSpeed = verticalMoveSpeed;
         }
 
-        Vector3 moveDistance = ((playerInput.verticalMove * transform.forward * totalVerticalMoveSpeed)
+        if(Mathf.Abs(playerInput.verticalMove) > 0.3f)
+        {
+            moveDistance = ((playerInput.verticalMove * transform.forward * totalVerticalMoveSpeed)
                                 + (playerInput.horizontalMove * transform.right * horizontalMoveSpeed)) * Time.deltaTime;
+        }
+
+        if (Mathf.Abs(playerInput.horizontalMove) > 0.3f)
+        {
+            moveDistance = ((playerInput.verticalMove * transform.forward * totalVerticalMoveSpeed)
+                               + (playerInput.horizontalMove * transform.right * horizontalMoveSpeed)) * Time.deltaTime;
+        }
+
+        
 
         //리지드바디를 이용해 플레이어 위치 변경
         playerRigidbody.MovePosition(playerRigidbody.position + moveDistance);
