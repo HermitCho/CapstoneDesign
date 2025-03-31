@@ -48,7 +48,9 @@ public class PlayerHealth : LivingEntity
         shieldSlider.maxValue = startingShield;
         shieldSlider.value = shield;
 
-        moveSpeed = playerCharacter.defaultMoveSpeed;
+        frontBackMoveSpeed = playerCharacter.frontBackMoveSpeed;
+        leftRIghtMoveSpeed = playerCharacter.leftRightMoveSpeed;
+        sprintPlusSpeed = playerCharacter.sprintPlusSpeed;
     }
 
     // 체력 회복
@@ -73,18 +75,18 @@ public class PlayerHealth : LivingEntity
     }
 
     // 사망 처리
-    public override void Die()
+    public override bool Die()
     {
         // LivingEntity의 Die() 실행(사망 적용)
         base.Die();
         healthSlider.gameObject.SetActive(false);
-        shieldSlider.gameObject.SetActive(false);
-        energySlider.gameObject.SetActive(false);
         playerAudioPlayer.PlayOneShot(playerCharacter.deathClip);
         playerAnimator.SetTrigger("Die");
 
         playerMovement.enabled = false;
         playerShooter.enabled = false;
+
+        return true;
     }
 
     private Vector3 lastScreenPosition;

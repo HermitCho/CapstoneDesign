@@ -16,4 +16,6 @@ MonoBehaviour:
   hitClip: {fileID: 0}
   maxHealth: 100
   maxShield: 100
-  defaultMoveSpeed: 0
+  frontBackMoveSpeed: 5
+  leftRightMoveSpeed: 2.5
+  sprintPlusSpeed: 3

@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\user\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Capstone Project\\GitHub\\CapstoneDesign\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|C:\\Users\\user\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Capstone Project\\GitHub\\CapstoneDesign\\assets\\scripts\\entity\\playerinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\entity\\playerinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\user\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Capstone Project\\GitHub\\CapstoneDesign\\Library\\PackageCache\\com.unity.collab-proxy@2.6.0\\Editor\\ViewSwitcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.collab-proxy@2.6.0\\Editor\\ViewSwitcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|c:\\users\\user\\onedrive\\\uBC14\uD0D5 \uD654\uBA74\\capstone project\\github\\capstonedesign\\assets\\scripts\\entity\\playerinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\entity\\playerinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C8B6EF1-8216-49BA-8221-CC27C28DA8BE}|Assembly-CSharp.csproj|C:\\Users\\user\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Capstone Project\\GitHub\\CapstoneDesign\\assets\\scripts\\entity\\playershooter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -90,17 +90,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "ViewSwitcher.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Capstone Project\\GitHub\\CapstoneDesign\\Library\\PackageCache\\com.unity.collab-proxy@2.6.0\\Editor\\ViewSwitcher.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.collab-proxy@2.6.0\\Editor\\ViewSwitcher.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Capstone Project\\GitHub\\CapstoneDesign\\Library\\PackageCache\\com.unity.collab-proxy@2.6.0\\Editor\\ViewSwitcher.cs",
               "RelativeToolTip": "Library\\PackageCache\\com.unity.collab-proxy@2.6.0\\Editor\\ViewSwitcher.cs",
-              "ViewState": "AgIAAKsAAAAAAAAAAAAgwMwAAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAALQAAAAAAAAAAAAgwMsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-26T09:23:20.244Z",
               "EditorCaption": ""
@@ -233,17 +233,18 @@
               "RelativeToolTip": "Library\\PackageCache\\com.unity.ugui@1.0.0\\Runtime\\EventSystem\\InputModules\\BaseInput.cs",
               "ViewState": "AgIAAD0AAAAAAAAAAAAiwGYAAAB0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-11T08:52:28.223Z"
+              "WhenOpened": "2025-02-11T08:52:28.223Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PlayerInput.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Capstone Project\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Entity\\PlayerInput.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Entity\\PlayerInput.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Capstone Project\\GitHub\\CapstoneDesign\\Assets\\Scripts\\Entity\\PlayerInput.cs",
               "RelativeToolTip": "Assets\\Scripts\\Entity\\PlayerInput.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAACgAAAAAAAAAAAAqwGsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-18T06:09:54.453Z",
               "EditorCaption": ""

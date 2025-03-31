@@ -12,7 +12,9 @@ public class LivingEntity : MonoBehaviour, IDamageable
     public float health { get; protected set; } // 현재 체력
     public float shield { get; protected set; } // 현재 추가 방어막
     public float defaultMoveSpeed = 5f; // 기본 이동 속도
-    public float moveSpeed { get; protected set; } // 이동 속도
+    public float frontBackMoveSpeed { get; protected set; } // 앞뒤 이동 속도
+    public float leftRIghtMoveSpeed { get; protected set; } // 좌우 이동 속도
+    public float sprintPlusSpeed { get; protected set; } // 달리기 추가 속도
     public bool dead { get; protected set; } // 사망 상태
 
     public event Action onDeath; // 사망시 발동할 이벤트
@@ -22,25 +24,28 @@ public class LivingEntity : MonoBehaviour, IDamageable
     {
         // 사망하지 않은 상태로 시작
         dead = false;
-        // 체력을 시작 체력으로 초기화(플레이어 캐릭터는 PlayerHealth에서 지정됨)
-        //health = startingHealth;
-        //shield = startingShield;
-        moveSpeed = defaultMoveSpeed;
     }
 
     // 데미지를 입는 기능
     public virtual void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
     {
+        Debug.Log("shield: " + shield);
+        Debug.Log("health: " + health);
         Debug.Log(damage);
 
         // 데미지만큼 체력 감소
         if (shield >= damage)
+        {
             shield -= damage;
+        }
         else if (shield < damage)
         {
             shield -= damage;
-            damage = damage - shield;
-            health -= damage;
+            health += shield;
+            if (shield < 0)
+            {
+                shield = 0;
+            }
         }
 
         // 체력이 0 이하 && 아직 죽지 않았다면 사망 처리 실행
@@ -54,17 +59,20 @@ public class LivingEntity : MonoBehaviour, IDamageable
     public virtual void RestoreHealth(float newHealth)
     {
         if (dead)
-        {
             // 이미 사망한 경우 체력을 회복할 수 없음
             return;
-        }
 
         // 체력 추가
-        health += newHealth;
+        if (health + newHealth <= startingHealth)
+        {
+            health += newHealth;
+        }
+        else if (health + newHealth > startingHealth)
+            health = startingHealth;
     }
 
     // 사망 처리
-    public virtual void Die()
+    public virtual bool Die()
     {
         // onDeath 이벤트에 등록된 메서드가 있다면 실행
         if (onDeath != null)
@@ -74,5 +82,6 @@ public class LivingEntity : MonoBehaviour, IDamageable
 
         // 사망 상태를 참으로 변경
         dead = true;
+        return true;
     }
 }

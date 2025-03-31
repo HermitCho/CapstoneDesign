@@ -205,18 +205,18 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    //조준점의 로컬 좌표를 월드 좌표로 변환 - Gun 컴포넌트에서 총 쏠 위치 구할때 사용
-    public Vector3 LocalPosToWorldDirection()
+    //조준점의 로컬 좌표를 월드 좌표로 변환 - 크로스 헤어의 타겟팅을 구현
+    public RaycastHit? LocalPosToWorldRaycast()
     {
         Ray ray = mainCamera.ScreenPointToRay(uiElement.position);
 
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
-            lookAtPoint = hitInfo.point; // 마우스가 가리키는 월드 좌표
-
+            Debug.DrawRay(ray.origin, ray.direction * hitInfo.distance, Color.red, 1f);
+            return hitInfo;
         }
-        Vector3 direction = (lookAtPoint - playerShooter.gun.fireTransform.transform.position).normalized; // 바라볼 방향 계산
-        return direction;
+
+        return null; // 충돌이 없을 경우 null 반환
     }
 
     private void EnergyControl()

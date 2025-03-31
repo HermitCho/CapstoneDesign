@@ -28,6 +28,9 @@ public class Smoke : MonoBehaviour
     bool throwingDelayBool = false;
     private bool alreadyThrown; // 던져진 상태인지 확인
 
+    LineRenderer lineRenderer; //연막탄 투척 궤적을 그리기 위한 라인렌더러
+    Transform throwingposition; //연막탄 투척 위치
+
     void Start()
     {
         state = State.Ready;
@@ -37,6 +40,9 @@ public class Smoke : MonoBehaviour
         collider = GetComponent<CapsuleCollider>();
         playerMovement = GetComponentInParent<PlayerMovement>();
         alreadyThrown = false;
+
+        lineRenderer = GetComponentInParent<LineRenderer>();
+        throwingposition = transform.parent.transform;
     }
 
     // Update is called once per frame
@@ -72,13 +78,16 @@ public class Smoke : MonoBehaviour
             if (Input.GetMouseButton(0) && !alreadyThrown)
             {
                 state = State.Cooking;
+
+                Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
+                ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
             }
             if (Input.GetMouseButtonUp(0))
             {
                 rigidbody.isKinematic = false;
                 gameObject.transform.SetParent(null);
 
-                Vector3 fireDirection = playerMovement.LocalPosToWorldDirection();
+                Vector3 fireDirection = transform.forward + transform.up / 4; //연막탄이 날아갈 방향
                 rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
                 state = State.Fire;
                 alreadyThrown = true;
@@ -104,5 +113,16 @@ public class Smoke : MonoBehaviour
                 Destroy(gameObject); // 이 오브젝트를 파괴
             }
         }
+    }
+    void ShowTrajectLine(Vector3 origin, Vector3 speed)
+    {
+        Vector3[] points = new Vector3[100];
+        lineRenderer.positionCount = points.Length;
+        for (int i = 0; i < points.Length; i++)
+        {
+            float time = i * 0.1f;
+            points[i] = origin + speed * time + Physics.gravity * time * time / 2f;
+        }
+        lineRenderer.SetPositions(points);
     }
 }

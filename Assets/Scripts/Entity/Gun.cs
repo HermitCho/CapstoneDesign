@@ -11,7 +11,7 @@ public class Gun : MonoBehaviour
         Reloading // ������ ��
     }
 
-    public State state { get; private set; } // ���� �� ���� �ҷ�����
+    public State state { get; set; } // ���� �� ���� �ҷ�����
 
     public Transform fireTransform; //�Ѿ��� �߻�� ��ġ
     public ParticleSystem muzzleFlashEffect; // �ѱ� ȭ�� ȿ��
@@ -60,19 +60,25 @@ public class Gun : MonoBehaviour
         lastFireTime = 0;
 
     }
-    public void Handling()
+
+    private void OnDisable()
     {
-        if (playerInput.handleGunButton)
-        {
-            state = State.Ready;
-            gameObject.SetActive(true);
-        }
-        else if (playerInput.skill_2_Button || playerInput.skill_1_Button)
-        {
-            state = State.Empty;
-            gameObject.SetActive(false);
-        }
+        state = State.Empty;
     }
+
+    //public void Handling()
+    //{
+    //    if (playerInput.handleGunButton)
+    //    {
+    //        state = State.Ready;
+    //        gameObject.SetActive(true);
+    //    }
+    //    else if (playerInput.skill_2_Button || playerInput.skill_1_Button)
+    //    {
+    //        state = State.Empty;
+    //         gameObject.SetActive(false);
+    //    }
+    //}
 
 
     //ȿ�� �� �Ҹ� ��� �ڷ�ƾ
@@ -167,6 +173,7 @@ public class Gun : MonoBehaviour
 
         //�������� ������ ó��
         StartCoroutine(ReloadRoutine());
+        Debug.Log(gunData.reloadTime); //리로드 시간 확인
         return true;
     }
 
@@ -180,7 +187,6 @@ public class Gun : MonoBehaviour
 
         //������ �ð���ŭ ����
         yield return new WaitForSeconds(gunData.reloadTime);
-
         //źâ�� ä�� ź�� ���� ��� 
         int ammoToFill = gunData.magCapacity - magAmmo;
 

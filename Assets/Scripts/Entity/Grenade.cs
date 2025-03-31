@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Grenade : MonoBehaviour
@@ -20,16 +21,18 @@ public class Grenade : MonoBehaviour
     private Rigidbody rigidbody; // 수류탄의 리지드바디
     private Collider collider; // 수류탄의 콜라이더
     [SerializeField] ParticleSystem explosionParticle; // 수류탄 폭발 파티클
-    private bool alreadyThrown; // 던져진 상태인지 확인
+    private Animator animator; // 수류탄을 던지는 캐릭터의 애니메이터
 
-    // Start is called before the first frame update
-
-    int damage = 90; //수류탄 데미지
+    bool alreadyThrown; // 던져진 상태인지 확인
+    int damage = 180; //수류탄 데미지
     float cookingTime = 9f; // 최대 수류탄 쿠킹 시간 + 삭제까지 대기시간
-    float throwingPower = 20f; // 수류탄 투척 속도
+    float throwingPower = 25f; // 수류탄 투척 속도
     float throwingDelay = 2f; // 수류탄을 던질 때 너무 빨리 던지면 isKinematic이 off되기 전에 바닥을 뚫고 지나감, 그래서 약간의 딜레이를 넣음
-    bool throwingDelayBool = false;
-    bool exploded = false;
+    bool exploded = false; // 수류탄이 한 번 터지면 다시 함수가 반복되지 않도록 조절
+
+
+    LineRenderer lineRenderer; //수류탄 투척 궤적을 그리기 위한 라인렌더러
+    Transform throwingposition; // 수튜탄 투척 위치
 
     void Start()
     {
@@ -40,6 +43,11 @@ public class Grenade : MonoBehaviour
         collider = GetComponent<CapsuleCollider>();
         playerMovement = GetComponentInParent<PlayerMovement>();
         alreadyThrown = false;
+        animator = GetComponentInParent<Animator>();
+        lineRenderer = GetComponentInParent<LineRenderer>();
+        throwingposition = transform.parent.transform;
+
+        Debug.Log(throwingposition);
     }
 
     // Update is called once per frame
@@ -48,40 +56,53 @@ public class Grenade : MonoBehaviour
         Explosion();
     }
 
-    // 2번 키를 누르면 수류탄을 손에 들게 됨
+    // '스킬 1' 키를 누르면 수류탄을 들게 됨 / '스킬 2' 혹은 '총' 키를 누르면 수류탄을 넣음
     public void Handling()
     {
         if (state == State.Empty && playerInput.skill_1_Button && !alreadyThrown)
         {
             state = State.Ready;
-            Debug.Log(state);
+            //animator.SetBool("isHandleGrenade", true); 수류탄 드는 애니메이션 추가 시 사용
             gameObject.SetActive(true);
+
         }
-        else if (state == State.Ready && (playerInput.skill_1_Button || playerInput.handleGunButton) && !alreadyThrown)
+        else if (state == State.Ready && (playerInput.skill_2_Button || playerInput.handleGunButton) && !alreadyThrown)
         {
             state = State.Empty;
+            //animator.SetBool("isHandleGrenade", false); 수류탄 드는 애니메이션 추가 시 사용
             Debug.Log(state);
             gameObject.SetActive(false);
+
         }
     }
 
     // 수류탄 쿠킹 및 투척을 위한 메서드
     public void Throwing()
     {
-        ///////////////Debug.Log(cookingTime);
         if (state == State.Ready || state == State.Cooking)
         {
             if (Input.GetMouseButton(0) && !alreadyThrown)
             {
                 state = State.Cooking;
+                //animator.SetTrigger("PullOut"); 수류탄 핀 뽑는 애니메이션 추가 시 사용
+                lineRenderer.enabled = true;
+                Debug.Log(state);
+
+                Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
+                ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
             }
+
             if (Input.GetMouseButtonUp(0) & !alreadyThrown)
             {
+                lineRenderer.enabled = false;
+
                 rigidbody.isKinematic = false;
                 gameObject.transform.SetParent(null);
+                //animator.SetTrigger("Throwing"); 수류탄 던지는 애니메이션 추가 시 사용
 
-                Vector3 fireDirection = playerMovement.LocalPosToWorldDirection();
+                Vector3 fireDirection = transform.forward + transform.up / 4; //수류탄이 날아갈 방향
                 rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
+
                 state = State.Fire;
                 alreadyThrown = true;
             }
@@ -166,8 +187,20 @@ public class Grenade : MonoBehaviour
             }
         }
     }
-}
 
+    //수류탄 투척 궤적을 그리기 위한 메서드
+    void ShowTrajectLine(Vector3 origin, Vector3 speed)
+    {
+        Vector3[] points = new Vector3[100];
+        lineRenderer.positionCount = points.Length;
+        for (int i = 0; i < points.Length; i++)
+        {
+            float time = i * 0.1f;
+            points[i] = origin + speed * time + Physics.gravity * time * time / 2f;
+        }
+        lineRenderer.SetPositions(points);
+    }
+}
 
 
 

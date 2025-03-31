@@ -21,6 +21,7 @@ public class Skill : MonoBehaviour
         // 해당 스킬을 지닌 캐릭터가 살아있는 경우에 쿨타임, 사용 가능 횟수 초기화
         if (livingEntity.dead != true)
         {
+            Debug.Log("스킬 초기화");
             currentCoolTime = 0f;
             currentSkillCount = maxSkillCount;
         }
@@ -29,15 +30,7 @@ public class Skill : MonoBehaviour
     // 스킬 버튼 클릭 시 조건을 확인하는 메서드
     public virtual void inputSkillKey()
     {
-        //스킬 쿨타임이 0이고, 스킬 횟수가 있는 경우에만 스킬 사용 가능 확인
-        if (currentCoolTime <= 0f && currentSkillCount > 0)
-        {
-            checkSkill = true;
-        }
-        else
-        {
-            Debug.Log("사용 불가");
-        }
+
     }
 
     // 스킬을 직접 사용하는 메서드
@@ -47,6 +40,7 @@ public class Skill : MonoBehaviour
         if (checkSkill == true)
         {
             currentCoolTime = maxCoolTime;
+            Debug.Log("스킬 사용 ,     " + currentCoolTime);
             currentSkillCount--;
             checkSkill = false;
         }
@@ -56,14 +50,15 @@ public class Skill : MonoBehaviour
     public void countCoolTime()
     {
         // 쿨타임이 0초보다 크면 시간이 지나는 만큼 감소
-        if (currentCoolTime > 0f)
+        if (currentCoolTime > 0f && currentSkillCount > 0)
         {
             currentCoolTime -= Time.deltaTime;
             //Debug.Log(currentCoolTime);
         }
+        //스킬 쿨타임이 0이고, 스킬 횟수가 있는 경우에만 스킬 사용 가능 확인
         else if (currentCoolTime <= 0f && currentSkillCount > 0)
         {
-            //Debug.Log("사용 가능");
+            checkSkill = true;
         }
     }
 }

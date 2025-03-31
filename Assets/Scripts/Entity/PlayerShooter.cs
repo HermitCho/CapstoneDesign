@@ -31,11 +31,24 @@ public class PlayerShooter : MonoBehaviour
         gun.gameObject.SetActive(false);
     }
 
+    public void OnOffGun(bool onoff)
+    {
+        if (onoff)
+        {
+            gun.gameObject.SetActive(true);
+            gun.state = Gun.State.Ready;
+        }
+        else if (!onoff)
+        {
+            gun.state = Gun.State.Empty;
+            gun.gameObject.SetActive(false);
+        }
+    }
+
     private void Update()
     {
-        gun.Handling();
-        
-        if (playerInput.fireButton) 
+
+        if (playerInput.fireButton)
         {
             gun.Fire();
         }
@@ -71,5 +84,4 @@ public class PlayerShooter : MonoBehaviour
         playerAnimator.SetIKPosition(AvatarIKGoal.RightHand, RightHandMount.position);
         playerAnimator.SetIKRotation(AvatarIKGoal.RightHand, RightHandMount.rotation);
     }
-
 }
