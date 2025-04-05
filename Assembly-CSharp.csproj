@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\Entity\Gun.cs" />
     <Compile Include="Assets\Scripts\Entity\Health\LivingEntity.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\GunData.cs" />
+    <Compile Include="Assets\Scripts\UI\KeyRebind.cs" />
     <Compile Include="Assets\Scripts\Entity\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Manager\PlayerActions.cs" />
     <Compile Include="Assets\Scripts\Entity\Handling Weapon.cs" />

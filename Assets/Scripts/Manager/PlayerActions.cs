@@ -18,6 +18,8 @@ using UnityEngine.InputSystem.Utilities;
 public partial class @PlayerActions: IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
+
+
     public @PlayerActions()
     {
         asset = InputActionAsset.FromJson(@"{

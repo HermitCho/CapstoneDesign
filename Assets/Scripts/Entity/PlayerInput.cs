@@ -8,7 +8,8 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
     // Input Actions 객체
-    private PlayerActions inputActions;
+    [HideInInspector] public PlayerActions inputActions;
+    [HideInInspector] public InputActionAsset ActionAsset => inputActions.asset;
 
     // PlayerInput 프로퍼티
     public Vector3 mousePoint { get; private set; }

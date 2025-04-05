@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using TMPro;
 using JetBrains.Annotations;
+using UnityEngine.InputSystem;
 
 
 
@@ -40,6 +41,7 @@ public class OptionSetting : MonoBehaviour
     private AudioSource playerAudioSource; //플레이어 오디오소스 컴포넌트
     private AudioSource gunAudioSource; //총기 오디오소스 컴포넌트
     private PlayerMovement playerMovement; //플레이어 움직임 컴포넌트
+
 
     private void Awake()
     {

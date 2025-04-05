@@ -1007,7 +1007,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 81222143}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 162317102}
+        m_TargetAssemblyTypeName: KeyRebind, Assembly-CSharp
+        m_MethodName: OnRebindSkill1Key
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &81222143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1685,6 +1697,7 @@ GameObject:
   - component: {fileID: 162317099}
   - component: {fileID: 162317098}
   - component: {fileID: 162317101}
+  - component: {fileID: 162317102}
   m_Layer: 5
   m_Name: Option Panel
   m_TagString: Untagged
@@ -1771,6 +1784,20 @@ MonoBehaviour:
   yMouseSensitivityField: {fileID: 1926545252}
   soundSlider: {fileID: 1315664619}
   soundTextTMP: {fileID: 2067767530}
+--- !u!114 &162317102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162317097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eddfd2a8f43c2644a5404988cdbef45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInput: {fileID: 228866266}
+  rebindPanel: {fileID: 1663076095}
 --- !u!1 &164812160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1915,9 +1942,9 @@ RectTransform:
   - {fileID: 1629598182}
   m_Father: {fileID: 1087131705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -205}
   m_SizeDelta: {x: 680, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &177570370
@@ -7658,7 +7685,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 329875197}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 162317102}
+        m_TargetAssemblyTypeName: KeyRebind, Assembly-CSharp
+        m_MethodName: OnRebindDownKey
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &329875197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8072,9 +8111,9 @@ RectTransform:
   - {fileID: 1942189525}
   m_Father: {fileID: 1087131705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -85}
   m_SizeDelta: {x: 680, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &350734887
@@ -8453,7 +8492,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 379220600}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 162317102}
+        m_TargetAssemblyTypeName: KeyRebind, Assembly-CSharp
+        m_MethodName: OnRebindSprintKey
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &379220600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9163,7 +9214,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 512829684}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 162317102}
+        m_TargetAssemblyTypeName: KeyRebind, Assembly-CSharp
+        m_MethodName: OnRebindUpKey
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &512829684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12241,9 +12304,9 @@ RectTransform:
   - {fileID: 81222141}
   m_Father: {fileID: 1087131705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -45}
   m_SizeDelta: {x: 680, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1082685491
@@ -12643,7 +12706,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1104735962}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 162317102}
+        m_TargetAssemblyTypeName: KeyRebind, Assembly-CSharp
+        m_MethodName: OnRebindLeftKey
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1104735962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13210,9 +13285,9 @@ RectTransform:
   - {fileID: 379220598}
   m_Father: {fileID: 1087131705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -285}
   m_SizeDelta: {x: 680, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1235505745
@@ -13480,7 +13555,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1241191251}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 162317102}
+        m_TargetAssemblyTypeName: KeyRebind, Assembly-CSharp
+        m_MethodName: OnRebindCrouchKey
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1241191251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14880,9 +14967,9 @@ RectTransform:
   - {fileID: 512829682}
   m_Father: {fileID: 1087131705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -125}
   m_SizeDelta: {x: 680, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1457331336
@@ -15791,7 +15878,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1629598184}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 162317102}
+        m_TargetAssemblyTypeName: KeyRebind, Assembly-CSharp
+        m_MethodName: OnRebindRightKey
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1629598184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16682,9 +16781,9 @@ RectTransform:
   - {fileID: 329875195}
   m_Father: {fileID: 1087131705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -165}
   m_SizeDelta: {x: 680, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1810530202
@@ -16996,9 +17095,9 @@ RectTransform:
   - {fileID: 1241191249}
   m_Father: {fileID: 1087131705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -325}
   m_SizeDelta: {x: 680, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1850663102
@@ -17890,9 +17989,9 @@ RectTransform:
   - {fileID: 1104735960}
   m_Father: {fileID: 1087131705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -245}
   m_SizeDelta: {x: 680, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1941131882
@@ -18015,7 +18114,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1942189527}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 162317102}
+        m_TargetAssemblyTypeName: KeyRebind, Assembly-CSharp
+        m_MethodName: OnRebindSkill2Key
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1942189527
 MonoBehaviour:
   m_ObjectHideFlags: 0
