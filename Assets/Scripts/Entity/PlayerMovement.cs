@@ -59,8 +59,8 @@ public class PlayerMovement : MonoBehaviour
         cinemachineComposer = virtualCamera.GetCinemachineComponent<Cinemachine.CinemachineComposer>();
         playerShooter = GetComponent<PlayerShooter>();
 
-        xMouseSensitivity = 5f;
-        yMouseSensitivity = 10f;
+        xMouseSensitivity = 1f;
+        yMouseSensitivity = 1f;
         // 초기 UI 위치 저장
         previousUIPosition = uiElement.localPosition;
 
