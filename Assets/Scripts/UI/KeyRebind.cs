@@ -153,12 +153,4 @@ public class KeyRebind : MonoBehaviour
         rebindPanel.SetActive(false);
         playerInput.inputActions.PlayerAction.Enable();
     }
-
-
-
-
-
-
-
-
 }
