@@ -60,10 +60,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.53f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\UI\OptionSetting.cs" />
-    <Compile Include="Assets\Scripts\Entity\ViewSliderUI.cs" />
     <Compile Include="Assets\Scripts\Entity\PlayerInput.cs" />
-    <Compile Include="Assets\Scripts\UI\KeyBind.cs" />
     <Compile Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\Shared\Scripts\ProximityActivate.cs" />
     <Compile Include="Assets\Scripts\Entity\Skill\Skill.cs" />
     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
@@ -81,19 +78,16 @@
     <Compile Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
     <Compile Include="Assets\Scripts\Entity\CameraControl.cs" />
     <Compile Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\Shared\Scripts\SimpleCharacterMotor.cs" />
-    <Compile Include="Assets\Scripts\UI\Character Canvas Manager.cs" />
     <Compile Include="Assets\Scripts\Entity\Smoke.cs" />
     <Compile Include="Assets\Scripts\Entity\Gun.cs" />
     <Compile Include="Assets\Scripts\Entity\Health\LivingEntity.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\GunData.cs" />
-    <Compile Include="Assets\Scripts\UI\KeyRebind.cs" />
     <Compile Include="Assets\Scripts\Entity\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Manager\PlayerActions.cs" />
     <Compile Include="Assets\Scripts\Entity\Handling Weapon.cs" />
     <Compile Include="Assets\Scripts\Entity\PlayerShooter.cs" />
     <Compile Include="Assets\Scripts\Entity\Skill\SmokeSkill.cs" />
     <Compile Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\Shared\Scripts\SimpleCameraController.cs" />
-    <Compile Include="Assets\Scripts\Entity\ViewController.cs" />
     <Compile Include="Assets\Scripts\Entity\Skill\GrenadeSkill.cs" />
     <Compile Include="Assets\Scripts\Entity\Skill\HealSkill.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\PlayerCharacter.cs" />
