@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Grenade : MonoBehaviour
 {
+    /// <summary>
+    /// 수류탄 현 상태를 구분하기 위한 enum
+    /// 
+    /// Empty : 수류탄을 들지 않은 상태
+    /// Ready : 수류탄을 들고 있는 상태
+    /// Cooking : 수류탄을 던지기 위해 핀을 뽑은 상태
+    /// Fire : 수류탄을 던진 상태
+    /// 
+    /// </summary>
     public enum State
     {
         Empty,
@@ -15,22 +21,26 @@ public class Grenade : MonoBehaviour
         Fire
     }
 
-    public State state { get; protected set; } // 수류탄 파지 상태
-    private PlayerInput playerInput; // 수류탄을 든 해당 캐릭터의 키인풋을 받아옴
-    private PlayerMovement playerMovement; // 수류탄을 든 해당 캐릭터의 이동 컴포넌트
+
+    public State state { get; protected set; } // 현재 수류탄 파지 상태
+
     private Rigidbody rigidbody; // 수류탄의 리지드바디
     private Collider collider; // 수류탄의 콜라이더
     [SerializeField] ParticleSystem explosionParticle; // 수류탄 폭발 파티클
     private Animator animator; // 수류탄을 던지는 캐릭터의 애니메이터
 
-    bool alreadyThrown; // 던져진 상태인지 확인
+    bool alreadyThrown = false; // 던져진 상태인지 확인
     int damage = 180; //수류탄 데미지
     float cookingTime = 9f; // 최대 수류탄 쿠킹 시간 + 삭제까지 대기시간
     float throwingPower = 25f; // 수류탄 투척 속도
     float throwingDelay = 2f; // 수류탄을 던질 때 너무 빨리 던지면 isKinematic이 off되기 전에 바닥을 뚫고 지나감, 그래서 약간의 딜레이를 넣음
     bool exploded = false; // 수류탄이 한 번 터지면 다시 함수가 반복되지 않도록 조절
 
+    private PlayerInput playerInput; // 수류탄을 든 해당 캐릭터의 키인풋을 받아옴
 
+
+
+    // 수류탄 투척 궤적
     LineRenderer lineRenderer; //수류탄 투척 궤적을 그리기 위한 라인렌더러
     Transform throwingposition; // 수튜탄 투척 위치
 
@@ -38,16 +48,14 @@ public class Grenade : MonoBehaviour
     {
         state = State.Ready;
 
-        playerInput = GetComponentInParent<PlayerInput>();
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
-        playerMovement = GetComponentInParent<PlayerMovement>();
-        alreadyThrown = false;
+
         animator = GetComponentInParent<Animator>();
+        playerInput = GetComponentInParent<PlayerInput>();
+
         lineRenderer = GetComponentInParent<LineRenderer>();
         throwingposition = transform.parent.transform;
-
-        Debug.Log(throwingposition);
     }
 
     // Update is called once per frame
@@ -112,7 +120,9 @@ public class Grenade : MonoBehaviour
     //수류탄이 터지는 것을 구현한 메서드
     void Explosion()
     {
-        bool damaged = false;
+        bool damaged = false; // 수류탄이 여러 번 대미지를 넣는 것을 방지
+
+        // 수류탄의 핀이 이미 뽑힌 상태일 때 터질 시간 확인
         if (state == State.Cooking || state == State.Fire)
         {
             cookingTime -= Time.deltaTime;
@@ -132,6 +142,8 @@ public class Grenade : MonoBehaviour
                             Vector3 hitPoint = colls[i].ClosestPoint(transform.position); // 충돌 지점 추정
                             Debug.Log(hitPoint);
 
+
+                            //임의의 수류탄 파편(50개)이 플레이어에게 맞는지 확인하여 대미지를 줌
                             for (int j = 0; j < 50; j++)
                             {
                                 if (damaged)
@@ -147,7 +159,9 @@ public class Grenade : MonoBehaviour
                                 if (!Physics.Raycast(transform.position, direction, distance, LayerMask.GetMask("Wall")))
                                 {
                                     Debug.DrawRay(transform.position, direction * distance, Color.red, 100f);
-                                    Vector3 hitNormal = direction; // 폭발 방향을 그대로 사용
+                                    Vector3 hitNormal = direction;
+
+                                    // 거리별로 대미지 조절
                                     switch (distance)
                                     {
                                         case <= 1f:
@@ -177,13 +191,13 @@ public class Grenade : MonoBehaviour
 
                         }
                     }
-                    exploded = true;
+                    exploded = true; //한번 터지면 다시 터지지 않도록 설정
                 }
             }
             // explosionTime이 9초 근처에 도달했을 때 오브젝트 파괴
             if (cookingTime <= 0f)
             {
-                Destroy(gameObject); // 이 오브젝트를 파괴
+                Destroy(gameObject); // 수류탄 오브젝트 제거
             }
         }
     }
@@ -201,13 +215,3 @@ public class Grenade : MonoBehaviour
         lineRenderer.SetPositions(points);
     }
 }
-
-
-
-/*
-
- 수류탄 들어 -> 핀 뽑고 -> 던지고 -> 터지고
- 포물선을 그리면서 나가야되니까
-
-
-*/

@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class SmokeSkill : Skill
 {
+    // 스킬 타입을 카운트 타입으로 설정
+    public SmokeSkill()
+    {
+        skillType = SkillType.count;
+    }
+
     [SerializeField] GameObject smokePrefab; //연막탄 프리팹
     GameObject smokeObject; // 연막탄 오브젝트
-    float coolTime = 3f; // 연막탄 스킬 쿨타임
-    float currentCoolTime = 0; // 현재 연막탄 스킬 쿨타임
     private int count = 2; // 연막탄 스킬 개수
     private PlayerInput playerInput; // 연막탄을 가진 캐릭터의 키인풋 컴포넌트
     Smoke smoke; //연막탄 프리팹
@@ -19,12 +23,11 @@ public class SmokeSkill : Skill
     public override void OnEnable()
     {
         base.OnEnable();
-        maxCoolTime = coolTime;
         maxSkillCount = count;
         currentSkillCount = maxSkillCount;
 
         playerInput = GetComponent<PlayerInput>();
-        smokePivot = transform.GetChild(5).gameObject; //e스킬 자리의 투척류 피벗
+        smokePivot = transform.GetChild(4).gameObject; //q스킬 자리의 투척류 피벗
         handlingWeapon = GetComponent<HandlingWeapon>();
     }
 
@@ -37,6 +40,8 @@ public class SmokeSkill : Skill
             base.inputSkillKey();
             if (checkSkill == true)
             {
+                UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 1번 키를 눌렀으니 1 전송
+
                 //연막탄을 처음 꺼냄(스킬키를 처음 누름) 혹은 연막탄을 던진 후 스킬 개수가 남아있을 때 스킬키 입력 시
                 if (smokePivot.transform.childCount == 0)
                 {
@@ -68,9 +73,8 @@ public class SmokeSkill : Skill
     //스킬 쿨타임 관리 + 키 입력 인식
     void Update()
     {
-        countCoolTime();
-
-        if (currentCoolTime >= 0f && playerInput.skill_2_Button)
+        skillCountCheck();
+        if (currentCoolDown >= 0f && playerInput.skill_2_Button)
         {
             inputSkillKey();
         }

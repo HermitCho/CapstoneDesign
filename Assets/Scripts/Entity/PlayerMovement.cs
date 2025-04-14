@@ -55,8 +55,15 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
         playerAnimator = GetComponent<Animator>();
+        uiElement = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         parentRectTransform = uiElement.parent.GetComponent<RectTransform>();
+
+            // 시네머신 가상 카메라 설정
+        virtualCamera = GameObject.Find("TPS Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+        virtualCamera.Follow = transform;
+        virtualCamera.LookAt = transform;
         cinemachineComposer = virtualCamera.GetCinemachineComponent<Cinemachine.CinemachineComposer>();
+
         playerShooter = GetComponent<PlayerShooter>();
 
         xMouseSensitivity = 1f;

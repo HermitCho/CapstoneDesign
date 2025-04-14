@@ -3,7 +3,10 @@ guid: 584726e8f4901a54d8935adc1cf1faa6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - inGameUI: {instanceID: 0}
+  - grenadePrefab: {fileID: 2573602346511189180, guid: efd05f1068e97004898fefa02c516125, type: 3}
+  - grenadePivot: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

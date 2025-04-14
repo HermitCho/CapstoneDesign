@@ -38,7 +38,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
         {
             shield -= damage;
         }
-        else if (shield < damage)
+        else if (shield < damage && health > 0)
         {
             shield -= damage;
             health += shield;
@@ -46,6 +46,10 @@ public class LivingEntity : MonoBehaviour, IDamageable
             {
                 shield = 0;
             }
+        }
+        else
+        {
+            health = 0;
         }
 
         // 체력이 0 이하 && 아직 죽지 않았다면 사망 처리 실행

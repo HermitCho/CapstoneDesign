@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class FlashbangSkill : Skill
 {
-    [SerializeField] GameObject flashbangPrefab; //섬광탄 프리팹
-    GameObject flashbangObject; // 섬광탄 오브젝트
-    float coolTime = 3f; // 섬광탄 스킬 쿨타임
-    float currentCoolTime = 0; // 현재 섬광탄 스킬 쿨타임
+    public FlashbangSkill()
+    {
+        skillType = SkillType.count;
+    }
+
+    [SerializeField] GameObject flashbangPrefab; //섬광탄 프리팹 데이터
+    GameObject flashbangObject; //직접 던져질 섬광탄 오브젝트
+    Flashbang flashbang; //섬광탄 스크립트
+
     private int count = 2; // 섬광탄 스킬 개수
     private PlayerInput playerInput; // 섬광탄을 가진 캐릭터의 키인풋 컴포넌트
-    Flashbang flashbang; //섬광탄 프리팹
+
+
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
 
     public GameObject flashbangPivot; // 섬광탄 피벗
@@ -19,7 +25,6 @@ public class FlashbangSkill : Skill
     public override void OnEnable()
     {
         base.OnEnable();
-        maxCoolTime = coolTime;
         maxSkillCount = count;
         currentSkillCount = maxSkillCount;
         playerInput = GetComponent<PlayerInput>();
@@ -34,6 +39,8 @@ public class FlashbangSkill : Skill
         base.inputSkillKey();
         if (checkSkill == true)
         {
+            UIManager.Instance.SelectGunORSkillUI(2); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
+
             if (flashbangPivot.transform.childCount == 0)
             {
                 flashbangObject = Instantiate(flashbangPrefab, flashbangPivot.transform.position, transform.rotation);
@@ -61,9 +68,9 @@ public class FlashbangSkill : Skill
 
     void Update()
     {
-        countCoolTime();
+        skillCountCheck();
 
-        if (currentCoolTime >= 0f && playerInput.skill_2_Button)
+        if (currentCoolDown >= 0f && playerInput.skill_2_Button)
         {
             inputSkillKey();
         }

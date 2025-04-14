@@ -3,7 +3,10 @@ guid: c900d161c0bcf434f9f43ff9eb3cea22
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - inGameUI: {instanceID: 0}
+  - smokePrefab: {fileID: 5370471694265881074, guid: bdce808795e400e49b45fd6bdd898b75, type: 3}
+  - smokePivot: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

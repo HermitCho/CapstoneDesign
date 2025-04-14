@@ -3,7 +3,10 @@ guid: ecec12dbe34a2844eb0c247ac5fd5903
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - inGameUI: {instanceID: 0}
+  - flashbangPrefab: {fileID: 6197178316251180238, guid: f06d688da064171499ad1966bb76e0a7, type: 3}
+  - flashbangPivot: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

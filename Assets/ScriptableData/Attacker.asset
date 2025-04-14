@@ -19,3 +19,6 @@ MonoBehaviour:
   frontBackMoveSpeed: 5
   leftRightMoveSpeed: 2.5
   sprintPlusSpeed: 3
+  gunIcon: {fileID: 21300040, guid: 71a7f8669de848e45ba57bda95f3a58e, type: 3}
+  skillIcon_1: {fileID: 21300020, guid: 2f84b5c8ce2b18549a175522847db7d6, type: 3}
+  skillIcon_2: {fileID: 21300002, guid: 2f84b5c8ce2b18549a175522847db7d6, type: 3}

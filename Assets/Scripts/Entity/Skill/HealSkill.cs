@@ -14,7 +14,7 @@ public class HealSkill : Skill
     public override void OnEnable()
     {
         base.OnEnable();
-        maxCoolTime = coolTime;
+        maxCoolDown = coolTime;
         maxSkillCount = count;
         currentSkillCount = maxSkillCount;
 
@@ -26,6 +26,8 @@ public class HealSkill : Skill
     public override void inputSkillKey()
     {
         base.inputSkillKey();
+        UIManager.Instance.SelectGunORSkillUI(2); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
+
         count -= 1;
         invokeSkill();
     }
@@ -53,9 +55,9 @@ public class HealSkill : Skill
 
     private void Update()
     {
-        countCoolTime();
+        skillCountCheck();
 
-        if (playerInput.skill_2_Button && currentCoolTime <= 0)
+        if (playerInput.skill_2_Button && currentCoolDown <= 0)
         {
             inputSkillKey();
         }

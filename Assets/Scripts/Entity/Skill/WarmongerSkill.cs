@@ -6,31 +6,44 @@ using UnityEngine;
 /// </summary>
 public class WarmongerSkill : Skill
 {
-    float coolTime = 10f; // 전쟁광 쿨타임
-    float currentCoolTime = 0; // 전쟁광 스킬 쿨타임
-    int count = 99; // 전쟁광 스킬 개수 -> 쿨타임만 되면 무한으로 쓸 수 있도록 할 때는 99로 설정
-    PlayerInput playerInput; // 전쟁광 스킬을 가진 캐릭터의 키인풋 컴포넌트
-    PlayerMovement playerMovement;
-    GunData gunData;
 
-    public Gun gun;
+    public WarmongerSkill()
+    {
+        skillType = SkillType.instantCooldown;
+    }
+
+    //스킬 직접 관련
+    float coolTime = 10f; // 전쟁광 스킬 사용 시 쿨타임
+    float currentCoolDown = 0; // 전쟁광 스킬 현재 쿨타임
 
     bool onSkill = false; // 전쟁광 스킬 사용 중인지 확인
     float skillDuration = 5f; // 전쟁광 스킬 지속 시간
     float nowSkillDuration = 0f; // 전쟁광 스킬 현재 지속 시간
 
-    ParticleSystem particleSystem;
+    ParticleSystem particleSystem; // 전쟁광 스킬 사용 파티클
+
+
+    // 스킬 간접 관련
+    PlayerInput playerInput; // 캐릭터의 키인풋 컴포넌트
+    PlayerMovement playerMovement; // 캐릭터 움직임 컴포넌트
+
+    [SerializeField] Gun gun; // 사용 캐릭터의 총기
+    GunData gunData; // 전쟁광 스킬로 변할 캐릭터 총기 데이터
+
+
 
     // 전쟁광 스킬 초기화
     public override void OnEnable()
     {
         base.OnEnable();
-        maxCoolTime = coolTime;
-        maxSkillCount = count;
-        currentSkillCount = maxSkillCount;
+        maxCoolDown = coolTime; // 최대 쿨타임 설정
+
+
         playerInput = GetComponent<PlayerInput>();
         playerMovement = GetComponent<PlayerMovement>();
+
         gunData = gun.gunData;
+
         particleSystem = GetComponent<ParticleSystem>();
         particleSystem.time = skillDuration;
     }
@@ -49,7 +62,9 @@ public class WarmongerSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
-        Debug.Log("전쟁광 스킬 사용!");
+
+        UIManager.Instance.CoolDownButtonInput(2); // 아이콘 업데이트
+
         onSkill = true;
         gunData.reloadTime = gunData.reloadTime / 2;
         playerMovement.verticalMoveSpeed = playerMovement.verticalMoveSpeed * 2;
@@ -61,10 +76,10 @@ public class WarmongerSkill : Skill
     //스킬 쿨타임 관리와 스킬 지속 시간 관리 + 키 입력 인식
     void Update()
     {
-        countCoolTime();
+        skillCoolDownCheck();
         SkillDurating();
 
-        if (currentCoolTime >= 0f && playerInput.skill_1_Button)
+        if (currentCoolDown >= 0f && playerInput.skill_2_Button)
         {
             inputSkillKey();
         }
@@ -80,10 +95,16 @@ public class WarmongerSkill : Skill
         else if(nowSkillDuration >= skillDuration)
         {
             Debug.Log("전쟁광 스킬 종료!");
+            
             gunData.reloadTime = gunData.reloadTime * 2;
             playerMovement.verticalMoveSpeed = playerMovement.verticalMoveSpeed / 2;
             playerMovement.horizontalMoveSpeed = playerMovement.horizontalMoveSpeed / 2;
             playerMovement.sprintSpeed = playerMovement.sprintSpeed / 2;
+
+            Debug.Log(gunData.reloadTime);
+            Debug.Log(playerMovement.verticalMoveSpeed);
+            Debug.Log(playerMovement.horizontalMoveSpeed);
+            Debug.Log(playerMovement.sprintSpeed);
 
             nowSkillDuration = 0f;
             onSkill = false;
