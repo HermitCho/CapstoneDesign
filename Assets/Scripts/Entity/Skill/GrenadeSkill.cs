@@ -27,7 +27,6 @@ public class GrenadeSkill : Skill
         currentSkillCount = maxSkillCount;
 
         playerInput = GetComponent<PlayerInput>();
-        grenadePivot = transform.GetChild(4).gameObject; //q스킬 자리의 투척류 피벗
         handlingWeapon = GetComponent<HandlingWeapon>();
     }
 

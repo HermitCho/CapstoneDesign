@@ -74,6 +74,8 @@ public class UIManager : Singleton<UIManager>
         gunImage.sprite = playerCharacter.gunIcon;
         skillImage_1.sprite = playerCharacter.skillIcon_1;
         skillImage_2.sprite = playerCharacter.skillIcon_2;
+        skillImage_1.preserveAspect = true;
+        skillImage_2.preserveAspect = true;
 
         Image image1 = skillImage_1.transform.GetChild(0).GetComponent<Image>();
         Image image2 = skillImage_2.transform.GetChild(0).GetComponent<Image>();
