@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// ÀÌ¸§Àº ÀüÀï±¤ ÃÑ±â ¿¬»ç ¼Óµµ, ÀçÀåÀü ¼Óµµ¸¦ ºü¸£°Ô ÇÏ´Â ½ºÅ³ÀÓ.
+/// ì´ë¦„ì€ ì „ìŸê´‘ ì´ê¸° ì—°ì‚¬ ì†ë„, ì¬ì¥ì „ ì†ë„ë¥¼ ë¹ ë¥´ê²Œ í•˜ëŠ” ìŠ¤í‚¬ì„.
 /// </summary>
 public class WarmongerSkill : Skill
 {
@@ -12,31 +12,31 @@ public class WarmongerSkill : Skill
         skillType = SkillType.instantCooldown;
     }
 
-    //½ºÅ³ Á÷Á¢ °ü·Ã
-    float coolTime = 10f; // ÀüÀï±¤ ½ºÅ³ »ç¿ë ½Ã ÄğÅ¸ÀÓ
-    float currentCoolDown = 0; // ÀüÀï±¤ ½ºÅ³ ÇöÀç ÄğÅ¸ÀÓ
+    //ìŠ¤í‚¬ ì§ì ‘ ê´€ë ¨
+    float coolTime = 10f; // ì „ìŸê´‘ ìŠ¤í‚¬ ì‚¬ìš© ì‹œ ì¿¨íƒ€ì„
+    float currentCoolDown = 0; // ì „ìŸê´‘ ìŠ¤í‚¬ í˜„ì¬ ì¿¨íƒ€ì„
 
-    bool onSkill = false; // ÀüÀï±¤ ½ºÅ³ »ç¿ë ÁßÀÎÁö È®ÀÎ
-    float skillDuration = 5f; // ÀüÀï±¤ ½ºÅ³ Áö¼Ó ½Ã°£
-    float nowSkillDuration = 0f; // ÀüÀï±¤ ½ºÅ³ ÇöÀç Áö¼Ó ½Ã°£
+    bool onSkill = false; // ì „ìŸê´‘ ìŠ¤í‚¬ ì‚¬ìš© ì¤‘ì¸ì§€ í™•ì¸
+    float skillDuration = 5f; // ì „ìŸê´‘ ìŠ¤í‚¬ ì§€ì† ì‹œê°„
+    float nowSkillDuration = 0f; // ì „ìŸê´‘ ìŠ¤í‚¬ í˜„ì¬ ì§€ì† ì‹œê°„
 
-    ParticleSystem particleSystem; // ÀüÀï±¤ ½ºÅ³ »ç¿ë ÆÄÆ¼Å¬
-
-
-    // ½ºÅ³ °£Á¢ °ü·Ã
-    PlayerInput playerInput; // Ä³¸¯ÅÍÀÇ Å°ÀÎÇ² ÄÄÆ÷³ÍÆ®
-    PlayerMovement playerMovement; // Ä³¸¯ÅÍ ¿òÁ÷ÀÓ ÄÄÆ÷³ÍÆ®
-
-    [SerializeField] Gun gun; // »ç¿ë Ä³¸¯ÅÍÀÇ ÃÑ±â
-    GunData gunData; // ÀüÀï±¤ ½ºÅ³·Î º¯ÇÒ Ä³¸¯ÅÍ ÃÑ±â µ¥ÀÌÅÍ
+    ParticleSystem particleSystem; // ì „ìŸê´‘ ìŠ¤í‚¬ ì‚¬ìš© íŒŒí‹°í´
 
 
+    // ìŠ¤í‚¬ ê°„ì ‘ ê´€ë ¨
+    PlayerInput playerInput; // ìºë¦­í„°ì˜ í‚¤ì¸í’‹ ì»´í¬ë„ŒíŠ¸
+    PlayerMovement playerMovement; // ìºë¦­í„° ì›€ì§ì„ ì»´í¬ë„ŒíŠ¸
 
-    // ÀüÀï±¤ ½ºÅ³ ÃÊ±âÈ­
+    [SerializeField] Gun gun; // ì‚¬ìš© ìºë¦­í„°ì˜ ì´ê¸°
+    GunData gunData; // ì „ìŸê´‘ ìŠ¤í‚¬ë¡œ ë³€í•  ìºë¦­í„° ì´ê¸° ë°ì´í„°
+
+
+
+    // ì „ìŸê´‘ ìŠ¤í‚¬ ì´ˆê¸°í™”
     public override void OnEnable()
     {
         base.OnEnable();
-        maxCoolDown = coolTime; // ÃÖ´ë ÄğÅ¸ÀÓ ¼³Á¤
+        maxCoolDown = coolTime; // ìµœëŒ€ ì¿¨íƒ€ì„ ì„¤ì •
 
 
         playerInput = GetComponent<PlayerInput>();
@@ -48,7 +48,7 @@ public class WarmongerSkill : Skill
         particleSystem.time = skillDuration;
     }
 
-    // ½ºÅ³ Å° ÀÔ·Â ½Ã
+    // ìŠ¤í‚¬ í‚¤ ì…ë ¥ ì‹œ
     public override void inputSkillKey()
     {
         base.inputSkillKey();
@@ -58,12 +58,12 @@ public class WarmongerSkill : Skill
         }
     }
 
-    // ½ºÅ³ÀÌ Á÷Á¢ÀûÀ¸·Î »ç¿ëµÇ´Â ÇÔ¼ö
+    // ìŠ¤í‚¬ì´ ì§ì ‘ì ìœ¼ë¡œ ì‚¬ìš©ë˜ëŠ” í•¨ìˆ˜
     public override void invokeSkill()
     {
         base.invokeSkill();
 
-        UIManager.Instance.CoolDownButtonInput(2); // ¾ÆÀÌÄÜ ¾÷µ¥ÀÌÆ®
+        UIManager.Instance.CoolDownButtonInput(2); // ì•„ì´ì½˜ ì—…ë°ì´íŠ¸
 
         onSkill = true;
         gunData.reloadTime = gunData.reloadTime / 2;
@@ -73,7 +73,7 @@ public class WarmongerSkill : Skill
         particleSystem.Play();
     }
 
-    //½ºÅ³ ÄğÅ¸ÀÓ °ü¸®¿Í ½ºÅ³ Áö¼Ó ½Ã°£ °ü¸® + Å° ÀÔ·Â ÀÎ½Ä
+    //ìŠ¤í‚¬ ì¿¨íƒ€ì„ ê´€ë¦¬ì™€ ìŠ¤í‚¬ ì§€ì† ì‹œê°„ ê´€ë¦¬ + í‚¤ ì…ë ¥ ì¸ì‹
     void Update()
     {
         skillCoolDownCheck();
@@ -85,7 +85,7 @@ public class WarmongerSkill : Skill
         }
     }
     
-    //½ºÅ³ Áö¼Ó °ü¸® ÇÔ¼ö
+    //ìŠ¤í‚¬ ì§€ì† ê´€ë¦¬ í•¨ìˆ˜
     void SkillDurating()
     {
         if (nowSkillDuration < skillDuration && onSkill)
@@ -94,7 +94,7 @@ public class WarmongerSkill : Skill
         }
         else if(nowSkillDuration >= skillDuration)
         {
-            Debug.Log("ÀüÀï±¤ ½ºÅ³ Á¾·á!");
+            Debug.Log("ì „ìŸê´‘ ìŠ¤í‚¬ ì¢…ë£Œ!");
             
             gunData.reloadTime = gunData.reloadTime * 2;
             playerMovement.verticalMoveSpeed = playerMovement.verticalMoveSpeed / 2;

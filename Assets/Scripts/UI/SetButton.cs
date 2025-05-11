@@ -13,10 +13,9 @@ public class SetButton : MonoBehaviour
     private bool isPauseClick; //bool Pause Panel
 
     private GameObject player;
-    private void Awake()
+    private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-
 
         optionPanel.SetActive(false);
         pausePanel.SetActive(false);
@@ -24,20 +23,11 @@ public class SetButton : MonoBehaviour
         isPauseClick = false;
     }
 
-
-
     private void Update()
     {
         Pause();
         IsExitOption();
     }
-
-    public void OnClickGameStart()
-    {
-        //GmaeManager.cs 메서드 불러오기
-        //photon 사용 필요
-    }
-
 
     public void IsExitOption()
     {
@@ -45,7 +35,6 @@ public class SetButton : MonoBehaviour
         {
             OnClickOption();
         }
-       
     }
     
     public void OnClickOption()
@@ -55,13 +44,10 @@ public class SetButton : MonoBehaviour
             isOptionClick = !isOptionClick;
             optionPanel.SetActive(isOptionClick);     
         }
-
-        
     }
 
     public void OnClickGameExit()
     {
-
     }
 
     public void ExitPause()
@@ -75,12 +61,9 @@ public class SetButton : MonoBehaviour
         playerInput.enabled = true;
     }
 
-
-    //test code
     public void Pause()
     {
-  
-        if (Input.GetKeyDown(KeyCode.Escape) && !isPauseClick)
+        if (Input.GetKeyDown(KeyCode.Escape) && !pausePanel.activeSelf)
         {
             PlayerInput playerInput = player.GetComponent<PlayerInput>();
             playerInput.enabled = false;
@@ -88,25 +71,17 @@ public class SetButton : MonoBehaviour
             isPauseClick = true;
             UnityEngine.Cursor.visible = true;
             UnityEngine.Cursor.lockState = CursorLockMode.Confined;
-            pausePanel.SetActive(isPauseClick);
-            
-
-
-
+            pausePanel.SetActive(true);
         }
-
-        else if (Input.GetKeyDown(KeyCode.Escape) && isPauseClick && !isOptionClick ) 
+        else if (Input.GetKeyDown(KeyCode.Escape) && pausePanel.activeSelf && !optionPanel.activeSelf)
         {
             isPauseClick = false;
             UnityEngine.Cursor.visible = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            pausePanel.SetActive(isPauseClick);
+            pausePanel.SetActive(false);
 
             PlayerInput playerInput = player.GetComponent<PlayerInput>();
             playerInput.enabled = true;
         }
     }
-
-
-
 }

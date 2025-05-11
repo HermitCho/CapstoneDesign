@@ -2,34 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Cinemachine;
 
 public class CameraControl : MonoBehaviour
 {
-    public Transform player; //ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ
-    public LayerMask obstacleLayer;//Åõ¸íÈ­ ½ÃÅ³ Àå¾Ö¹° ·¹ÀÌ¾î
-    public LayerMask roofLayer; // ¿ÏÀü Åõ¸íÈ­ ½ÃÅ³ Roof ·¹ÀÌ¾î
+    private Transform player; //í”Œë ˆì´ì–´ ìºë¦­í„°
+    public LayerMask obstacleLayer;//íˆ¬ëª…í™” ì‹œí‚¬ ì¥ì• ë¬¼ ë ˆì´ì–´
+    public LayerMask roofLayer; // ì™„ì „ íˆ¬ëª…í™” ì‹œí‚¬ Roof ë ˆì´ì–´
 
-    private List<Renderer> previousObstacles = new List<Renderer>(); // ÀÌÀü ÇÁ·¹ÀÓ¿¡¼­ Åõ¸íÇß´ø ¿ÀºêÁ§Æ®
-    private List<Renderer> previousRoofs = new List<Renderer>(); // ÀÌÀü ÇÁ·¹ÀÓ¿¡¼­ Åõ¸íÇß´ø Roof
+    private List<Renderer> previousObstacles = new List<Renderer>(); // ì´ì „ í”„ë ˆì„ì—ì„œ íˆ¬ëª…í–ˆë˜ ì˜¤ë¸Œì íŠ¸
+    private List<Renderer> previousRoofs = new List<Renderer>(); // ì´ì „ í”„ë ˆì„ì—ì„œ íˆ¬ëª…í–ˆë˜ Roof
 
     // Start is called before the first frame update
     void Start()
     {
-        InitializeTransparency(); // ¸ğµç Obstacle & Roof ¹°Ã¼ ÃÊ±âÈ­
+        InitializeTransparency(); // ëª¨ë“  Obstacle & Roof ë¬¼ì²´ ì´ˆê¸°í™”
     }
 
     void Update()
     {
-        HandleObstacleTransparency(); // Àå¾Ö¹° Åõ¸íÈ­
-        HandleRoofTransparency(); // Roof Åõ¸íÈ­
+        if (player != null)
+        {
+            HandleObstacleTransparency(); // ì¥ì• ë¬¼ íˆ¬ëª…í™”
+            HandleRoofTransparency(); // Roof íˆ¬ëª…í™”
+        }
+    }
+
+    // í”Œë ˆì´ì–´ ì„¤ì •ì„ ìœ„í•œ public ë©”ì„œë“œ
+    public void SetPlayer(Transform newPlayer)
+    {
+        player = newPlayer;
+
+        // ì”¬ì—ì„œ CinemachineVirtualCamera ì°¾ê¸°
+        CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        if (virtualCamera != null)
+        {
+            // ì„ íƒëœ í”Œë ˆì´ì–´ë¥¼ Follow íƒ€ê²Ÿìœ¼ë¡œ ì„¤ì •
+            virtualCamera.Follow = player;
+            Debug.Log($"CinemachineVirtualCameraì˜ Follow íƒ€ê²Ÿì´ {player.name}ìœ¼ë¡œ ì„¤ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        }
+        else
+        {
+            Debug.LogError("ì”¬ì—ì„œ CinemachineVirtualCameraë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
+        }
     }
 
     /// <summary>
-    /// ¾À ½ÃÀÛ ½Ã ¸ğµç Obstacle ¹× Roof ¹°Ã¼¸¦ ÃÊ±âÈ­
+    /// ì”¬ ì‹œì‘ ì‹œ ëª¨ë“  Obstacle ë° Roof ë¬¼ì²´ë¥¼ ì´ˆê¸°í™”
     /// </summary>
     private void InitializeTransparency()
     {
-        // ¸ğµç Obstacle & Roof ¿ÀºêÁ§Æ® Ã£±â
+        // ëª¨ë“  Obstacle & Roof ì˜¤ë¸Œì íŠ¸ ì°¾ê¸°
         Collider[] allObstacles = FindObjectsOfType<Collider>();
 
         foreach (var collider in allObstacles)
@@ -39,12 +62,12 @@ public class CameraControl : MonoBehaviour
             {
                 int objLayer = collider.gameObject.layer;
 
-                // Àå¾Ö¹°(Opaque) ÃÊ±âÈ­
+                // ì¥ì• ë¬¼(Opaque) ì´ˆê¸°í™”
                 if (((1 << objLayer) & obstacleLayer) != 0)
                 {
                     SetOpaque(renderer);
                 }
-                // Roof(Opaque) ÃÊ±âÈ­
+                // Roof(Opaque) ì´ˆê¸°í™”
                 else if (((1 << objLayer) & roofLayer) != 0)
                 {
                     SetOpaque(renderer);
@@ -54,11 +77,11 @@ public class CameraControl : MonoBehaviour
     }
 
     /// <summary>
-    /// Ä«¸Ş¶ó¿¡¼­ ÇÃ·¹ÀÌ¾î·Î °¡´Â ±æ¸ñÀÇ Àå¾Ö¹°(Obstacle¸¸)À» Åõ¸íÇÏ°Ô Ã³¸®
+    /// ì¹´ë©”ë¼ì—ì„œ í”Œë ˆì´ì–´ë¡œ ê°€ëŠ” ê¸¸ëª©ì˜ ì¥ì• ë¬¼(Obstacleë§Œ)ì„ íˆ¬ëª…í•˜ê²Œ ì²˜ë¦¬
     /// </summary>
     private void HandleObstacleTransparency()
     {
-        // ÀÌÀü ÇÁ·¹ÀÓ¿¡¼­ Åõ¸íÇß´ø Àå¾Ö¹° º¹¿ø
+        // ì´ì „ í”„ë ˆì„ì—ì„œ íˆ¬ëª…í–ˆë˜ ì¥ì• ë¬¼ ë³µì›
         foreach (Renderer renderer in previousObstacles)
         {
             if (renderer != null)
@@ -68,7 +91,7 @@ public class CameraControl : MonoBehaviour
         }
         previousObstacles.Clear();
 
-        // Ä«¸Ş¶ó¿¡¼­ ÇÃ·¹ÀÌ¾î·Î Ray
+        // ì¹´ë©”ë¼ì—ì„œ í”Œë ˆì´ì–´ë¡œ Ray
         Vector3 direction = player.position - transform.position;
         RaycastHit[] hits = Physics.RaycastAll(transform.position, direction.normalized, direction.magnitude, obstacleLayer);
 
@@ -84,11 +107,11 @@ public class CameraControl : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î ±âÁØ À§ ¹æÇâ(Vector3.up)À¸·Î Ray¸¦ ½÷¼­ Roof ¹°Ã¼¸¦ °¨ÁöÇÏ°í Åõ¸íÈ­
+    /// í”Œë ˆì´ì–´ ê¸°ì¤€ ìœ„ ë°©í–¥(Vector3.up)ìœ¼ë¡œ Rayë¥¼ ì´ì„œ Roof ë¬¼ì²´ë¥¼ ê°ì§€í•˜ê³  íˆ¬ëª…í™”
     /// </summary>
     private void HandleRoofTransparency()
     {
-        // ÀÌÀü ÇÁ·¹ÀÓ¿¡¼­ Åõ¸íÇß´ø Roof ¹°Ã¼ ¿ø»óº¹±¸
+        // ì´ì „ í”„ë ˆì„ì—ì„œ íˆ¬ëª…í–ˆë˜ Roof ë¬¼ì²´ ì›ìƒë³µêµ¬
         foreach (Renderer renderer in previousRoofs)
         {
             if (renderer != null)
@@ -98,7 +121,7 @@ public class CameraControl : MonoBehaviour
         }
         previousRoofs.Clear();
 
-        // ÇÃ·¹ÀÌ¾î À§Ä¡¿¡¼­ À§ ¹æÇâÀ¸·Î Ray ¹ß»çÇÏ¿© Roof °¨Áö
+        // í”Œë ˆì´ì–´ ìœ„ì¹˜ì—ì„œ ìœ„ ë°©í–¥ìœ¼ë¡œ Ray ë°œì‚¬í•˜ì—¬ Roof ê°ì§€
         RaycastHit hit;
         if (Physics.Raycast(player.position, Vector3.up, out hit, Mathf.Infinity, roofLayer))
         {
@@ -111,7 +134,7 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    // Àå¾Ö¹° Åõ¸íÈ­ (ÀÏ¹İ)
+    // ì¥ì• ë¬¼ íˆ¬ëª…í™” (ì¼ë°˜)
     void SetTransparent(Renderer renderer)
     {
         foreach (Material mat in renderer.materials)
@@ -126,7 +149,7 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    // Roof ¿ÏÀü Åõ¸íÈ­
+    // Roof ì™„ì „ íˆ¬ëª…í™”
     void SetFullyTransparent(Renderer renderer)
     {
         foreach (Material mat in renderer.materials)
@@ -141,7 +164,7 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    // ¿ø»óº¹±¸ (ºÒÅõ¸í)
+    // ì›ìƒë³µêµ¬ (ë¶ˆíˆ¬ëª…)
     void SetOpaque(Renderer renderer)
     {
         foreach (Material mat in renderer.materials)
@@ -156,3 +179,4 @@ public class CameraControl : MonoBehaviour
         }
     }
 }
+

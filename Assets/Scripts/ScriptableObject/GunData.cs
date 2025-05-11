@@ -1,35 +1,35 @@
-
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable/GunData", fileName = "Gun Data")]
 public class GunData : ScriptableObject
 {
-    [Header ("ÃÑ±â ¹ß»ç ¼Ò¸®")]
-    [Tooltip ("ÃÑ±â ¹ß»ç ¼Ò¸® »ç¿îµå Å¬¸³ »ğÀÔ - SoundClip")]
-    public AudioClip shotClip; //¹ß»ç ¼Ò¸®
+    [Header ("ì´ê¸° ë°œì‚¬ ì†Œë¦¬")]
+    [Tooltip ("ì´ê¸° ë°œì‚¬ ì†Œë¦¬ ì‚¬ìš´ë“œ í´ë¦½ ì‚½ì… - SoundClip")]
+    public AudioClip shotClip; //ë°œì‚¬ ì†Œë¦¬
 
-    [Header("ÃÑ±â ÀçÀåÀü ¼Ò¸®")]
-    [Tooltip("ÃÑ±â ÀçÀåÀü ¼Ò¸® »ç¿îµå Å¬¸³ »ğÀÔ - SoundClip")]
-    public AudioClip reloadClip; //ÀçÀåÀü ¼Ò¸®
+    [Header("ì´ê¸° ì¬ì¥ì „ ì†Œë¦¬")]
+    [Tooltip("ì´ê¸° ì¬ì¥ì „ ì†Œë¦¬ ì‚¬ìš´ë“œ í´ë¦½ ì‚½ì… - SoundClip")]
+    public AudioClip reloadClip; //ì¬ì¥ì „ ì†Œë¦¬
 
-    [Header("ÃÑ±â µ¥¹ÌÁö ¼öÄ¡")]
-    [Tooltip("ÃÑ±â µ¥¹ÌÁö ¼öÄ¡ ¼³Á¤ - Float")]
-    public float damage = 1; //°ø°İ·Â
+    [Header("ì´ê¸° ë°ë¯¸ì§€ ìˆ˜ì¹˜")]
+    [Tooltip("ì´ê¸° ë°ë¯¸ì§€ ìˆ˜ì¹˜ ì„¤ì • - Float")]
+    public float damage = 1; //ê³µê²©ë ¥
 
-    [Header("ÃÑ±â ÅºÃ¢ ¿ë·®")]
-    [Tooltip("ÃÑ±â ÅºÃ¢ ¿ë·® ¼öÄ¡ ¼³Á¤ - Inteager")]
-    public int magCapacity = 30; //ÅºÃ¢ ¿ë·®
+    [Header("ì´ê¸° íƒ„ì°½ ìš©ëŸ‰")]
+    [Tooltip("ì´ê¸° íƒ„ì°½ ìš©ëŸ‰ ìˆ˜ì¹˜ ì„¤ì • - Inteager")]
+    public int magCapacity = 30; //íƒ„ì°½ ìš©ëŸ‰
 
-    [Header("Åº¾Ë ¹ß»ç °£°İ")]
-    [Tooltip("Åº¾Ë ¹ß»ç °£°İ ¼³Á¤ - Float")]
-    public float timeBetFire = 0.1f; //Åº¾Ë ¹ß»ç °£°İ
+    [Header("íƒ„ì•Œ ë°œì‚¬ ê°„ê²©")]
+    [Tooltip("íƒ„ì•Œ ë°œì‚¬ ê°„ê²© ì„¤ì • - Float")]
+    public float timeBetFire = 0.1f; //íƒ„ì•Œ ë°œì‚¬ ê°„ê²©
 
-    [Header("Åº¾Ë ÀçÀåÀü ½Ã°£")]
-    [Tooltip("Åº¾Ë ÀçÀåÀü ½Ã°£ ¼³Á¤ - Float")]
-    public float reloadTime = 2.0f; //ÀçÀåÀü ¼Ò¿ä ½Ã°£ 
+    [Header("íƒ„ì•Œ ì¬ì¥ì „ ì‹œê°„")]
+    [Tooltip("íƒ„ì•Œ ì¬ì¥ì „ ì‹œê°„ ì„¤ì • - Float")]
+    public float reloadTime = 2.0f; //ì¬ì¥ì „ ì†Œìš” ì‹œê°„ 
 
 
-    [Header("ÃÑ »ç°Å¸®")]
-    [Tooltip("ÃÑ »ç°Å¸® ¼³Á¤ - Float")]
-    public float fireDistance = 50f; //ÃÑ »ç°Å¸®
+    [Header("ì´ ì‚¬ê±°ë¦¬")]
+    [Tooltip("ì´ ì‚¬ê±°ë¦¬ ì„¤ì • - Float")]
+    public float fireDistance = 50f; //ì´ ì‚¬ê±°ë¦¬
 }
+

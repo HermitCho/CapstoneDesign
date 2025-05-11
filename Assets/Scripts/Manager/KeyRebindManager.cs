@@ -9,7 +9,7 @@ using TMPro;
 public class KeyRebindManager : MonoBehaviour
 {
     [Header("Rebind 관련")]
-    public PlayerInput playerInput;
+    private PlayerInput playerInput;
     public GameObject rebindPanel;
     public TMP_Text rebindWaitText;
     public Dictionary<string, TMP_Text> actionTextMap = new();
@@ -48,7 +48,17 @@ public class KeyRebindManager : MonoBehaviour
     private void Awake()
     {
         rebindPanel.SetActive(false);
+    }
 
+    // PlayerInput 설정을 위한 public 메서드
+    public void SetPlayerInput(PlayerInput newPlayerInput)
+    {
+        playerInput = newPlayerInput;
+        if (playerInput != null)
+        {
+            LoadSettings(); // PlayerInput이 설정되면 설정 로드
+            UpdateAllUI(); // UI 텍스트 업데이트
+        }
     }
 
     private void Start()
@@ -66,8 +76,6 @@ public class KeyRebindManager : MonoBehaviour
         actionTextMap["Skill2"] = keyText_Skill2;
         actionTextMap["HandleGun"] = keyText_HandleGun;
 
-        LoadSettings(); // JSON 값 로드 및 초기화
-
         // 리스너 등록 (초기화 이후에 연결)
         xSensitivitySlider.onValueChanged.AddListener(delegate { OnSensitivitySliderChanged(); });
         ySensitivitySlider.onValueChanged.AddListener(delegate { OnSensitivitySliderChanged(); });
@@ -79,6 +87,8 @@ public class KeyRebindManager : MonoBehaviour
         //한 프레임 뒤에 적용
         StartCoroutine(ApplySettingsNextFrame());
         Debug.Log(xSensitivity + "+" + ySensitivity);
+
+        UpdateAllUI();
     }
 
     private System.Collections.IEnumerator ApplySettingsNextFrame()
@@ -131,7 +141,7 @@ public class KeyRebindManager : MonoBehaviour
                 StartCoroutine(DelayedUIUpdate());
 
                 rebindPanel.SetActive(false);
-                playerInput.enabled = true;
+                playerInput.enabled = false;
             })
             .Start();
     }
@@ -246,6 +256,8 @@ public class KeyRebindManager : MonoBehaviour
 
     private void UpdateAllUI()
     {
+        if (playerInput == null) return;
+
         foreach (var pair in actionTextMap)
         {
             string actionName = pair.Key;

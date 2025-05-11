@@ -14,19 +14,19 @@ public class HandlingWeapon : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
     }
 
-    //1¹ø ¹öÆ° Å¬¸¯ ½Ã, ¼Õ¿¡ ÃÑÀ» ³ªÅ¸³ª°Ô ÇÔ
+    //1ë²ˆ ë²„íŠ¼ í´ë¦­ ì‹œ, ì†ì— ì´ì„ ë‚˜íƒ€ë‚˜ê²Œ í•¨
     void Update()
     {
         if (playerInput.handleGunButton && !showGun)
         {
-            UIManager.Instance.SelectGunORSkillUI(0); // ÀÎ°ÔÀÓ UI¿¡ ¼ö·ùÅº ¾ÆÀÌÄÜ Ç¥½Ã, ÃÑ±â Å°¸¦ ´­·¶À¸´Ï 0 Àü¼Û
+            UIManager.Instance.SelectGunORSkillUI(0); // ì¸ê²Œì„ UIì— ìˆ˜ë¥˜íƒ„ ì•„ì´ì½˜ í‘œì‹œ, ì´ê¸° í‚¤ë¥¼ ëˆŒë €ìœ¼ë‹ˆ 0 ì „ì†¡
 
             showGun = true;
             controlPlayerShooter(true);
         }
     }
 
-    //playerShooter ÄÄÆ÷³ÍÆ® Á¦¾î
+    //playerShooter ì»´í¬ë„ŒíŠ¸ ì œì–´
     public void controlPlayerShooter(bool onoff)
     {
         if (onoff)
@@ -41,3 +41,5 @@ public class HandlingWeapon : MonoBehaviour
         }
     }
 }
+
+

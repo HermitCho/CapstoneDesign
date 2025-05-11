@@ -1,15 +1,17 @@
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HealSkill : Skill
 {
-    float coolTime = 5f; // È¸º¹ ½ºÅ³ ÄğÅ¸ÀÓ
-    private int count = 3; // È¸º¹ ½ºÅ³ °³¼ö
-    int recoverHealth = 10; // È¸º¹ ½ºÅ³·Î È¸º¹ÇÒ Ã¼·Â
-    PlayerMovement playerMovement; // È¸º¹ ½ºÅ³À» °¡Áø Ä³¸¯ÅÍÀÇ ÇÃ·¹ÀÌ¾î ¹«ºê¸ÕÆ® ÄÄÆ÷³ÍÆ®
-    PlayerInput playerInput; // È¸º¹ ½ºÅ³À» °¡Áø Ä³¸¯ÅÍÀÇ ÇÃ·¹ÀÌ¾î ÀÎÇ² ÄÄÆ÷³ÍÆ®
-    PlayerHealth playerHealth; // È¸º¹ ½ºÅ³À» °¡Áø Ä³¸¯ÅÍÀÇ ÇÃ·¹ÀÌ¾î Çï½º ÄÄÆ÷³ÍÆ®
+    float coolTime = 5f; // íšŒë³µ ìŠ¤í‚¬ ì¿¨íƒ€ì„
+    private int count = 3; // íšŒë³µ ìŠ¤í‚¬ ê°œìˆ˜
+    int recoverHealth = 10; // íšŒë³µ ìŠ¤í‚¬ë¡œ íšŒë³µí•  ì²´ë ¥
+    PlayerMovement playerMovement; // íšŒë³µ ìŠ¤í‚¬ì„ ê°€ì§„ ìºë¦­í„°ì˜ í”Œë ˆì´ì–´ ë¬´ë¸Œë¨¼íŠ¸ ì»´í¬ë„ŒíŠ¸
+    PlayerInput playerInput; // íšŒë³µ ìŠ¤í‚¬ì„ ê°€ì§„ ìºë¦­í„°ì˜ í”Œë ˆì´ì–´ ì¸í’‹ ì»´í¬ë„ŒíŠ¸
+    PlayerHealth playerHealth; // íšŒë³µ ìŠ¤í‚¬ì„ ê°€ì§„ ìºë¦­í„°ì˜ í”Œë ˆì´ì–´ í—¬ìŠ¤ ì»´í¬ë„ŒíŠ¸
 
     public override void OnEnable()
     {
@@ -26,7 +28,7 @@ public class HealSkill : Skill
     public override void inputSkillKey()
     {
         base.inputSkillKey();
-        UIManager.Instance.SelectGunORSkillUI(2); // ÀÎ°ÔÀÓ UI¿¡ ¼ö·ùÅº ¾ÆÀÌÄÜ Ç¥½Ã, ½ºÅ³ 2¹ø Å°¸¦ ´­·¶À¸´Ï 2 Àü¼Û
+        UIManager.Instance.SelectGunORSkillUI(2); // ì¸ê²Œì„ UIì— ìˆ˜ë¥˜íƒ„ ì•„ì´ì½˜ í‘œì‹œ, ìŠ¤í‚¬ 2ë²ˆ í‚¤ë¥¼ ëˆŒë €ìœ¼ë‹ˆ 2 ì „ì†¡
 
         count -= 1;
         invokeSkill();
@@ -35,7 +37,7 @@ public class HealSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
-        Debug.Log("È¸º¹ ½ºÅ³ »ç¿ë");
+        Debug.Log("íšŒë³µ ìŠ¤í‚¬ ì‚¬ìš©");
         RaycastHit? hitInfo = playerMovement.LocalPosToWorldRaycast();
         Debug.Log(hitInfo);
         if (hitInfo.Value.collider.tag == "Team")
@@ -43,13 +45,13 @@ public class HealSkill : Skill
             PlayerHealth teamPlayerHealth = hitInfo.Value.collider.GetComponent<PlayerHealth>();
             if (teamPlayerHealth != null)
             {
-                // playerHealth ÄÄÆ÷³ÍÆ®°¡ Á¸ÀçÇÏ¸é »ç¿ëÇÒ ¼ö ÀÖÀ½
-                teamPlayerHealth.RestoreHealth(10); // Ã¼·Â 10 È¸º¹
+                // playerHealth ì»´í¬ë„ŒíŠ¸ê°€ ì¡´ì¬í•˜ë©´ ì‚¬ìš©í•  ìˆ˜ ìˆìŒ
+                teamPlayerHealth.RestoreHealth(10); // ì²´ë ¥ 10 íšŒë³µ
             }
         }
         else
         {
-            playerHealth.RestoreHealth(recoverHealth); // Ã¼·Â 10 È¸º¹
+            playerHealth.RestoreHealth(recoverHealth); // ì²´ë ¥ 10 íšŒë³µ
         }
     }
 

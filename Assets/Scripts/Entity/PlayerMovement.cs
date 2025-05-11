@@ -8,29 +8,29 @@ using Unity.VisualScripting;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [HideInInspector] public float verticalMoveSpeed = 5f;//¾ÕµÚ ¿òÁ÷ÀÓ ¼Óµµ
-    [HideInInspector] public float horizontalMoveSpeed = 2.5f;//¾ç¿· ¿òÁ÷ÀÓ ¼Óµµ
-    [HideInInspector] public float xMouseSensitivity = 1f; //ÁÂ¿ì ¸¶¿ì½º ¿òÁ÷ÀÓ ¼Óµµ
-    [HideInInspector] public float yMouseSensitivity = 1f; //»óÇÏ ¸¶¿ì½º ¿òÁ÷ÀÓ ¼Óµµ
-    [HideInInspector] public float sprintSpeed = 3f;//´Ş¸®±â ¼Óµµ
-    public RectTransform uiElement; // ÀÌµ¿ÇÒ UI ¿ä¼ÒÀÇ RectTransform
+    [HideInInspector] public float verticalMoveSpeed = 5f;//ì•ë’¤ ì›€ì§ì„ ì†ë„
+    [HideInInspector] public float horizontalMoveSpeed = 2.5f;//ì–‘ì˜† ì›€ì§ì„ ì†ë„
+    [HideInInspector] public float xMouseSensitivity = 1f; //ì¢Œìš° ë§ˆìš°ìŠ¤ ì›€ì§ì„ ì†ë„
+    [HideInInspector] public float yMouseSensitivity = 1f; //ìƒí•˜ ë§ˆìš°ìŠ¤ ì›€ì§ì„ ì†ë„
+    [HideInInspector] public float sprintSpeed = 3f;//ë‹¬ë¦¬ê¸° ì†ë„
+    public RectTransform uiElement; // ì´ë™í•  UI ìš”ì†Œì˜ RectTransform
     private RectTransform parentRectTransform;
 
     private Rigidbody playerRigidbody;
     private PlayerInput playerInput;
-    private Animator playerAnimator; //ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ ¾Ö´Ï¸ŞÀÌÅÍ
+    private Animator playerAnimator; //í”Œë ˆì´ì–´ ìºë¦­í„° ì• ë‹ˆë©”ì´í„°
 
-    public CinemachineVirtualCamera virtualCamera;  // ½Ã³×¸Ó½Å °¡»ó Ä«¸Ş¶ó
+    public CinemachineVirtualCamera virtualCamera;  // ì‹œë„¤ë¨¸ì‹  ê°€ìƒ ì¹´ë©”ë¼
     private CinemachineComposer cinemachineComposer;  // CinemachineComposer
-    private PlayerShooter playerShooter; // ÃÑ±¸ À§Ä¡¸¦ °¡Á®¿À±â À§ÇÑ ÄÄÆ÷³ÍÆ®
+    private PlayerShooter playerShooter; // ì´êµ¬ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ ì»´í¬ë„ŒíŠ¸
 
-    private Vector3 previousUIPosition; // uiElementÀÇ ÀÌÀü À§Ä¡¸¦ ÀúÀå
-    private float xRotation = 0f; // xÃà È¸Àü ´©Àû °ª (Ä«¸Ş¶ó pitch)
+    private Vector3 previousUIPosition; // uiElementì˜ ì´ì „ ìœ„ì¹˜ë¥¼ ì €ì¥
+    private float xRotation = 0f; // xì¶• íšŒì „ ëˆ„ì  ê°’ (ì¹´ë©”ë¼ pitch)
 
     private Camera mainCamera;
     private Vector3 lookAtPoint;
 
-    public Slider energySlider; // ±â·ÂÀ» Ç¥½ÃÇÒ UI ½½¶óÀÌ´õ
+    public Slider energySlider; // ê¸°ë ¥ì„ í‘œì‹œí•  UI ìŠ¬ë¼ì´ë”
 
     float maxEnergy = 100f;
     float startEnergy;
@@ -51,14 +51,14 @@ public class PlayerMovement : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 
-        //»ç¿ëÇÒ ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+        //ì‚¬ìš©í•  ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
         playerRigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
         playerAnimator = GetComponent<Animator>();
         uiElement = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         parentRectTransform = uiElement.parent.GetComponent<RectTransform>();
 
-            // ½Ã³×¸Ó½Å °¡»ó Ä«¸Ş¶ó ¼³Á¤
+            // ì‹œë„¤ë¨¸ì‹  ê°€ìƒ ì¹´ë©”ë¼ ì„¤ì •
         virtualCamera = GameObject.Find("TPS Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         virtualCamera.Follow = transform;
         virtualCamera.LookAt = transform;
@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
         xMouseSensitivity = 1f;
         yMouseSensitivity = 1f;
-        // ÃÊ±â UI À§Ä¡ ÀúÀå
+        // ì´ˆê¸° UI ìœ„ì¹˜ ì €ì¥
         previousUIPosition = uiElement.localPosition;
 
         mainCamera = Camera.main;
@@ -113,12 +113,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    //¿òÁ÷ÀÓ ¸Ş¼­µå
+    //ì›€ì§ì„ ë©”ì„œë“œ
     private void Move()
     {
         float totalVerticalMoveSpeed = verticalMoveSpeed + (sprintSpeed * Mathf.Abs(playerInput.sprintButton));
         Vector3 moveDistance = Vector3.zero;
-        //»ó´ëÀûÀ¸·Î ÀÌµ¿ÇÒ °Å¸® °è»ê
+        //ìƒëŒ€ì ìœ¼ë¡œ ì´ë™í•  ê±°ë¦¬ ê³„ì‚°
         if (energy <= 6f)
         {
             totalVerticalMoveSpeed = verticalMoveSpeed;
@@ -138,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
 
         
 
-        //¸®Áöµå¹Ùµğ¸¦ ÀÌ¿ëÇØ ÇÃ·¹ÀÌ¾î À§Ä¡ º¯°æ
+        //ë¦¬ì§€ë“œë°”ë””ë¥¼ ì´ìš©í•´ í”Œë ˆì´ì–´ ìœ„ì¹˜ ë³€ê²½
         playerRigidbody.MovePosition(playerRigidbody.position + moveDistance);
     }
 
@@ -146,35 +146,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void Rotation()
     {
-        // UI ¿ä¼ÒÀÇ ÇöÀç À§Ä¡
+        // UI ìš”ì†Œì˜ í˜„ì¬ ìœ„ì¹˜
         Vector3 currentUIPosition = uiElement.localPosition;
 
-        Vector2 parentSize = parentRectTransform.rect.size;  // ºÎ¸ğ Äµ¹ö½º Å©±â
-        Vector2 elementSize = uiElement.rect.size;  // UI ¿ä¼ÒÀÇ Å©±â
+        Vector2 parentSize = parentRectTransform.rect.size;  // ë¶€ëª¨ ìº”ë²„ìŠ¤ í¬ê¸°
+        Vector2 elementSize = uiElement.rect.size;  // UI ìš”ì†Œì˜ í¬ê¸°
 
-        // À§Ä¡ º¯È­·® °è»ê
-        float deltaY = currentUIPosition.y - previousUIPosition.y; // »óÇÏ º¯È­·®
+        // ìœ„ì¹˜ ë³€í™”ëŸ‰ ê³„ì‚°
+        float deltaY = currentUIPosition.y - previousUIPosition.y; // ìƒí•˜ ë³€í™”ëŸ‰
 
-        // yÃà È¸Àü (ÇÃ·¹ÀÌ¾î º»Ã¼ È¸Àü)
+        // yì¶• íšŒì „ (í”Œë ˆì´ì–´ ë³¸ì²´ íšŒì „)
         float yRotation = playerInput.xMouseMove * xMouseSensitivity;
 
         transform.Rotate(0f, yRotation, 0f);
 
 
-        // xÃà È¸Àü (Ä«¸Ş¶ó pitch Àû¿ë)
+        // xì¶• íšŒì „ (ì¹´ë©”ë¼ pitch ì ìš©)
         float pitch = deltaY;
-        xRotation -= pitch; // À§·Î ¿òÁ÷ÀÌ¸é °¢µµ °¨¼Ò, ¾Æ·¡·Î ¿òÁ÷ÀÌ¸é °¢µµ Áõ°¡
+        xRotation -= pitch; // ìœ„ë¡œ ì›€ì§ì´ë©´ ê°ë„ ê°ì†Œ, ì•„ë˜ë¡œ ì›€ì§ì´ë©´ ê°ë„ ì¦ê°€
 
-        // Ä«¸Ş¶óÀÇ xÃà È¸Àü Àû¿ë
+        // ì¹´ë©”ë¼ì˜ xì¶• íšŒì „ ì ìš©
         // Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
 
-        // CinemachineÀÇ m_ScreenY °ªÀ» uiElementÀÇ y À§Ä¡¿¡ µû¶ó Á¦ÇÑµÈ ¹üÀ§·Î ¼³Á¤
-        float mappedValue = Mathf.InverseLerp(-parentSize.y / 5f + elementSize.y / 2, parentSize.y / 2 - elementSize.y / 2, currentUIPosition.y);  // Y°ªÀ» 0¿¡¼­ 1 »çÀÌ·Î º¯È¯
-        mappedValue = Mathf.Clamp(mappedValue, 0.50f, 0.7f);  // 0.75 ~ 1 »çÀÌ·Î Á¦ÇÑ
+        // Cinemachineì˜ m_ScreenY ê°’ì„ uiElementì˜ y ìœ„ì¹˜ì— ë”°ë¼ ì œí•œëœ ë²”ìœ„ë¡œ ì„¤ì •
+        float mappedValue = Mathf.InverseLerp(-parentSize.y / 5f + elementSize.y / 2, parentSize.y / 2 - elementSize.y / 2, currentUIPosition.y);  // Yê°’ì„ 0ì—ì„œ 1 ì‚¬ì´ë¡œ ë³€í™˜
+        mappedValue = Mathf.Clamp(mappedValue, 0.50f, 0.7f);  // 0.75 ~ 1 ì‚¬ì´ë¡œ ì œí•œ
         cinemachineComposer.m_ScreenY = mappedValue;
 
-        // ÀÌÀü UI À§Ä¡ ¾÷µ¥ÀÌÆ®
+        // ì´ì „ UI ìœ„ì¹˜ ì—…ë°ì´íŠ¸
         previousUIPosition = currentUIPosition;
 
 
@@ -185,34 +185,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveUIElement()
     {
-        // ¸¶¿ì½º ÀÌµ¿ º¯È­·® °¡Á®¿À±â
+        // ë§ˆìš°ìŠ¤ ì´ë™ ë³€í™”ëŸ‰ ê°€ì ¸ì˜¤ê¸°
         float moveY = playerInput.yMouseMove;
 
-        // °¨µµ °ªÀ» °öÇÏ¿© UI ÀÌµ¿ ¹İ¿µ
+        // ê°ë„ ê°’ì„ ê³±í•˜ì—¬ UI ì´ë™ ë°˜ì˜
 
         moveY *= yMouseSensitivity;
 
 
 
-        // UI ¿ä¼ÒÀÇ ÇöÀç À§Ä¡¿¡ ÀÌµ¿·® ¹İ¿µ
+        // UI ìš”ì†Œì˜ í˜„ì¬ ìœ„ì¹˜ì— ì´ë™ëŸ‰ ë°˜ì˜
         Vector3 currentPosition = uiElement.localPosition;
 
         currentPosition.y += moveY;
 
 
 
-        Vector2 parentSize = parentRectTransform.rect.size;  // ºÎ¸ğ Äµ¹ö½º Å©±â
-        Vector2 elementSize = uiElement.rect.size;  // UI ¿ä¼ÒÀÇ Å©±â
+        Vector2 parentSize = parentRectTransform.rect.size;  // ë¶€ëª¨ ìº”ë²„ìŠ¤ í¬ê¸°
+        Vector2 elementSize = uiElement.rect.size;  // UI ìš”ì†Œì˜ í¬ê¸°
 
-        // ÀÌµ¿ ¹üÀ§ Á¦ÇÑ (UI ¿ä¼Ò°¡ ºÎ¸ğ Äµ¹ö½º¸¦ ¹ş¾î³ªÁö ¾Êµµ·Ï)
+        // ì´ë™ ë²”ìœ„ ì œí•œ (UI ìš”ì†Œê°€ ë¶€ëª¨ ìº”ë²„ìŠ¤ë¥¼ ë²—ì–´ë‚˜ì§€ ì•Šë„ë¡)
         currentPosition.y = Mathf.Clamp(currentPosition.y, -parentSize.y / 5f + elementSize.y / 2, parentSize.y / 2 - elementSize.y / 2);
 
-        // »õ·Î¿î À§Ä¡·Î UI ¿ä¼Ò ÀÌµ¿
+        // ìƒˆë¡œìš´ ìœ„ì¹˜ë¡œ UI ìš”ì†Œ ì´ë™
         uiElement.localPosition = currentPosition;
 
     }
 
-    //Á¶ÁØÁ¡ÀÇ ·ÎÄÃ ÁÂÇ¥¸¦ ¿ùµå ÁÂÇ¥·Î º¯È¯ - Å©·Î½º Çì¾îÀÇ Å¸°ÙÆÃÀ» ±¸Çö
+    //ì¡°ì¤€ì ì˜ ë¡œì»¬ ì¢Œí‘œë¥¼ ì›”ë“œ ì¢Œí‘œë¡œ ë³€í™˜ - í¬ë¡œìŠ¤ í—¤ì–´ì˜ íƒ€ê²ŸíŒ…ì„ êµ¬í˜„
     public RaycastHit? LocalPosToWorldRaycast()
     {
         Ray ray = mainCamera.ScreenPointToRay(uiElement.position);
@@ -223,7 +223,7 @@ public class PlayerMovement : MonoBehaviour
             return hitInfo;
         }
 
-        return null; // Ãæµ¹ÀÌ ¾øÀ» °æ¿ì null ¹İÈ¯
+        return null; // ì¶©ëŒì´ ì—†ì„ ê²½ìš° null ë°˜í™˜
     }
 
     private void EnergyControl()

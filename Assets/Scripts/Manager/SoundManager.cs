@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class SoundManager : Singleton<SoundManager>
@@ -5,7 +6,7 @@ public class SoundManager : Singleton<SoundManager>
 
     [SerializeField] private AudioClip[] soundClips;
 
-    public void GetSound(AudioSource currentAudio, int index, float? pitch = null, float? speed = null) //º¼·ý ¼³Á¤ Á¦°Å
+    public void GetSound(AudioSource currentAudio, int index, float? pitch = null, float? speed = null) //ë³¼ë¥¨ ì„¤ì • ì œê±°
     {
         if (index < 0 || index >= soundClips.Length)
         {

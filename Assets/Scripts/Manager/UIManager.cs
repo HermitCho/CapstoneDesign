@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,29 +11,29 @@ using VFolders.Libs;
 
 public class UIManager : Singleton<UIManager>
 {
-    Skill[] skills; // ½ºÅ³ µ¥ÀÌÅÍµé
-    Gun gun; // Ä³¸¯ÅÍÀÇ ÃÑ µ¥ÀÌÅÍ
+    Skill[] skills; // ìŠ¤í‚¬ ë°ì´í„°ë“¤
+    Gun gun; // ìºë¦­í„°ì˜ ì´ ë°ì´í„°
 
-    [SerializeField] private Image gunImage;  // ÃÑ ¾ÆÀÌÄÜ
-    [SerializeField] private TextMeshProUGUI ammoText; // ÀåÅº/ÀÜÅº °³¼ö
+    [SerializeField] private Image gunImage;  // ì´ ì•„ì´ì½˜
+    [SerializeField] private TextMeshProUGUI ammoText; // ì¥íƒ„/ì”íƒ„ ê°œìˆ˜
 
-    Skill skill1; // ½ºÅ³1 µ¥ÀÌÅÍ
-    [SerializeField] private Image skillImage_1; // ½ºÅ³ ¾ÆÀÌÄÜ1 À§Ä¡
-    [SerializeField] private TextMeshProUGUI skill_CountOrCooldown_1; // ½ºÅ³ ¾ÆÀÌÄÜ1ÀÇ °³¼ö or ÄğÅ¸ÀÓ
+    Skill skill1; // ìŠ¤í‚¬1 ë°ì´í„°
+    [SerializeField] private Image skillImage_1; // ìŠ¤í‚¬ ì•„ì´ì½˜1 ìœ„ì¹˜
+    [SerializeField] private TextMeshProUGUI skill_CountOrCooldown_1; // ìŠ¤í‚¬ ì•„ì´ì½˜1ì˜ ê°œìˆ˜ or ì¿¨íƒ€ì„
 
-    Skill skill2; // ½ºÅ³2 µ¥ÀÌÅÍ
-    [SerializeField] private Image skillImage_2; // ½ºÅ³ ¾ÆÀÌÄÜ2 À§Ä¡
-    [SerializeField] private TextMeshProUGUI skill_CountOrCooldown_2; // ½ºÅ³ ¾ÆÀÌÄÜ1ÀÇ °³¼ö or ÄğÅ¸ÀÓ
+    Skill skill2; // ìŠ¤í‚¬2 ë°ì´í„°
+    [SerializeField] private Image skillImage_2; // ìŠ¤í‚¬ ì•„ì´ì½˜2 ìœ„ì¹˜
+    [SerializeField] private TextMeshProUGUI skill_CountOrCooldown_2; // ìŠ¤í‚¬ ì•„ì´ì½˜1ì˜ ê°œìˆ˜ or ì¿¨íƒ€ì„
 
-    PlayerCharacter playerCharacter; // Ä³¸¯ÅÍÀÇ ÇÃ·¹ÀÌ¾îÄ³¸¯ÅÍ ÄÄÆ÷³ÍÆ®
-    GameObject player; // Ä³¸¯ÅÍÀÇ ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®
+    PlayerCharacter playerCharacter; // ìºë¦­í„°ì˜ í”Œë ˆì´ì–´ìºë¦­í„° ì»´í¬ë„ŒíŠ¸
+    GameObject player; // ìºë¦­í„°ì˜ í”Œë ˆì´ì–´ ì˜¤ë¸Œì íŠ¸
 
     void Start()
     {
         GetDataForUI();
     }
 
-    // °ÔÀÓ ½ÃÀÛ Àü UI ¼³Á¤À» À§ÇÑ µ¥ÀÌÅÍ °¡Á®¿À±â
+    // ê²Œì„ ì‹œì‘ ì „ UI ì„¤ì •ì„ ìœ„í•œ ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
     void GetDataForUI()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -68,7 +69,7 @@ public class UIManager : Singleton<UIManager>
         SetUI();
     }
 
-    // °ÔÀÓ ½ÃÀÛ Àü °¡Á®¿Â µ¥ÀÌÅÍ¸¦ ÅëÇØ Ä³¸¯ÅÍÀÇ UI ¼³Á¤
+    // ê²Œì„ ì‹œì‘ ì „ ê°€ì ¸ì˜¨ ë°ì´í„°ë¥¼ í†µí•´ ìºë¦­í„°ì˜ UI ì„¤ì •
     void SetUI()
     {
         gunImage.sprite = playerCharacter.gunIcon;
@@ -106,21 +107,21 @@ public class UIManager : Singleton<UIManager>
         checkSkillType();
     }
 
-    // UI ¾÷µ¥ÀÌÆ®
+    // UI ì—…ë°ì´íŠ¸
     void Update()
     {
-        // ³²Àº ÃÑ¾Ë UI Ç¥½Ã
+        // ë‚¨ì€ ì´ì•Œ UI í‘œì‹œ
         ammoText.text = gun.magAmmo + " / " + gun.gunData.magCapacity;
         checkSkillType();
     }
 
-    // ½ºÅ³ Å¸ÀÔ¿¡ µû¶ó UI ¼³Á¤
+    // ìŠ¤í‚¬ íƒ€ì…ì— ë”°ë¼ UI ì„¤ì •
     void checkSkillType()
     {
         UpdateSkillUIString(skill1, skill_CountOrCooldown_1);
         UpdateSkillUIString(skill2, skill_CountOrCooldown_2);
     }
-    //checkSkillType()¿¡¼­ ½ºÅ³ Å¸ÀÔ¿¡ µû¶ó UI ¾÷µ¥ÀÌÆ®
+    //checkSkillType()ì—ì„œ ìŠ¤í‚¬ íƒ€ì…ì— ë”°ë¼ UI ì—…ë°ì´íŠ¸
     void UpdateSkillUIString(Skill skill, TextMeshProUGUI text)
     {
         if (skill.skillType == Skill.SkillType.instantCount)
@@ -141,22 +142,22 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    // ÃÑ/½ºÅ³ ¼±ÅÃ ½Ã ¾ÆÀÌÄÜ Åõ¸íµµ º¯°æ
+    // ì´/ìŠ¤í‚¬ ì„ íƒ ì‹œ ì•„ì´ì½˜ íˆ¬ëª…ë„ ë³€ê²½
     public void SelectGunORSkillUI(int iconNum)
     {
         switch (iconNum)
         {
-            case 0: // ÃÑ ¼±ÅÃµÊ
+            case 0: // ì´ ì„ íƒë¨
                 gunImage.DOFade(1f, 0.5f);
                 UIImageFade(skill1, skillImage_1, false);
                 UIImageFade(skill2, skillImage_2, false);
                 break;
-            case 1: // ½ºÅ³1 ¼±ÅÃµÊ
+            case 1: // ìŠ¤í‚¬1 ì„ íƒë¨
                 gunImage.DOFade(0.5f, 0.5f);
                 UIImageFade(skill1, skillImage_1, true);
                 UIImageFade(skill2, skillImage_2, false);
                 break;
-            case 2: // ½ºÅ³2 ¼±ÅÃµÊ
+            case 2: // ìŠ¤í‚¬2 ì„ íƒë¨
                 gunImage.DOFade(0.5f, 0.5f);
                 UIImageFade(skill1, skillImage_1, false);
                 UIImageFade(skill2, skillImage_2, true);
@@ -164,7 +165,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    // UI ¾ÆÀÌÄÜ Åõ¸íµµ º¯°æ Á¾·ù
+    // UI ì•„ì´ì½˜ íˆ¬ëª…ë„ ë³€ê²½ ì¢…ë¥˜
     void UIImageFade(Skill skill, Image image, bool isSelected)
     {
         if (skill.skillType == Skill.SkillType.count || skill.skillType == Skill.SkillType.cooldown)
@@ -174,7 +175,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    // ÄğÅ¸ÀÓ ½ºÅ³ »ç¿ë ½Ã ÇØ´ç ½ºÅ³ ÄğÅ¸ÀÓ Á¦¾î
+    // ì¿¨íƒ€ì„ ìŠ¤í‚¬ ì‚¬ìš© ì‹œ í•´ë‹¹ ìŠ¤í‚¬ ì¿¨íƒ€ì„ ì œì–´
     public void CoolDownButtonInput(int iconNum)
     {
         switch (iconNum)
