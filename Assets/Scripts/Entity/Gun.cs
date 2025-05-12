@@ -2,197 +2,140 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 해당 코드는 '레트로의 유니티 게임 프로그래밍 에센스 개정판'의 Gun.cs 스크립트를 기반으로 작성되었습니다.
+/// </summary>
+/// 
 public class Gun : MonoBehaviour
 {
     public enum State
     {
-        Ready, //�߻� �غ� �Ϸ�
-        Empty, //źâ�� ��
-        Reloading // ������ ��
+        Ready,      // 발사 준비 완료
+        Empty,      // 탄창이 빔
+        Reloading   // 재장전 중
     }
 
-    public State state { get; set; } // ���� �� ���� �ҷ�����
+    public State state { get; set; } // 현재 총의 상태
 
-    public Transform fireTransform; //�Ѿ��� �߻�� ��ġ
-    public ParticleSystem muzzleFlashEffect; // �ѱ� ȭ�� ȿ��
-    public ParticleSystem shellEjectEffect; //ź�� ���� ȿ��
+    public Transform fireTransform; // 총알이 발사될 위치
+    public ParticleSystem muzzleFlashEffect; // 총구 화염 효과
+    public ParticleSystem shellEjectEffect;  // 탄피 배출 효과
 
-    private LineRenderer bulletLineRenderer; //ź�� ���� ������
-    private PlayerMovement PlayerMovement; //�Ѿ� �߻� ��ġ ã�� ���� ������Ƽ
-    private PlayerInput playerInput; // 해당 총을 사용하는 캐릭터의 키인풋을 받아옴
+    protected LineRenderer bulletLineRenderer; // 총알 궤적을 그릴 라인 렌더러
 
-    private AudioSource gunAudioPlayer; //�ѼҸ� ���
-    public GunData gunData;// �� ������
+    protected AudioSource gunAudioPlayer;      // 총 소리를 재생할 오디오 소스
+    public GunData gunData;                  // 총의 데이터
 
-    [HideInInspector] public int magAmmo; //���� źâ�� �����ִ� ź�� ��
+    [HideInInspector] public int magAmmo;    // 현재 탄창에 남아있는 총알 수
 
-    private float lastFireTime; //���� �������� �߻��� ����
+    protected float lastFireTime;              // 마지막으로 총을 발사한 시각
 
-    private float fireDistance; //�����Ÿ�
+    protected float fireDistance;              // 총알 사거리
 
-    //��� ������Ʈ ��������
-    private void Awake()
+    // 컴포넌트 초기화
+    protected void Awake()
     {
-        //��� ������Ʈ ��������
         gunAudioPlayer = GetComponent<AudioSource>();
         bulletLineRenderer = GetComponent<LineRenderer>();
-        PlayerMovement = GetComponentInParent<PlayerMovement>(); //Gun ������Ʈ�� �θ��� Player���� ������Ʈ ã��
-        playerInput = GetComponentInParent<PlayerInput>();
 
-        //����� ���� �ΰ��� ����
-        bulletLineRenderer.positionCount = 2;
-        //���� ���ͷ� ��Ȱ��ȭ
-        bulletLineRenderer.enabled = false;
-
+        bulletLineRenderer.positionCount = 2; // 궤적은 시작점과 끝점 두 개
+        bulletLineRenderer.enabled = false;   // 초기에는 비활성화
     }
 
-    //��� ���� �ʱ�ȭ
-    private void OnEnable()
+    // 총 활성화 시 초기화
+    protected void OnEnable()
     {
-        //���� źâ ���� ä���
-        magAmmo = gunData.magCapacity;
-        //�����Ÿ� ����
-        fireDistance = gunData.fireDistance;
-
-        //�� ���¸� �غ���·� ����
-        state = State.Ready;
-        //������ ���� �� ���� �ʱ�ȭ
-        lastFireTime = 0;
-
+        magAmmo = gunData.magCapacity;       // 탄창을 가득 채움
+        fireDistance = gunData.fireDistance; // 사거리 설정
+        state = State.Ready;                 // 상태를 준비 완료로 설정
+        lastFireTime = 0;                    // 마지막 발사 시각 초기화
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
-        state = State.Empty;
+        state = State.Empty; // 비활성화 시 상태를 Empty로
     }
 
-    //public void Handling()
-    //{
-    //    if (playerInput.handleGunButton)
-    //    {
-    //        state = State.Ready;
-    //        gameObject.SetActive(true);
-    //    }
-    //    else if (playerInput.skill_2_Button || playerInput.skill_1_Button)
-    //    {
-    //        state = State.Empty;
-    //         gameObject.SetActive(false);
-    //    }
-    //}
-
-
-    //ȿ�� �� �Ҹ� ��� �ڷ�ƾ
-    private IEnumerator ShotEffect(Vector3 hitPosition)
+    // 발사 효과 코루틴 (총구 화염, 탄피, 궤적, 사운드)
+    protected virtual IEnumerator ShotEffect(Vector3 hitPosition)
     {
-        //�ѱ� ȭ�� ȿ�� ���
-        muzzleFlashEffect.Play();
-        //ź�� ���� ȿ�� ���
-        shellEjectEffect.Play();
+        muzzleFlashEffect.Play();       // 총구 화염 효과
+        shellEjectEffect.Play();        // 탄피 배출 효과
+        gunAudioPlayer.PlayOneShot(gunData.shotClip); // 총 발사 소리
 
-        //�Ѱ� �Ҹ� ���
-        gunAudioPlayer.PlayOneShot(gunData.shotClip);
-        //���� ������: �ѱ��� ��ġ
-        bulletLineRenderer.SetPosition(0, fireTransform.position);
-        //���� ����: �Է����� ���� �浹��ġ
-        bulletLineRenderer.SetPosition(1, hitPosition);
-        //���η����� Ȱ��ȭ
+        bulletLineRenderer.SetPosition(0, fireTransform.position); // 시작점
+        bulletLineRenderer.SetPosition(1, hitPosition);            // 끝점
         bulletLineRenderer.enabled = true;
 
-        //0.03�ʵ��� ó�� ���
-        yield return new WaitForSeconds(0.03f);
+        yield return new WaitForSeconds(0.03f); // 궤적 유지 시간
 
-        //���η��ͷ� ��Ȱ��ȭ
-        bulletLineRenderer.enabled = false;
+        bulletLineRenderer.enabled = false; // 궤적 비활성화
     }
 
     public void Fire()
     {
-        //���� �߻� ���� ���� && ������ �߻� �������� gunData.timeBetFire �̻��� �ð��� ����
         if (state == State.Ready && (Time.time >= lastFireTime + gunData.timeBetFire))
         {
-            //������ �� �߻� ���� ������Ʈ
-            lastFireTime = Time.time;
-            //���� �߻� ó��
-            Shot();
+            lastFireTime = Time.time; // 발사 시간 갱신
+            Shot();                   // 실제 발사 처리
         }
-
     }
 
-    //���� �߻� ó�� �޼���
-    private void Shot()
+    // 실제 발사 로직
+    protected virtual void Shot()
     {
-        //����ĳ��Ʈ �浹 ���� ���� �����̳�
         RaycastHit hit;
-        //ź���� ���� �� ���� ����
         Vector3 hitPosition = Vector3.zero;
 
-        //����ĳ��Ʈ(��������, ����, �浹���� �����̳�, �����Ÿ�)
         if (Physics.Raycast(fireTransform.position, fireTransform.forward, out hit, fireDistance))
         {
-            //���̰� ��ü�� �浹�� ���
-            //�浹�� ��ü�� ���� IDamageable ������Ʈ �������� �õ�
             IDamageable target = hit.collider.GetComponent<IDamageable>();
 
-            //�������κ��� IDamageable ������Ʈ�� �������µ� �����ߴٸ�
             if (target != null)
             {
-                //������ OnDamage �Լ� ���� ��Ű��(������ �ֱ�)
-                target.OnDamage(gunData.damage, hit.point, hit.normal);
+                target.OnDamage(gunData.damage, hit.point, hit.normal); // 대상에 데미지 부여
             }
 
-            //���̰� �浹�� ��ġ ����
             hitPosition = hit.point;
         }
         else
         {
-            //���̰� ��ü�� �浹���� �ʾҴٸ�
-            //ź���� �ִ� �����Ÿ����� ���ư������� ��ġ�� �浹��ġ�� ���
-            hitPosition = fireTransform.position + fireTransform.forward * fireDistance; //fireTransform.forward �κ� ���� �ʿ� 
+            // 명중하지 않으면 최대 사거리로 궤적 처리
+            hitPosition = fireTransform.position + fireTransform.forward * fireDistance;
         }
 
-        //�߻� ����Ʈ ����
         StartCoroutine(ShotEffect(hitPosition));
 
-        //���� ź�� �� -1
-        magAmmo--;
+        magAmmo--; // 탄약 감소
         if (magAmmo <= 0)
         {
-            //źâ�� ���� ź���� ���ٸ� �� ���� Empty�� ����
-            state = State.Empty;
+            state = State.Empty; // 탄약이 없으면 상태 변경
         }
     }
-
 
     public bool Reload()
     {
         if (state == State.Reloading || magAmmo >= gunData.magCapacity)
         {
-            //������ ���̰ų� źâ�� �Ѿ��� ���� �� ��� X
-            return false;
+            return false; // 이미 재장전 중이거나 탄창이 가득 찼으면 리턴
         }
 
-        //�������� ������ ó��
         StartCoroutine(ReloadRoutine());
-        Debug.Log(gunData.reloadTime); //리로드 시간 확인
+        Debug.Log(gunData.reloadTime); // 리로드 시간 디버깅
         return true;
     }
 
-    //���� ������ ó��
-    private IEnumerator ReloadRoutine()
+    // 재장전 처리 루틴
+    protected IEnumerator ReloadRoutine()
     {
-        //���� ���� ���¸� ������ ������ ����
         state = State.Reloading;
-        //������ �Ҹ� ���
-        gunAudioPlayer.PlayOneShot(gunData.reloadClip);
+        gunAudioPlayer.PlayOneShot(gunData.reloadClip); // 재장전 소리
 
-        //������ �ð���ŭ ����
-        yield return new WaitForSeconds(gunData.reloadTime);
-        //źâ�� ä�� ź�� ���� ��� 
+        yield return new WaitForSeconds(gunData.reloadTime); // 리로드 대기
+
         int ammoToFill = gunData.magCapacity - magAmmo;
+        magAmmo += ammoToFill; // 탄창 채움
 
-        //źâ ä���
-        magAmmo += ammoToFill;
-        //���� ���¸� �߻� �غ�� ����
-        state = State.Ready;
+        state = State.Ready; // 상태를 준비 완료로 변경
     }
 }

@@ -7,18 +7,19 @@ public class Skill : MonoBehaviour
 {
     /// <summary>
     /// 스킬 타입
-    /// 
     /// instantCount - 바로 나가는 카운트형 스킬
     /// instantCooldown - 바로 나가는 쿨타임형 스킬
     /// count - 추가 조작이 필요한 카운트형 스킬
     /// cooldown - 추가 조작이 필요한 쿨타임형 스킬
+    /// countCooldown - 카운트와 쿨타임이 둘 다 필요한 스킬
     /// </summary>
     public enum SkillType
     {
         instantCount,
         instantCooldown,
         count,
-        cooldown
+        cooldown,
+        countCooldown
     };
 
     private LivingEntity livingEntity; //스킬을 가질 캐릭터의 리빙엔티티(캐릭터가 살아있는지 확인)
@@ -39,7 +40,7 @@ public class Skill : MonoBehaviour
     // 시작할 때 스킬 초기화
     public virtual void OnEnable()
     {
-
+        currentCoolDown = 0;
     }
 
     // 스킬 버튼 클릭 시 조건을 확인하는 메서드
