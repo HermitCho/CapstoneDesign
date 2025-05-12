@@ -17,7 +17,7 @@ public class PlayerInput : MonoBehaviour
     public float horizontalMove { get; private set; }
     public float xMouseMove { get; private set; }
     public float yMouseMove { get; private set; }
-    public float sprintButton { get; private set; }
+    public bool sprintButton { get; private set; }
     public bool crouchButton { get; private set; }
     public bool fireButton { get; private set; }
     public bool reloadButton { get; private set; }
@@ -64,8 +64,8 @@ public class PlayerInput : MonoBehaviour
         };
 
         // Sprint 입력 처리
-        inputActions.PlayerAction.Sprint.performed += ctx => sprintButton = 1;
-        inputActions.PlayerAction.Sprint.canceled += ctx => sprintButton = 0;
+        inputActions.PlayerAction.Sprint.performed += ctx => sprintButton = true;
+        inputActions.PlayerAction.Sprint.canceled += ctx => sprintButton = false;
 
         // Crouch 입력 처리
         inputActions.PlayerAction.Crouch.started += ctx => crouchButton = true;

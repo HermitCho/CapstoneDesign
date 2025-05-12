@@ -8,14 +8,22 @@ using Unity.VisualScripting;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Movement Settings")]
     [HideInInspector] public float verticalMoveSpeed = 5f;//앞뒤 움직임 속도
     [HideInInspector] public float horizontalMoveSpeed = 2.5f;//양옆 움직임 속도
+    [HideInInspector] public float sprintSpeed = 5f;//달리기 속도
+
+    [Header("Mouse Settings")]
     [HideInInspector] public float xMouseSensitivity = 1f; //좌우 마우스 움직임 속도
     [HideInInspector] public float yMouseSensitivity = 1f; //상하 마우스 움직임 속도
-    [HideInInspector] public float sprintSpeed = 3f;//달리기 속도
+
+    [Header("Energy Settings")]
+    float maxEnergy = 100f;
+    public Slider energySlider; // 기력을 표시할 UI 슬라이더
+    
+    [Header("UI Elements")]
     public RectTransform uiElement; // 이동할 UI 요소의 RectTransform
     private RectTransform parentRectTransform;
-
     private Rigidbody playerRigidbody;
     private PlayerInput playerInput;
     private Animator playerAnimator; //플레이어 캐릭터 애니메이터
@@ -29,12 +37,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Camera mainCamera;
     private Vector3 lookAtPoint;
-
-    public Slider energySlider; // 기력을 표시할 UI 슬라이더
-
-    float maxEnergy = 100f;
     float startEnergy;
     float energy;
+    private bool isRunning;
+    private Vector2 moveInput;
 
     private void OnEnable()
     {
@@ -78,8 +84,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-       // Vector3 firePos = LocalPosToWorldDirection();
+        moveInput = new Vector2(playerInput.horizontalMove, playerInput.verticalMove);
+        isRunning = playerInput.sprintButton;
+
+        playerAnimator.SetFloat("MoveX", moveInput.x);
+        playerAnimator.SetFloat("MoveY", moveInput.y);
+        playerAnimator.SetBool("isRunning", isRunning);
+        
         EnergyControl();
+        Rotation();
+        MoveUIElement();
+       // Vector3 firePos = LocalPosToWorldDirection();
         /////////////Debug.Log(lookAtPoint);
 
         // Debug.Log(playerInput.xMouseMove);
@@ -89,57 +104,26 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (playerInput.verticalMove == 0f)
-        {
-            playerAnimator.SetBool("IsSideMove", true);
-        }
-        else
-        {
-            playerAnimator.SetBool("IsSideMove", false);
-            playerAnimator.SetFloat("Move", playerInput.verticalMove * (playerInput.sprintButton + 1));
-        }
-        playerAnimator.SetFloat("SideMove", playerInput.horizontalMove);
-
-
-        MoveUIElement();
-        Rotation();
-        Move();
-
-
-
-
-
+        MovePlayer();
 
     }
 
 
     //움직임 메서드
-    private void Move()
+    private void MovePlayer()
     {
-        float totalVerticalMoveSpeed = verticalMoveSpeed + (sprintSpeed * Mathf.Abs(playerInput.sprintButton));
-        Vector3 moveDistance = Vector3.zero;
-        //상대적으로 이동할 거리 계산
-        if (energy <= 6f)
+        float forwardSpeed = isRunning && energy > 0 ? sprintSpeed : verticalMoveSpeed;
+        float strafeSpeed = isRunning && energy > 0 ? sprintSpeed : horizontalMoveSpeed;
+
+        Vector3 forwardMovement = transform.forward * moveInput.y * forwardSpeed;
+        Vector3 strafeMovement = transform.right * moveInput.x * strafeSpeed;
+
+        Vector3 moveVelocity = forwardMovement + strafeMovement;
+
+        if (moveVelocity.sqrMagnitude > 0.01f)
         {
-            totalVerticalMoveSpeed = verticalMoveSpeed;
+            playerRigidbody.MovePosition(playerRigidbody.position + moveVelocity * Time.fixedDeltaTime);
         }
-
-        if(Mathf.Abs(playerInput.verticalMove) > 0.3f)
-        {
-            moveDistance = ((playerInput.verticalMove * transform.forward * totalVerticalMoveSpeed)
-                                + (playerInput.horizontalMove * transform.right * horizontalMoveSpeed)) * Time.deltaTime;
-        }
-
-        if (Mathf.Abs(playerInput.horizontalMove) > 0.3f)
-        {
-            moveDistance = ((playerInput.verticalMove * transform.forward * totalVerticalMoveSpeed)
-                               + (playerInput.horizontalMove * transform.right * horizontalMoveSpeed)) * Time.deltaTime;
-        }
-
-        
-
-        //리지드바디를 이용해 플레이어 위치 변경
-        playerRigidbody.MovePosition(playerRigidbody.position + moveDistance);
     }
 
 
@@ -228,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void EnergyControl()
     {
-        if (Mathf.Abs(playerInput.sprintButton) >= 0.2f && energy > 0)
+        if (playerInput.sprintButton && energy > 0)
         {
             energy -= 100f * Time.deltaTime;
         }
