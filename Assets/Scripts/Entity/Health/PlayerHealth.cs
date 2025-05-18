@@ -47,10 +47,6 @@ public class PlayerHealth : LivingEntity
         healthSlider.value = health;
         shieldSlider.maxValue = startingShield;
         shieldSlider.value = shield;
-
-        frontBackMoveSpeed = playerCharacter.frontBackMoveSpeed;
-        leftRIghtMoveSpeed = playerCharacter.leftRightMoveSpeed;
-        sprintPlusSpeed = playerCharacter.sprintPlusSpeed;
     }
 
     // 체력 회복
@@ -90,10 +86,39 @@ public class PlayerHealth : LivingEntity
     }
 
     private Vector3 lastScreenPosition;
+    [SerializeField] private bool isVisible = true;
 
     void LateUpdate()
     {
         Vector3 targetPosition = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 2.4f, 0));
+
+        // Enemy 태그를 가진 오브젝트에만 체크 적용
+        if (gameObject.CompareTag("Enemy"))
+        {
+            // 카메라와 플레이어 사이에 장애물이 있는지 확인
+            Vector3 directionToPlayer = transform.position - Camera.main.transform.position;
+            float distanceToPlayer = directionToPlayer.magnitude;
+            RaycastHit hit;
+            
+            int obstacleAndRoofMask = LayerMask.GetMask("Obstacle", "Roof");
+            if (Physics.Raycast(Camera.main.transform.position, directionToPlayer.normalized, out hit, distanceToPlayer, obstacleAndRoofMask))
+            {
+                // 벽 또는 지붕에 가려진 경우
+                if (isVisible)
+                {
+                    healthSlider.gameObject.SetActive(false);
+                    isVisible = false;
+                }
+                return;
+            }
+
+            // 장애물이 없거나 현재 오브젝트를 직접 맞췄을 경우
+            if (!isVisible)
+            {
+                healthSlider.gameObject.SetActive(true);
+                isVisible = true;
+            }
+        }
 
         // 카메라가 급격히 회전하면 즉시 이동, 아니면 Lerp 적용
         if (Vector3.Distance(lastScreenPosition, targetPosition) > Screen.width * 0.07f)

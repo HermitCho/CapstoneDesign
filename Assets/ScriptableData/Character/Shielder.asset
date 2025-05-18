@@ -16,6 +16,9 @@ MonoBehaviour:
   hitClip: {fileID: 0}
   maxHealth: 100
   maxShield: 200
-  frontBackMoveSpeed: 4
-  leftRightMoveSpeed: 2
-  sprintPlusSpeed: 2.7
+  frontBackMoveSpeed: 1.8
+  leftRightMoveSpeed: 1.2
+  sprintPlusSpeed: 1.5
+  gunIcon: {fileID: 0}
+  skillIcon_1: {fileID: 0}
+  skillIcon_2: {fileID: 0}

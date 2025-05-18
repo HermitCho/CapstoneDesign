@@ -2749,8 +2749,8 @@ GameObject:
   - component: {fileID: 5850888059999863983}
   - component: {fileID: 5529850411360019403}
   - component: {fileID: -3239965601090892496}
-  - component: {fileID: 951713543762142723}
   - component: {fileID: 5188461227975834742}
+  - component: {fileID: 6693346556348736639}
   - component: {fileID: -8678087491091818981}
   - component: {fileID: 2770058809341885374}
   - component: {fileID: 757681957838426123}
@@ -2878,6 +2878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8be40c83546a564ab5f1c42d03b651b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacter: {fileID: 11400000, guid: 77a57f982947c1f4cac3165e2f88e540, type: 2}
   verticalMoveSpeed: 5
   horizontalMoveSpeed: 2.5
   sprintSpeed: 3
@@ -2886,6 +2887,9 @@ MonoBehaviour:
   energySlider: {fileID: 8454462188862414100}
   uiElement: {fileID: 0}
   virtualCamera: {fileID: 0}
+  footstepClip: {fileID: 8300000, guid: c79c897ef8ac23b4c82da0ab3bc1ad32, type: 3}
+  footstepRadius: 10
+  footstepInterval: 0.7
 --- !u!114 &5850888059999863983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2898,9 +2902,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264141db61b1e1c479024564386cc180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 0
-  startingShield: 0
-  defaultMoveSpeed: 5
   skills: []
   playerCharacter: {fileID: 11400000, guid: 77a57f982947c1f4cac3165e2f88e540, type: 2}
   healthSlider: {fileID: 5782577937932516242}
@@ -2918,10 +2919,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ceb9788cce32184a8d9e7cf7841638a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 0}
+  gun: {fileID: 4862688620461744732}
   gunPivot: {fileID: 2434091326735565576}
-  LeftHandMount: {fileID: 0}
-  RightHandMount: {fileID: 0}
+  LeftHandMount: {fileID: 1704465450700569342}
+  RightHandMount: {fileID: 8027567618022704968}
 --- !u!114 &-3239965601090892496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2935,19 +2936,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showGun: 1
---- !u!114 &951713543762142723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4379692382732418576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da3f10834bee6f140985aa346fb488b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  checkSkill: 0
 --- !u!82 &5188461227975834742
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3044,6 +3032,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6693346556348736639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4379692382732418576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4614615e80fa05949841a60a11e9be47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkSkill: 0
 --- !u!114 &-8678087491091818981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5248,8 +5249,29 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a9c5447c8e03bf46b79ef9bcf370abb, type: 3}
+--- !u!4 &1704465450700569342 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2632382849444973366, guid: 8a9c5447c8e03bf46b79ef9bcf370abb, type: 3}
+  m_PrefabInstance: {fileID: 3688272219480355272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4856354949414762003 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8091382014462314459, guid: 8a9c5447c8e03bf46b79ef9bcf370abb, type: 3}
+  m_PrefabInstance: {fileID: 3688272219480355272}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4862688620461744732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8094337988070577044, guid: 8a9c5447c8e03bf46b79ef9bcf370abb, type: 3}
+  m_PrefabInstance: {fileID: 3688272219480355272}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16c7e923ebb16204dbc98bbaef2fa870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8027567618022704968 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6649782818056271488, guid: 8a9c5447c8e03bf46b79ef9bcf370abb, type: 3}
   m_PrefabInstance: {fileID: 3688272219480355272}
   m_PrefabAsset: {fileID: 0}

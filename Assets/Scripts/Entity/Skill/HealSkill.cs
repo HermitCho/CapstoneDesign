@@ -28,9 +28,9 @@ public class HealSkill : Skill
     public override void inputSkillKey()
     {
         base.inputSkillKey();
-        UIManager.Instance.SelectGunORSkillUI(2); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
+        UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
 
-        count -= 1;
+
         invokeSkill();
     }
 
@@ -47,11 +47,13 @@ public class HealSkill : Skill
             {
                 // playerHealth 컴포넌트가 존재하면 사용할 수 있음
                 teamPlayerHealth.RestoreHealth(10); // 체력 10 회복
+                count -= 1;
             }
         }
         else
         {
             playerHealth.RestoreHealth(recoverHealth); // 체력 10 회복
+            count -= 1;
         }
     }
 

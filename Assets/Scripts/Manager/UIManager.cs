@@ -53,6 +53,9 @@ public class UIManager : Singleton<UIManager>
                 skill1 = skill;
                 skillImage_1.DOFade(0.5f, 0.5f);
             }
+            else if (skill is HealSkill) skill1 = skill;
+
+
 
             else if (skill is WarmongerSkill)
             {
@@ -63,7 +66,12 @@ public class UIManager : Singleton<UIManager>
                 skill2 = skill;
                 skillImage_1.DOFade(0.5f, 0.5f);
             }
-            else if (skill is HealSkill) skill2 = skill;
+
+            else if (skill is SpawnObstacleSkill)
+            {
+                skill2 = skill;
+                skillImage_1.DOFade(0.5f, 0.5f);
+            }
         }
         SetUI();
     }
@@ -81,7 +89,7 @@ public class UIManager : Singleton<UIManager>
         Image image2 = skillImage_2.transform.GetChild(0).GetComponent<Image>();
 
 
-        if (skill1.skillType == Skill.SkillType.cooldown || skill1.skillType == Skill.SkillType.instantCooldown)
+        if (skill1.skillType == Skill.SkillType.cooldown || skill1.skillType == Skill.SkillType.instantCooldown || skill1.skillType == Skill.SkillType.countCooldown)
         {
             image1.sprite = skillImage_1.sprite;
             image1.DOFade(0.5f, 0.5f);
@@ -92,7 +100,7 @@ public class UIManager : Singleton<UIManager>
             image1.Destroy();
         }
 
-        if (skill2.skillType == Skill.SkillType.cooldown || skill2.skillType == Skill.SkillType.instantCooldown)
+        if (skill2.skillType == Skill.SkillType.cooldown || skill2.skillType == Skill.SkillType.instantCooldown || skill2.skillType == Skill.SkillType.countCooldown)
         {
             image2.sprite = skillImage_2.sprite;
             image2.DOFade(0.5f, 0.5f);
@@ -139,6 +147,10 @@ public class UIManager : Singleton<UIManager>
         {
             text.text = Math.Truncate(skill.currentCoolDown).ToString();
         }
+        else if (skill.skillType == Skill.SkillType.countCooldown)
+        {
+            text.text = Math.Truncate(skill.currentCoolDown).ToString();
+        }
     }
 
     // 총/스킬 선택 시 아이콘 투명도 변경
@@ -164,14 +176,11 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    // UI 아이콘 투명도 변경 종류
+    // 버튼 클릭에 따른 UI 아이콘 투명도 변경
     void UIImageFade(Skill skill, Image image, bool isSelected)
     {
-        if (skill.skillType == Skill.SkillType.count || skill.skillType == Skill.SkillType.cooldown)
-        {
-            float targetAlpha = isSelected ? 1f : 0.5f;
-            image.DOFade(targetAlpha, 0.5f);
-        }
+        float targetAlpha = isSelected ? 1f : 0.5f;
+        image.DOFade(targetAlpha, 0.5f);
     }
 
     // 쿨타임 스킬 사용 시 해당 스킬 쿨타임 제어

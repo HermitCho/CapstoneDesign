@@ -7,14 +7,13 @@ using UnityEngine;
 // 체력, 데미지 받아들이기, 사망 기능, 사망 이벤트를 제공
 public class LivingEntity : MonoBehaviour, IDamageable
 {
-    public float startingHealth; // 시작 체력
-    public float startingShield; // 시작 체력
+    public float startingHealth{ get; protected set; } // 시작 체력
+    public float startingShield { get; protected set; } // 시작 체력
     public float health { get; protected set; } // 현재 체력
     public float shield { get; protected set; } // 현재 추가 방어막
-    public float defaultMoveSpeed = 5f; // 기본 이동 속도
-    public float frontBackMoveSpeed { get; protected set; } // 앞뒤 이동 속도
-    public float leftRIghtMoveSpeed { get; protected set; } // 좌우 이동 속도
-    public float sprintPlusSpeed { get; protected set; } // 달리기 추가 속도
+    //public float frontBackMoveSpeed { get; protected set; } // 앞뒤 이동 속도
+    //public float leftRIghtMoveSpeed { get; protected set; } // 좌우 이동 속도
+    //public float sprintPlusSpeed { get; protected set; } // 달리기 추가 속도
     public bool dead { get; protected set; } // 사망 상태
 
     public event Action onDeath; // 사망시 발동할 이벤트

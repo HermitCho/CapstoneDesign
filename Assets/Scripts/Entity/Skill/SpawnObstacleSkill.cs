@@ -19,24 +19,30 @@ public class SpawnObstacleSkill : Skill
     float coolTime = 10f; // 스킬 쿨타임
     PlayerInput playerInput; // 플레이어 입력 컴포넌트 참조
 
+    HandlingWeapon handlingWeapon; // 손에 든 무기에 관한 컴포넌트
+
     // 스킬이 활성화될 때 호출됨 (초기화)
     public override void OnEnable()
     {
         base.OnEnable();
         maxSkillCount = count; //최대 사용 횟수
+        currentSkillCount = maxSkillCount;
         maxCoolDown = coolTime; //쿨타임
         playerInput = GetComponent<PlayerInput>();
+        handlingWeapon = GetComponent<HandlingWeapon>();
     }
 
     // 스킬키 입력 감지 및 프리뷰 생성
     public override void inputSkillKey()
     {
-        if (playerInput.skill_2_Button)
+        base.inputSkillKey();
+        if (playerInput.skill_2_Button && checkSkill == true)
         {
-            base.inputSkillKey();
-            skillCountCheck();
+            UIManager.Instance.SelectGunORSkillUI(2);
             if (isPlacing == false)
             {
+                handlingWeapon.showGun = false;
+                handlingWeapon.controlPlayerShooter(false);
                 isPreview = true;
                 if (currentPreview == null)
                 {
@@ -52,15 +58,14 @@ public class SpawnObstacleSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
-        isPreview = false;
+        UIManager.Instance.CoolDownButtonInput(2); // 아이콘 업데이트
         SpawnObstacle();
     }
 
     // 매 프레임마다 호출됨
     void Update()
     {
-        skillCoolDownCheck();
-        skillCountCheck();
+        skillbothCheck();
 
         inputSkillKey();
         if (isPreview && obstaclePreviewPrefab != null)
@@ -91,7 +96,6 @@ public class SpawnObstacleSkill : Skill
                 currentPreview.transform.position = hit.point + new Vector3(0, 0.65f, 0);
                 float yRot = Camera.main.transform.eulerAngles.y;
                 currentPreview.transform.rotation = Quaternion.Euler(0, yRot, 0);
-                Debug.Log($"Preview position updated to: {currentPreview.transform.position}");
             }
         }
     }

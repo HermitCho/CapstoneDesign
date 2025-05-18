@@ -9,9 +9,10 @@ using Unity.VisualScripting;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [HideInInspector] public float verticalMoveSpeed = 5f;//앞뒤 움직임 속도
-    [HideInInspector] public float horizontalMoveSpeed = 2.5f;//양옆 움직임 속도
-    [HideInInspector] public float sprintSpeed = 5f;//달리기 속도
+    public PlayerCharacter playerCharacter;
+    [HideInInspector] public float verticalMoveSpeed; //앞뒤 움직임 속도
+    [HideInInspector] public float horizontalMoveSpeed;//양옆 움직임 속도
+    [HideInInspector] public float sprintSpeed;//달리기 속도 곱
 
     [Header("Mouse Settings")]
     [HideInInspector] public float xMouseSensitivity = 1f; //좌우 마우스 움직임 속도
@@ -20,27 +21,36 @@ public class PlayerMovement : MonoBehaviour
     [Header("Energy Settings")]
     float maxEnergy = 100f;
     public Slider energySlider; // 기력을 표시할 UI 슬라이더
-    
+
     [Header("UI Elements")]
-    public RectTransform uiElement; // 이동할 UI 요소의 RectTransform
-    private RectTransform parentRectTransform;
+    [HideInInspector] public RectTransform uiElement; // 이동할 UI 요소의 RectTransform
+    [HideInInspector] private RectTransform parentRectTransform;
     private Rigidbody playerRigidbody;
     private PlayerInput playerInput;
     private Animator playerAnimator; //플레이어 캐릭터 애니메이터
-
-    public CinemachineVirtualCamera virtualCamera;  // 시네머신 가상 카메라
-    private CinemachineComposer cinemachineComposer;  // CinemachineComposer
-    private PlayerShooter playerShooter; // 총구 위치를 가져오기 위한 컴포넌트
-
-    private Vector3 previousUIPosition; // uiElement의 이전 위치를 저장
-    private float xRotation = 0f; // x축 회전 누적 값 (카메라 pitch)
-
-    private Camera mainCamera;
-    private Vector3 lookAtPoint;
     float startEnergy;
     float energy;
     private bool isRunning;
     private Vector2 moveInput;
+
+    [Header("Camera")]
+    [HideInInspector] public CinemachineVirtualCamera virtualCamera;  // 시네머신 가상 카메라
+    private CinemachineComposer cinemachineComposer;  // CinemachineComposer
+    private PlayerShooter playerShooter; // 총구 위치를 가져오기 위한 컴포넌트
+    private Vector3 previousUIPosition; // uiElement의 이전 위치를 저장
+    private float xRotation = 0f; // x축 회전 누적 값 (카메라 pitch)
+    private Camera mainCamera;
+    private Vector3 lookAtPoint;
+
+    [Header("Sound")]
+    [SerializeField] private AudioClip footstepClip; // 발소리 클립립
+    [SerializeField] private float footstepRadius = 10f; // 소리가 들리는 반경
+    private float footstepTimer = 0f;
+    [SerializeField] private float footstepInterval = 0.5f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
+    private AudioSource audioSource; // 오디오 소스 컴포넌트트
+
+    private bool canRun = true;
+    private bool prevSprintButton = false;
 
     private void OnEnable()
     {
@@ -49,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
         energySlider.maxValue = startEnergy;
         energySlider.value = energy;
+
+        verticalMoveSpeed = playerCharacter.frontBackMoveSpeed;
     }
 
     // Start is called before the first frame update
@@ -64,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         uiElement = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         parentRectTransform = uiElement.parent.GetComponent<RectTransform>();
 
-            // 시네머신 가상 카메라 설정
+        // 시네머신 가상 카메라 설정
         virtualCamera = GameObject.Find("TPS Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         virtualCamera.Follow = transform;
         virtualCamera.LookAt = transform;
@@ -80,40 +92,70 @@ public class PlayerMovement : MonoBehaviour
         mainCamera = Camera.main;
         lookAtPoint = Vector3.zero;
 
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     private void Update()
     {
         moveInput = new Vector2(playerInput.horizontalMove, playerInput.verticalMove);
-        isRunning = playerInput.sprintButton;
+
+        // sprintButton 상태 변화 감지 및 canRun 제어
+        if (!playerInput.sprintButton && prevSprintButton && energy > -0.1f)
+        {
+            Debug.Log("sprintButton: " + playerInput.sprintButton);
+            Debug.Log("prevSprintButton: " + prevSprintButton);
+            canRun = true;
+            Debug.Log("canRun: " + canRun);
+
+        }
+        else if (energy <= 0)
+        {
+            canRun = false;
+            Debug.Log("canRun: " + canRun);
+        }
+
+        isRunning = playerInput.sprintButton && canRun;
 
         playerAnimator.SetFloat("MoveX", moveInput.x);
         playerAnimator.SetFloat("MoveY", moveInput.y);
         playerAnimator.SetBool("isRunning", isRunning);
-        
+
         EnergyControl();
         Rotation();
         MoveUIElement();
-       // Vector3 firePos = LocalPosToWorldDirection();
-        /////////////Debug.Log(lookAtPoint);
 
-        // Debug.Log(playerInput.xMouseMove);
+        // 발소리 타이머
+        if (moveInput.magnitude > 0.1f) // 움직이고 있을 때만
+        {
+            footstepTimer += Time.deltaTime;
+            float interval = isRunning ? footstepInterval * 0.6f : footstepInterval; // 달리기는 더 짧게
+            if (footstepTimer >= interval)
+            {
+                FootStepSound();
+                footstepTimer = 0f;
+            }
+        }
+        else
+        {
+            footstepTimer = footstepInterval; // 멈추면 타이머 초기화
+        }
+
+        prevSprintButton = playerInput.sprintButton;
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
-
         MovePlayer();
-
     }
 
 
     //움직임 메서드
     private void MovePlayer()
     {
-        float forwardSpeed = isRunning && energy > 0 ? sprintSpeed : verticalMoveSpeed;
-        float strafeSpeed = isRunning && energy > 0 ? sprintSpeed : horizontalMoveSpeed;
+        float forwardSpeed = isRunning && energy > 0 ? sprintSpeed * verticalMoveSpeed : verticalMoveSpeed;
+        float strafeSpeed = isRunning && energy > 0 ? sprintSpeed * horizontalMoveSpeed : horizontalMoveSpeed;
 
         Vector3 forwardMovement = transform.forward * moveInput.y * forwardSpeed;
         Vector3 strafeMovement = transform.right * moveInput.x * strafeSpeed;
@@ -160,11 +202,7 @@ public class PlayerMovement : MonoBehaviour
 
         // 이전 UI 위치 업데이트
         previousUIPosition = currentUIPosition;
-
-
     }
-
-
 
 
     private void MoveUIElement()
@@ -173,16 +211,12 @@ public class PlayerMovement : MonoBehaviour
         float moveY = playerInput.yMouseMove;
 
         // 감도 값을 곱하여 UI 이동 반영
-
         moveY *= yMouseSensitivity;
-
-
 
         // UI 요소의 현재 위치에 이동량 반영
         Vector3 currentPosition = uiElement.localPosition;
 
         currentPosition.y += moveY;
-
 
 
         Vector2 parentSize = parentRectTransform.rect.size;  // 부모 캔버스 크기
@@ -206,7 +240,6 @@ public class PlayerMovement : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction * hitInfo.distance, Color.red, 1f);
             return hitInfo;
         }
-
         return null; // 충돌이 없을 경우 null 반환
     }
 
@@ -214,12 +247,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerInput.sprintButton && energy > 0)
         {
-            energy -= 100f * Time.deltaTime;
+            energy -= 50f * Time.deltaTime;
         }
         else if (energy < startEnergy)
         {
             energy += 100f * Time.deltaTime;
         }
         energySlider.value = energy;
+        // 에너지가 0이 되면 canRun을 false로
+        if (energy <= 0)
+        {
+            canRun = false;
+        }
+    }
+
+    void FootStepSound()
+    {
+        if (audioSource != null && footstepClip != null)
+        {
+            audioSource.PlayOneShot(footstepClip);
+        }
     }
 }
