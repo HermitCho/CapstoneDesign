@@ -106,7 +106,7 @@ public class Grenade : MonoBehaviour
 
                 rigidbody.isKinematic = false;
                 gameObject.transform.SetParent(null);
-                //animator.SetTrigger("Throwing"); 수류탄 던지는 애니메이션 추가 시 사용
+                animator.SetTrigger("ThrowGrenade"); //수류탄 던지는 애니메이션 추가 시 사용
 
                 Vector3 fireDirection = transform.forward + transform.up / 4; //수류탄이 날아갈 방향
                 rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);

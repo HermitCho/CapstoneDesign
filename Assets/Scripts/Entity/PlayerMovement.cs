@@ -48,8 +48,8 @@ public class PlayerMovement : MonoBehaviour
     private float footstepTimer = 0f;
     [SerializeField] private float footstepInterval = 0.5f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
     private AudioSource audioSource; // 오디오 소스 컴포넌트트
-
-    private bool canRun = true;
+    private bool isSprintingLocked = false; // sprint 잠금 상태
+    //private bool canRun = true;
     private bool prevSprintButton = false;
 
     private void OnEnable()
@@ -100,30 +100,22 @@ public class PlayerMovement : MonoBehaviour
     {
         moveInput = new Vector2(playerInput.horizontalMove, playerInput.verticalMove);
 
-        // sprintButton 상태 변화 감지 및 canRun 제어
-        if (!playerInput.sprintButton && prevSprintButton && energy > -0.1f)
+        // sprint 키를 뗐을 때만 sprint 잠금 해제
+        if (!playerInput.sprintButton)
         {
-            Debug.Log("sprintButton: " + playerInput.sprintButton);
-            Debug.Log("prevSprintButton: " + prevSprintButton);
-            canRun = true;
-            Debug.Log("canRun: " + canRun);
-
-        }
-        else if (energy <= 0)
-        {
-            canRun = false;
-            Debug.Log("canRun: " + canRun);
+            isSprintingLocked = false;
         }
 
-        isRunning = playerInput.sprintButton && canRun;
-
+        isRunning = playerInput.sprintButton && !isSprintingLocked;
+    
         playerAnimator.SetFloat("MoveX", moveInput.x);
         playerAnimator.SetFloat("MoveY", moveInput.y);
         playerAnimator.SetBool("isRunning", isRunning);
-
+        
         EnergyControl();
         Rotation();
         MoveUIElement();
+        MovePlayer();
 
         // 발소리 타이머
         if (moveInput.magnitude > 0.1f) // 움직이고 있을 때만
@@ -145,10 +137,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void FixedUpdate()
-    {
-        MovePlayer();
-    }
+    // private void FixedUpdate()
+    // {
+    //     MovePlayer();
+    // }
 
 
     //움직임 메서드
@@ -254,10 +246,11 @@ public class PlayerMovement : MonoBehaviour
             energy += 100f * Time.deltaTime;
         }
         energySlider.value = energy;
-        // 에너지가 0이 되면 canRun을 false로
+
+        // 에너지 0이면 강제로 sprint 잠금
         if (energy <= 0)
         {
-            canRun = false;
+            isSprintingLocked = true;
         }
     }
 

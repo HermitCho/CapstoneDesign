@@ -25,6 +25,7 @@ public class Gun : MonoBehaviour
 
     protected AudioSource gunAudioPlayer;      // 총 소리를 재생할 오디오 소스
     public GunData gunData;                  // 총의 데이터
+    public Animator gunAnimator; // 총의 애니메이터
 
     [HideInInspector] public int magAmmo;    // 현재 탄창에 남아있는 총알 수
 
@@ -37,6 +38,7 @@ public class Gun : MonoBehaviour
     {
         gunAudioPlayer = GetComponent<AudioSource>();
         bulletLineRenderer = GetComponent<LineRenderer>();
+        gunAnimator = GetComponent<Animator>(); // Animator 초기화
 
         bulletLineRenderer.positionCount = 2; // 궤적은 시작점과 끝점 두 개
         bulletLineRenderer.enabled = false;   // 초기에는 비활성화
@@ -130,6 +132,11 @@ public class Gun : MonoBehaviour
     {
         state = State.Reloading;
         gunAudioPlayer.PlayOneShot(gunData.reloadClip); // 재장전 소리
+
+        // if (gunAnimator != null)
+        // {
+        //     gunAnimator.SetTrigger("Reload"); // 장전 애니메이션 트리거
+        // }
 
         yield return new WaitForSeconds(gunData.reloadTime); // 리로드 대기
 

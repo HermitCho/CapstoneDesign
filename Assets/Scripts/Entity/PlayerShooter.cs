@@ -67,21 +67,17 @@ public class PlayerShooter : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        //���� ������ gunPivot�� 3D���� ������ �Ȳ�ġ ��ġ�� �̵�
-        gunPivot.position = playerAnimator.GetIKHintPosition(AvatarIKHint.RightElbow);
+        if (gun == null)
+            return;
 
-        //IK�� �̿��Ͽ� �޼��� ��ġ�� ȸ���� ���� ���� �����̿� ����
-        playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1.0f);
-        playerAnimator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1.0f);
-
-        playerAnimator.SetIKPosition(AvatarIKGoal.LeftHand, LeftHandMount.position);
-        playerAnimator.SetIKRotation(AvatarIKGoal.LeftHand, LeftHandMount.rotation);
-
-        //IK�� �̿��Ͽ� �������� ��ġ�� ȸ���� ���� ���� �����̿� ����
-        playerAnimator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
-        playerAnimator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
-
-        playerAnimator.SetIKPosition(AvatarIKGoal.RightHand, RightHandMount.position);
-        playerAnimator.SetIKRotation(AvatarIKGoal.RightHand, RightHandMount.rotation);
+        // 오른손 IK
+        if (RightHandMount != null)
+        {
+            playerAnimator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1.0f);
+            playerAnimator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
+            playerAnimator.SetIKPosition(AvatarIKGoal.RightHand, RightHandMount.position);
+            playerAnimator.SetIKRotation(AvatarIKGoal.RightHand, RightHandMount.rotation);
+        }
     }
 }
+
