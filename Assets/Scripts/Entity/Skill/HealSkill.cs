@@ -59,11 +59,16 @@ public class HealSkill : Skill
 
     private void Update()
     {
-        skillCountCheck();
+        skillbothCheck();
 
-        if (playerInput.skill_2_Button && currentCoolDown <= 0)
+        if (playerInput.skill_1_Button && checkSkill == true)
         {
             inputSkillKey();
+        }
+
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            this.GetComponent<PlayerHealth>().OnDamage(10, Vector3.zero, Vector3.zero);
         }
     }
 }

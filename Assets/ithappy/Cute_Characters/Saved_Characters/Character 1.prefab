@@ -2750,7 +2750,6 @@ GameObject:
   - component: {fileID: 5529850411360019403}
   - component: {fileID: -3239965601090892496}
   - component: {fileID: 5188461227975834742}
-  - component: {fileID: 6693346556348736639}
   - component: {fileID: -8678087491091818981}
   - component: {fileID: 2770058809341885374}
   - component: {fileID: 757681957838426123}
@@ -2907,6 +2906,7 @@ MonoBehaviour:
   healthSlider: {fileID: 5782577937932516242}
   shieldSlider: {fileID: 3017286731622670258}
   energySlider: {fileID: 8454462188862414100}
+  isVisible: 1
 --- !u!114 &5529850411360019403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3032,19 +3032,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6693346556348736639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4379692382732418576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4614615e80fa05949841a60a11e9be47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  checkSkill: 0
 --- !u!114 &-8678087491091818981
 MonoBehaviour:
   m_ObjectHideFlags: 0

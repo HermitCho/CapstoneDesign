@@ -138,12 +138,6 @@ public class PlayerMovement : MonoBehaviour
         prevSprintButton = playerInput.sprintButton;
     }
 
-    // Update is called once per frame
-    // private void FixedUpdate()
-    // {
-    //     MovePlayer();
-    // }
-
 
     //움직임 메서드
     private void MovePlayer()
@@ -196,9 +190,6 @@ public class PlayerMovement : MonoBehaviour
         // x축 회전 (카메라 pitch 적용)
         float pitch = deltaY;
         xRotation -= pitch; // 위로 움직이면 각도 감소, 아래로 움직이면 각도 증가
-
-        // 카메라의 x축 회전 적용
-        // Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
 
         // Cinemachine의 m_ScreenY 값을 uiElement의 y 위치에 따라 제한된 범위로 설정
@@ -268,10 +259,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public bool creeper{get; set;} = false;
+
     void FootStepSound()
     {
         if (audioSource != null && footstepClip != null)
         {
+            audioSource.volume = creeper ? 0.2f : 1f;
             audioSource.PlayOneShot(footstepClip);
         }
     }

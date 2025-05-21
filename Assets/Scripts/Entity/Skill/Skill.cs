@@ -89,8 +89,8 @@ public class Skill : MonoBehaviour
     // 스킬 카운트와 쿨타임이 둘 다 사용 조건을 만족하는지 확인
     public void skillbothCheck()
     {
-        Debug.Log("currentSkillCount : " + currentSkillCount);
-        Debug.Log("currentCoolDown : " + currentCoolDown);
+        // Debug.Log("currentSkillCount : " + currentSkillCount);
+        // Debug.Log("currentCoolDown : " + currentCoolDown);
         if (currentSkillCount > 0)
         {
             if (currentCoolDown <= 0f)

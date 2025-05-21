@@ -54,6 +54,7 @@ public class UIManager : Singleton<UIManager>
                 skillImage_1.DOFade(0.5f, 0.5f);
             }
             else if (skill is HealSkill) skill1 = skill;
+            else if (skill is CreepSkill) skill1 = skill;
 
 
 
