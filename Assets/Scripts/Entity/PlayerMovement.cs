@@ -61,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
         energySlider.value = energy;
 
         verticalMoveSpeed = playerCharacter.frontBackMoveSpeed;
+        horizontalMoveSpeed = playerCharacter.leftRightMoveSpeed;
+        sprintSpeed = playerCharacter.sprintPlusSpeed;
     }
 
     // Start is called before the first frame update
@@ -156,7 +158,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveVelocity.sqrMagnitude > 0.01f)
         {
-            playerRigidbody.MovePosition(playerRigidbody.position + moveVelocity * Time.fixedDeltaTime);
+           //playerRigidbody.AddForce(moveVelocity, ForceMode.VelocityChange);
+                        // y축 속도(중력 등)는 보존
+            Vector3 velocity = moveVelocity;
+            velocity.y = playerRigidbody.velocity.y;
+            playerRigidbody.velocity = velocity;
+        }
+        else
+        {
+            // 입력이 없으면 x, z 속도만 0으로
+            Vector3 velocity = playerRigidbody.velocity;
+            velocity.x = 0f;
+            velocity.z = 0f;
+            playerRigidbody.velocity = velocity;
         }
     }
 
