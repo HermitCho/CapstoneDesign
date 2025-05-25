@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip footstepClip; // 발소리 클립립
     [SerializeField] private float footstepRadius = 10f; // 소리가 들리는 반경
     private float footstepTimer = 0f;
-    [SerializeField] private float footstepInterval = 0.5f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
+    [SerializeField] private float footstepInterval = 0.4f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
     private AudioSource audioSource; // 오디오 소스 컴포넌트트
     private bool isSprintingLocked = false; // sprint 잠금 상태
     //private bool canRun = true;
@@ -265,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (audioSource != null && footstepClip != null)
         {
-            audioSource.volume = creeper ? 0.2f : 1f;
+            audioSource.volume = creeper ? 0f : 1f;
             audioSource.PlayOneShot(footstepClip);
         }
     }

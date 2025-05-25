@@ -14,7 +14,7 @@ public class LobbyButton : MonoBehaviour
     public Canvas selectionCanvas;        // 캐릭터 선택 UI 캔버스
 
     private int selectedCharacterIndex = -1; // 선택된 캐릭터 인덱스 (-1은 선택되지 않음)
-    private float selectionTime = 10f;       // 선택 가능 시간 (초)
+    private float selectionTime = 2f;       // 선택 가능 시간 (초)
     private bool isSelectionActive = false;  // 선택 가능 상태 확인
     private CameraControl cameraControl;     // 카메라 컨트롤 참조
     private KeyRebindManager keyRebindManager; // 키 리바인드 매니저 참조

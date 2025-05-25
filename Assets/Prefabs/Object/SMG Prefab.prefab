@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 4106040303714761392}
   - component: {fileID: 4927963670135761186}
   - component: {fileID: 5717502338322190443}
+  - component: {fileID: 7917019518468566379}
   m_Layer: 0
   m_Name: SMG Prefab
   m_TagString: Untagged
@@ -94,8 +95,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8969139255665458834}
   - {fileID: 5827287146379000076}
+  - {fileID: 8969139255665458834}
   - {fileID: 6519787202385443027}
   - {fileID: 90077556023618419}
   - {fileID: 270280375054900554}
@@ -316,7 +317,29 @@ MonoBehaviour:
   muzzleFlashEffect: {fileID: 3591928405781313875}
   shellEjectEffect: {fileID: 6398407678700267055}
   gunData: {fileID: 11400000, guid: 5a043f1ac5f2a524dae8c0bbd97ed228, type: 2}
+  gunAnimator: {fileID: 0}
   magAmmo: 0
+--- !u!65 &7917019518468566379
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4141746667003207104}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1737798, y: 0.4886951, z: 0.857011}
+  m_Center: {x: 0.0000002384186, y: 0.1044176, z: 0.2693075}
 --- !u!1 &5522627418013703024
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +365,7 @@ Transform:
   m_GameObject: {fileID: 5522627418013703024}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0002, y: 0.253, z: 0.727}
+  m_LocalPosition: {x: 0, y: 0.253, z: 0.262}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -374,7 +397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 571615049729662141, guid: 8a3aa0a51d97042408d339ccc296e9ed, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 571615049729662141, guid: 8a3aa0a51d97042408d339ccc296e9ed, type: 3}
       propertyPath: m_LocalRotation.y

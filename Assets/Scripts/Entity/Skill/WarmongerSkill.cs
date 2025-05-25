@@ -20,7 +20,7 @@ public class WarmongerSkill : Skill
     float skillDuration = 5f; // 전쟁광 스킬 지속 시간
     float nowSkillDuration = 0f; // 전쟁광 스킬 현재 지속 시간
 
-    ParticleSystem particleSystem; // 전쟁광 스킬 사용 파티클
+    [SerializeField] ParticleSystem skillParticle; // 전쟁광 스킬 사용 파티클
 
 
     // 스킬 간접 관련
@@ -43,9 +43,6 @@ public class WarmongerSkill : Skill
         playerMovement = GetComponent<PlayerMovement>();
 
         gunData = gun.gunData;
-
-        particleSystem = GetComponent<ParticleSystem>();
-        particleSystem.time = skillDuration;
     }
 
     // 스킬 키 입력 시
@@ -67,10 +64,10 @@ public class WarmongerSkill : Skill
 
         onSkill = true;
         gunData.reloadTime = gunData.reloadTime / 2;
-        playerMovement.verticalMoveSpeed = playerMovement.verticalMoveSpeed * 2;
-        playerMovement.horizontalMoveSpeed = playerMovement.horizontalMoveSpeed * 2;
-        playerMovement.sprintSpeed = playerMovement.sprintSpeed * 2;
-        particleSystem.Play();
+        playerMovement.verticalMoveSpeed = playerMovement.verticalMoveSpeed * 1.2f;
+        playerMovement.horizontalMoveSpeed = playerMovement.horizontalMoveSpeed * 1.2f;
+        playerMovement.sprintSpeed = playerMovement.sprintSpeed * 1.2f;
+        skillParticle.Play();
     }
 
     //스킬 쿨타임 관리와 스킬 지속 시간 관리 + 키 입력 인식
@@ -84,7 +81,7 @@ public class WarmongerSkill : Skill
             inputSkillKey();
         }
     }
-    
+
     //스킬 지속 관리 함수
     void SkillDurating()
     {
@@ -92,14 +89,14 @@ public class WarmongerSkill : Skill
         {
             nowSkillDuration += Time.deltaTime;
         }
-        else if(nowSkillDuration >= skillDuration)
+        else if (nowSkillDuration >= skillDuration)
         {
             Debug.Log("전쟁광 스킬 종료!");
-            
+
             gunData.reloadTime = gunData.reloadTime * 2;
-            playerMovement.verticalMoveSpeed = playerMovement.verticalMoveSpeed / 2;
-            playerMovement.horizontalMoveSpeed = playerMovement.horizontalMoveSpeed / 2;
-            playerMovement.sprintSpeed = playerMovement.sprintSpeed / 2;
+            playerMovement.verticalMoveSpeed = playerMovement.verticalMoveSpeed / 1.2f;
+            playerMovement.horizontalMoveSpeed = playerMovement.horizontalMoveSpeed / 1.2f;
+            playerMovement.sprintSpeed = playerMovement.sprintSpeed / 1.2f;
 
             Debug.Log(gunData.reloadTime);
             Debug.Log(playerMovement.verticalMoveSpeed);
@@ -108,6 +105,7 @@ public class WarmongerSkill : Skill
 
             nowSkillDuration = 0f;
             onSkill = false;
+            skillParticle.Stop();
         }
     }
 }
