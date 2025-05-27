@@ -11,23 +11,22 @@ public class KeyRebindManager : MonoBehaviour
     [Header("Rebind 관련")]
     private PlayerInput playerInput;
     public GameObject rebindPanel;
-    public TMP_Text rebindWaitText;
     public Dictionary<string, TMP_Text> actionTextMap = new();
+
+    [Header("Settings 패널")]
+    public GameObject settingsPanel;   // 설정 패널
 
     [Header("UI 연결")]
     public TMP_Text keyText_Forward, keyText_Backward, keyText_Left, keyText_Right;
-    public TMP_Text keyText_Reload, keyText_Crouch, keyText_Sprint, keyText_Skill1, keyText_Skill2, keyText_HandleGun;
+    public TMP_Text keyText_Reload, keyText_Sprint, keyText_Skill1, keyText_Skill2, keyText_HandleGun;
 
     [Header("감도/사운드 관련 UI")]
-    public PlayerMovement playerMovement;
-    public AudioSource playerAudioSource;
-    public AudioSource gunAudioSource;
     public Slider xSensitivitySlider;
     public Slider ySensitivitySlider;
     public TMP_InputField xSensitivityField;
     public TMP_InputField ySensitivityField;
     public Slider soundSlider;
-    public TMP_Text soundTextTMP;
+    public TMP_InputField soundField;
 
     private float xSensitivity;
     private float ySensitivity;
@@ -47,18 +46,34 @@ public class KeyRebindManager : MonoBehaviour
 
     private void Awake()
     {
-        rebindPanel.SetActive(false);
+        if (rebindPanel != null)
+        {
+            rebindPanel.SetActive(false);
+        }
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(false);
+        }
     }
 
-    // PlayerInput 설정을 위한 public 메서드
     public void SetPlayerInput(PlayerInput newPlayerInput)
     {
-        playerInput = newPlayerInput;
-        if (playerInput != null)
+        if (newPlayerInput == null)
         {
-            LoadSettings(); // PlayerInput이 설정되면 설정 로드
-            UpdateAllUI(); // UI 텍스트 업데이트
+            Debug.LogError("KeyRebindManager: PlayerInput이 null입니다!");
+            return;
         }
+
+        playerInput = newPlayerInput;
+        
+        // 저장된 설정 불러오기
+        LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+        if (loadSettings != null)
+        {
+            loadSettings.LoadSettingsToUI(this);
+        }
+        // UI 업데이트
+        UpdateAllUI();
     }
 
     private void Start()
@@ -70,7 +85,6 @@ public class KeyRebindManager : MonoBehaviour
         actionTextMap["Move_right"] = keyText_Right;
 
         actionTextMap["Reload"] = keyText_Reload;
-        actionTextMap["Crouch"] = keyText_Crouch;
         actionTextMap["Sprint"] = keyText_Sprint;
         actionTextMap["Skill1"] = keyText_Skill1;
         actionTextMap["Skill2"] = keyText_Skill2;
@@ -79,45 +93,88 @@ public class KeyRebindManager : MonoBehaviour
         // 리스너 등록 (초기화 이후에 연결)
         xSensitivitySlider.onValueChanged.AddListener(delegate { OnSensitivitySliderChanged(); });
         ySensitivitySlider.onValueChanged.AddListener(delegate { OnSensitivitySliderChanged(); });
-        xSensitivityField.onEndEdit.AddListener(delegate { OnSensitivityInputChanged(); });
-        ySensitivityField.onEndEdit.AddListener(delegate { OnSensitivityInputChanged(); });
-
         soundSlider.onValueChanged.AddListener(delegate { OnSoundSliderChanged(); });
 
-        //한 프레임 뒤에 적용
-        StartCoroutine(ApplySettingsNextFrame());
-        Debug.Log(xSensitivity + "+" + ySensitivity);
+        xSensitivityField.onEndEdit.AddListener(delegate { OnSensitivityInputChanged(); });
+        ySensitivityField.onEndEdit.AddListener(delegate { OnSensitivityInputChanged(); });
+        soundField.onEndEdit.AddListener(delegate { OnSoundInputChanged(); });
 
+        // 현재 활성화된 플레이어의 PlayerInput 찾기
+        PlayerInput[] playerInputs = FindObjectsOfType<PlayerInput>();
+        foreach (PlayerInput input in playerInputs)
+        {
+            if (input.gameObject.activeInHierarchy)
+            {
+                playerInput = input;
+                break;
+            }
+        }
+
+        // LoadSettings를 통해 설정 로드
+        LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+        if (loadSettings != null)
+        {
+            loadSettings.LoadSettingsToUI(this);
+        }
+
+        // 초기 UI 업데이트
         UpdateAllUI();
     }
 
     private System.Collections.IEnumerator ApplySettingsNextFrame()
     {
         yield return null; // 다음 프레임까지 대기
-
-        OnSetValue();
+        UpdateAllUI();
     }
 
     #region 🔁 키 리바인딩
 
     public void StartRebind(string actionName, string bindingName = null)
     {
+        // playerInput이 없으면 현재 활성화된 플레이어의 PlayerInput을 찾아서 설정
+        if (playerInput == null)
+        {
+            PlayerInput[] playerInputs = FindObjectsOfType<PlayerInput>();
+            foreach (PlayerInput input in playerInputs)
+            {
+                if (input.gameObject.activeInHierarchy)
+                {
+                    playerInput = input;
+                    break;
+                }
+            }
+
+            if (playerInput == null)
+            {
+                Debug.LogError("KeyRebindManager: 활성화된 PlayerInput을 찾을 수 없습니다!");
+                return;
+            }
+        }
+
+        // PlayerAction 맵에서 액션 찾기
         InputAction action = playerInput.inputActions.FindAction(actionName);
-        if (action == null) return;
+        if (action == null)
+        {
+            Debug.LogError($"KeyRebindManager: 액션을 찾을 수 없습니다: {actionName}");
+            return;
+        }
 
         int bindingIndex = -1;
 
-        if (string.IsNullOrEmpty(bindingName))
-        {
-            bindingIndex = action.bindings
-                .Select((b, i) => new { binding = b, index = i })
-                .FirstOrDefault(b => !b.binding.isPartOfComposite)?.index ?? -1;
-        }
-        else
+        // Move 액션의 경우 composite 바인딩 처리
+        if (actionName == "Move" && !string.IsNullOrEmpty(bindingName))
         {
             bindingIndex = action.bindings
                 .Select((b, i) => new { binding = b, index = i })
                 .FirstOrDefault(b => b.binding.name == bindingName && b.binding.isPartOfComposite)?.index ?? -1;
+        }
+        // 다른 액션들의 경우 단일 바인딩 처리
+        else
+        {
+            // 첫 번째 실제 바인딩 찾기 (composite가 아닌)
+            bindingIndex = action.bindings
+                .Select((b, i) => new { binding = b, index = i })
+                .FirstOrDefault(b => b.binding.path.StartsWith("<Keyboard>"))?.index ?? -1;
         }
 
         if (bindingIndex == -1)
@@ -126,8 +183,16 @@ public class KeyRebindManager : MonoBehaviour
             return;
         }
 
+        Debug.Log($"리바인딩 시작: {actionName} ({bindingName}), 바인딩 인덱스: {bindingIndex}");
+
         rebindPanel.SetActive(true);
-        playerInput.enabled = false;
+
+        // 리바인딩 전에 액션 비활성화
+        bool wasActionEnabled = action.enabled;
+        if (wasActionEnabled)
+        {
+            action.Disable();
+        }
 
         rebindingOperation = action.PerformInteractiveRebinding(bindingIndex)
             .WithControlsExcluding("Mouse")
@@ -137,11 +202,44 @@ public class KeyRebindManager : MonoBehaviour
                 action.ApplyBindingOverride(bindingIndex, op.selectedControl.path);
                 op.Dispose();
 
-                SaveSettings();
-                StartCoroutine(DelayedUIUpdate());
+                // 리바인딩 완료 후 액션 다시 활성화
+                if (wasActionEnabled)
+                {
+                    action.Enable();
+                }
 
+                // 현재 키 바인딩 상태 저장
+                string rebindsJson = playerInput.inputActions.SaveBindingOverridesAsJson();
+                Debug.Log($"저장된 키 바인딩: {rebindsJson}");
+
+                // LoadSettings를 통해 설정 저장
+                LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+                if (loadSettings != null)
+                {
+                    // LoadSettings의 playerInput 업데이트
+                    loadSettings.SetPlayerInput(playerInput);
+                    
+                    // 현재 설정값으로 저장
+                    loadSettings.SaveSettingsToJson(xSensitivity, ySensitivity, soundVolume);
+                    
+                    // 키 바인딩 상태를 다시 로드하여 확실하게 적용
+                    loadSettings.LoadSettingsToPlayer();
+                }
+
+                StartCoroutine(DelayedUIUpdate());
                 rebindPanel.SetActive(false);
                 playerInput.enabled = false;
+            })
+            .OnCancel(op =>
+            {
+                // 취소 시에도 액션 다시 활성화
+                if (wasActionEnabled)
+                {
+                    action.Enable();
+                }
+                op.Dispose();
+                rebindPanel.SetActive(false);
+                playerInput.enabled = true;
             })
             .Start();
     }
@@ -176,10 +274,15 @@ public class KeyRebindManager : MonoBehaviour
         xSensitivityField.text = xSensitivity.ToString("F2");
         ySensitivityField.text = ySensitivity.ToString("F2");
 
-        SaveSettings();
+        // LoadSettings를 통해 설정 저장
+        LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+        if (loadSettings != null)
+        {
+            loadSettings.SaveSettingsToJson(xSensitivity, ySensitivity, soundVolume);
+        }
     }
 
-    public void OnSensitivityInputChanged()
+    private void OnSensitivityInputChanged()
     {
         if (float.TryParse(xSensitivityField.text, out float xVal))
             xSensitivitySlider.value = Mathf.Clamp(xVal, xSensitivitySlider.minValue, xSensitivitySlider.maxValue);
@@ -191,14 +294,40 @@ public class KeyRebindManager : MonoBehaviour
         else
             ySensitivityField.text = ySensitivity.ToString("F2");
 
-        SaveSettings();
+        // LoadSettings를 통해 설정 저장
+        LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+        if (loadSettings != null)
+        {
+            loadSettings.SaveSettingsToJson(xSensitivity, ySensitivity, soundVolume);
+        }
     }
 
     private void OnSoundSliderChanged()
     {
         soundVolume = soundSlider.value;
-        soundTextTMP.text = soundVolume.ToString("F2");
-        SaveSettings();
+        soundField.text = soundVolume.ToString("F2");
+        
+        // LoadSettings를 통해 설정 저장
+        LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+        if (loadSettings != null)
+        {
+            loadSettings.SaveSettingsToJson(xSensitivity, ySensitivity, soundVolume);
+        }
+    }
+
+    private void OnSoundInputChanged()
+    {
+        if (float.TryParse(soundField.text, out float val))
+            soundSlider.value = Mathf.Clamp(val, soundSlider.minValue, soundSlider.maxValue);
+        else
+            soundField.text = soundVolume.ToString("F2");
+
+        // LoadSettings를 통해 설정 저장
+        LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+        if (loadSettings != null)
+        {
+            loadSettings.SaveSettingsToJson(xSensitivity, ySensitivity, soundVolume);
+        }
     }
 
     #endregion
@@ -207,54 +336,119 @@ public class KeyRebindManager : MonoBehaviour
 
     private void SaveSettings()
     {
-        Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-
-        SettingsData data = new SettingsData
+        try
         {
-            rebindsJson = playerInput.inputActions.SaveBindingOverridesAsJson(),
-            xSensitivity = xSensitivity,
-            ySensitivity = ySensitivity,
-            soundVolume = soundVolume
-        };
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
 
-        File.WriteAllText(savePath, JsonUtility.ToJson(data, true));
+            // 현재 UI의 값을 가져옴
+            if (xSensitivitySlider != null) xSensitivity = xSensitivitySlider.value;
+            if (ySensitivitySlider != null) ySensitivity = ySensitivitySlider.value;
+            if (soundSlider != null) soundVolume = soundSlider.value;
+
+            SettingsData data = new SettingsData
+            {
+                rebindsJson = playerInput != null ? playerInput.inputActions.SaveBindingOverridesAsJson() : "",
+                xSensitivity = xSensitivity,
+                ySensitivity = ySensitivity,
+                soundVolume = soundVolume
+            };
+
+            string jsonData = JsonUtility.ToJson(data, true);
+            File.WriteAllText(savePath, jsonData);
+            Debug.Log($"설정이 저장되었습니다. 경로: {savePath}\n저장된 값: X감도={xSensitivity}, Y감도={ySensitivity}, 소리={soundVolume}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"설정 저장 중 오류 발생: {e.Message}");
+        }
     }
 
     private void LoadSettings()
     {
         if (File.Exists(savePath))
         {
-            var data = JsonUtility.FromJson<SettingsData>(File.ReadAllText(savePath));
+            try
+            {
+                string jsonData = File.ReadAllText(savePath);
+                Debug.Log($"설정 파일을 읽었습니다. 경로: {savePath}\n내용: {jsonData}");
+                
+                var data = JsonUtility.FromJson<SettingsData>(jsonData);
 
-            playerInput.inputActions.LoadBindingOverridesFromJson(data.rebindsJson);
-            xSensitivity = data.xSensitivity;
-            ySensitivity = data.ySensitivity;
-            soundVolume = data.soundVolume;
+                // 키 바인딩 설정 로드
+                if (playerInput != null)
+                {
+                    playerInput.inputActions.LoadBindingOverridesFromJson(data.rebindsJson);
+                }
+
+                // 감도 및 소리 설정 로드
+                xSensitivity = data.xSensitivity;
+                ySensitivity = data.ySensitivity;
+                soundVolume = data.soundVolume;
+
+                Debug.Log($"설정을 로드했습니다. X감도={xSensitivity}, Y감도={ySensitivity}, 소리={soundVolume}");
+
+                // UI 업데이트
+                if (xSensitivitySlider != null) xSensitivitySlider.value = xSensitivity;
+                if (ySensitivitySlider != null) ySensitivitySlider.value = ySensitivity;
+                if (soundSlider != null) soundSlider.value = soundVolume;
+                if (xSensitivityField != null) xSensitivityField.text = xSensitivity.ToString("F2");
+                if (ySensitivityField != null) ySensitivityField.text = ySensitivity.ToString("F2");
+                if (soundField != null) soundField.text = soundVolume.ToString("F2");
+
+                UpdateAllUI();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"설정 파일을 로드하는 중 오류가 발생했습니다: {e.Message}");
+                SetDefaultSettings();
+            }
         }
         else
         {
-            xSensitivity = 1f;
-            ySensitivity = 1f;
-            soundVolume = 0.2f;
+            Debug.Log("설정 파일이 없습니다. 기본 설정을 적용합니다.");
+            SetDefaultSettings();
         }
+    }
 
-        xSensitivitySlider.value = xSensitivity;
-        ySensitivitySlider.value = ySensitivity;
-        soundSlider.value = soundVolume;
+    private void SetDefaultSettings()
+    {
+        xSensitivity = 1f;
+        ySensitivity = 1f;
+        soundVolume = 0.2f;
 
-        UpdateAllUI();
+        // UI 업데이트
+        if (xSensitivitySlider != null) xSensitivitySlider.value = xSensitivity;
+        if (ySensitivitySlider != null) ySensitivitySlider.value = ySensitivity;
+        if (soundSlider != null) soundSlider.value = soundVolume;
+        if (xSensitivityField != null) xSensitivityField.text = xSensitivity.ToString("F2");
+        if (ySensitivityField != null) ySensitivityField.text = ySensitivity.ToString("F2");
+        if (soundField != null) soundField.text = soundVolume.ToString("F2");
+
+        Debug.Log($"기본 설정이 적용되었습니다. X감도={xSensitivity}, Y감도={ySensitivity}, 소리={soundVolume}");
     }
 
     private void OnApplicationQuit()
     {
-        SaveSettings();
+        if (playerInput != null && playerInput.inputActions != null)
+        {
+            string rebindsJson = playerInput.inputActions.SaveBindingOverridesAsJson();
+            Debug.Log($"게임 종료 시 키 바인딩 저장: {rebindsJson}");
+            
+            // LoadSettings를 통해 설정 저장
+            LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+            if (loadSettings != null)
+            {
+                loadSettings.SaveSettingsToJson(xSensitivity, ySensitivity, soundVolume);
+            }
+        }
+        Debug.Log("게임 종료: 설정이 저장되었습니다.");
     }
 
     #endregion
 
     #region 🔄 UI 동기화
 
-    private void UpdateAllUI()
+    public void UpdateAllUI()
     {
         if (playerInput == null) return;
 
@@ -289,7 +483,7 @@ public class KeyRebindManager : MonoBehaviour
 
         xSensitivityField.text = xSensitivity.ToString("F2");
         ySensitivityField.text = ySensitivity.ToString("F2");
-        soundTextTMP.text = soundVolume.ToString("F2");
+        soundField.text = soundVolume.ToString("F2");
     }
 
     #endregion
@@ -310,12 +504,31 @@ public class KeyRebindManager : MonoBehaviour
 
     #endregion
 
-    public void OnSetValue()
+    // 설정 패널 활성화
+    public void OnSettingsButtonClick()
     {
-        playerMovement.xMouseSensitivity = xSensitivity;
-        playerMovement.yMouseSensitivity = ySensitivity;
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(true);
+            // LoadSettings를 통해 설정 로드
+            LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
+            if (loadSettings != null)
+            {
+                // LoadSettings의 playerInput 업데이트
+                loadSettings.SetPlayerInput(playerInput);
+                loadSettings.LoadSettingsToUI(this);
+                // 키 바인딩 텍스트 업데이트
+                UpdateAllUI();
+            }
+        }
+    }
 
-        playerAudioSource.volume = soundVolume;
-        gunAudioSource.volume = soundVolume;
+    // 설정 패널 비활성화
+    public void OnCloseButtonClick()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(false);
+        }
     }
 }
