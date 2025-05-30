@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Camera")]
     [HideInInspector] public CinemachineVirtualCamera virtualCamera;  // 시네머신 가상 카메라
-    private CinemachineComposer cinemachineComposer;  // CinemachineComposer
+    [HideInInspector] public CinemachineComposer cinemachineComposer;  // CinemachineComposer
     private PlayerShooter playerShooter; // 총구 위치를 가져오기 위한 컴포넌트
     private Vector3 previousUIPosition; // uiElement의 이전 위치를 저장
     private float xRotation = 0f; // x축 회전 누적 값 (카메라 pitch)
@@ -188,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
         float deltaY = currentUIPosition.y - previousUIPosition.y; // 상하 변화량
 
         // y축 회전 (플레이어 본체 회전)
-        float yRotation = playerInput.xMouseMove * xMouseSensitivity;
+        float yRotation = playerInput.xMouseMove * (xMouseSensitivity * 0.06f);
 
         transform.Rotate(0f, yRotation, 0f);
 
@@ -217,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
         float moveY = playerInput.yMouseMove;
 
         // 감도 값을 곱하여 UI 이동 반영
-        moveY *= yMouseSensitivity;
+        moveY *= (yMouseSensitivity * 0.06f);
 
         // UI 요소의 현재 위치에 이동량 반영
         Vector3 currentPosition = uiElement.localPosition;
@@ -274,5 +274,11 @@ public class PlayerMovement : MonoBehaviour
         {
             audioSource.PlayOneShot(footstepClip);
         }
+    }
+
+    public void SetCinemachineComposer(CinemachineComposer composer)
+    {
+        cinemachineComposer = composer;
+        Debug.Log("CinemachineComposer 설정 완료");
     }
 }

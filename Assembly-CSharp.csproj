@@ -122,6 +122,7 @@
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\NewsSliderEditor.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\HUD\QuestItem.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\ProgressBar.cs" />
+    <Compile Include="Assets\Scripts\UI\PauseManager.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Animation\Spinner.cs" />
     <Compile Include="Assets\Scripts\Manager\Singleton.cs" />
     <Compile Include="Assets\Scripts\Entity\Flashbang.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\PanelButtonEditor.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Misc\LaunchURL.cs" />
+    <Compile Include="Assets\Scripts\UI\SelectCharacter.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Core\HeatUIInternalTools.cs" />
     <Compile Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
     <Compile Include="Assets\Scripts\Entity\CameraControl.cs" />
