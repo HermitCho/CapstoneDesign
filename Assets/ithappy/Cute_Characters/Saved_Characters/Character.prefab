@@ -860,37 +860,6 @@ Transform:
   - {fileID: 4156272856714545365}
   m_Father: {fileID: 5269063053366899424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &551393894244975783
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5229325700433781124}
-  m_Layer: 7
-  m_Name: Thowing Pivot 2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5229325700433781124
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551393894244975783}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6209548588254109616}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &615159047917072329
 GameObject:
   m_ObjectHideFlags: 0
@@ -4932,7 +4901,6 @@ Transform:
   - {fileID: 5444429207632984417}
   - {fileID: 8264375408244198400}
   - {fileID: 7835467334758405668}
-  - {fileID: 5229325700433781124}
   - {fileID: 8858011814001164273}
   - {fileID: 5074352634871578782}
   m_Father: {fileID: 0}
@@ -5104,6 +5072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkSkill: 0
+  skillSound: {fileID: 0}
   grenadePrefab: {fileID: 2573602346511189180, guid: efd05f1068e97004898fefa02c516125, type: 3}
   grenadePivot: {fileID: 6356761130416262099}
 --- !u!114 &-3934724174724246739
@@ -5119,6 +5088,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkSkill: 0
+  skillSound: {fileID: 8300000, guid: f0cb06f9461ea8b4bba64f3f7064a702, type: 3}
+  skillParticlePrefab: {fileID: 7823327091382468809, guid: af0d06ad2f476cc43be23ac0f464a510, type: 3}
   gun: {fileID: 6915068162978807675}
 --- !u!120 &7172126072109636532
 LineRenderer:

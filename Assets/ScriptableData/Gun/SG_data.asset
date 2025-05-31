@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5e70eff42774c458a9fdbe15096f34, type: 3}
   m_Name: SG_data
   m_EditorClassIdentifier: 
-  shotClip: {fileID: 8300000, guid: 83110b9a01f85324c8ef804f9f0f7ddd, type: 3}
+  shotClip: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
   reloadClip: {fileID: 8300000, guid: 1230f504e1f86614b94526c1e4b3aa84, type: 3}
   damage: 10
   magCapacity: 5
   timeBetFire: 1
-  reloadTime: 5
-  fireDistance: 30
+  reloadTime: 3
+  fireDistance: 10

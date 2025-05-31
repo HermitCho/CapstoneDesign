@@ -50,7 +50,6 @@ public class Flashbang : MonoBehaviour
         alreadyThrown = false;
         animator = GetComponentInParent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        whiteImage = GameObject.FindGameObjectWithTag("WhiteImage").GetComponent<Image>();
 
         lineRenderer = GetComponentInParent<LineRenderer>();
         throwingposition = transform.parent.transform;
@@ -63,16 +62,15 @@ public class Flashbang : MonoBehaviour
     }
 
     // 2번 키를 누르면 섬광탄을 손에 들게 됨
-    public void Handling()
+    public void HandleOn()
     {
         if (state == State.Empty && playerInput.skill_2_Button && !alreadyThrown)
         {
             state = State.Ready;
             animator.SetBool("isHandleFlashbang", true);
             gameObject.SetActive(true);
-
         }
-        else if (state == State.Ready && (playerInput.skill_1_Button || playerInput.handleGunButton) && !alreadyThrown)
+        else if (state == State.Ready && playerInput.handleGunButton && !alreadyThrown)
         {
             state = State.Empty;
             animator.SetBool("isHandleFlashbang", false);
@@ -141,9 +139,8 @@ public class Flashbang : MonoBehaviour
 
                             if (dotProduct < 0) // 0보다 크면 앞쪽에 있음
                             {
-                                
+
                                 Debug.Log("플레이어가 섬광탄 앞쪽에 있음! 더 강한 효과");
-                                StartCoroutine(WhiteFade(iAudio));
                             }
                             else
                             {
@@ -160,31 +157,6 @@ public class Flashbang : MonoBehaviour
                 Destroy(gameObject); // 이 오브젝트를 파괴
             }
         }
-    }
-
-    private IEnumerator WhiteFade(AudioSource audio)
-    {
-        whiteImage.color = new Vector4(1, 1, 1, 1);
-        audio.clip = WhiteNoise;
-        audio.Play();
-
-        float FadeSpeed = 1f;
-        float Modifier = 0.01f;
-        float WaitTime = 0;
-
-        for (int i = 0; whiteImage.color.a > 0; i++)
-        {
-            whiteImage.color = new Vector4(1, 1, 1, FadeSpeed);
-            FadeSpeed = FadeSpeed - 0.025f;
-            Modifier = Modifier * 1.5f;
-            WaitTime = 0.5f - Modifier;
-            if (WaitTime < 0.1f) WaitTime = 0.1f;
-            audio.volume -= 0.05f;
-            yield return new WaitForSeconds(WaitTime);
-        }
-
-        audio.Stop();
-        audio.volume = 1;
     }
 
     void ShowTrajectLine(Vector3 origin, Vector3 speed)

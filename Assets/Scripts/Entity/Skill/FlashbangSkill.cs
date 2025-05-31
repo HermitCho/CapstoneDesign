@@ -27,9 +27,8 @@ public class FlashbangSkill : Skill
         base.OnEnable();
         maxSkillCount = count;
         currentSkillCount = maxSkillCount;
+
         playerInput = GetComponent<PlayerInput>();
-        Debug.Log(transform.GetChild(4).name);
-        flashbangPivot = transform.GetChild(5).gameObject; //e스킬 자리의 투척류 피벗
         handlingWeapon = GetComponent<HandlingWeapon>();
     }
 
@@ -39,21 +38,20 @@ public class FlashbangSkill : Skill
         base.inputSkillKey();
         if (checkSkill == true)
         {
-            UIManager.Instance.SelectGunORSkillUI(2); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
+            UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
 
             if (flashbangPivot.transform.childCount == 0)
             {
                 flashbangObject = Instantiate(flashbangPrefab, flashbangPivot.transform.position, transform.rotation);
                 flashbangObject.transform.parent = flashbangPivot.transform;
                 flashbang = flashbangObject.GetComponent<Flashbang>();
-                Debug.Log("섬광탄 장착!");
 
                 handlingWeapon.showGun = false;
                 handlingWeapon.controlPlayerShooter(false);
             }
             else if (flashbangPivot.transform.childCount > 0)
             {
-                flashbangPivot.transform.parent = flashbangPivot.transform;
+                //flashbangPivot.transform.parent = flashbangPivot.transform;
                 handlingWeapon.showGun = false;
                 handlingWeapon.controlPlayerShooter(false);
             }
@@ -70,14 +68,14 @@ public class FlashbangSkill : Skill
     {
         skillCountCheck();
 
-        if (currentCoolDown >= 0f && playerInput.skill_2_Button)
+        if (currentCoolDown >= 0f && playerInput.skill_1_Button)
         {
             inputSkillKey();
         }
 
         if (flashbang != null) // flashbang가 null이 아닌 경우에만 Handling 호출
         {
-            flashbang.Handling();
+            flashbang.HandleOn();
             flashbang.Throwing();
             if (flashbang.state == Flashbang.State.Fire)
             {

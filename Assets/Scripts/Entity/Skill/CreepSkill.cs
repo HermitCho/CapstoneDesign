@@ -19,6 +19,11 @@ public class CreepSkill : Skill
         playerInput = GetComponent<PlayerInput>();
     }
 
+    public override void inputSkillKey()
+    {
+        invokeSkill();
+    }
+
     public override void invokeSkill()
     {
         base.invokeSkill();
@@ -42,9 +47,9 @@ public class CreepSkill : Skill
     {
         skillCoolDownCheck();
 
-        if (playerInput.skill_1_Button && checkSkill == true)
+        if (playerInput.skill_2_Button && checkSkill == true)
         {
-            invokeSkill();
+            inputSkillKey();
         }
     }
 }

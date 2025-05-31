@@ -33,7 +33,7 @@ public class Smoke : MonoBehaviour
 
     void Start()
     {
-        state = State.Ready;
+        state = State.Empty;
 
         playerInput = GetComponentInParent<PlayerInput>();
         rigidbody = GetComponent<Rigidbody>();
@@ -49,22 +49,19 @@ public class Smoke : MonoBehaviour
     void Update()
     {
         Explosion();
-        Debug.Log(state);
     }
 
     // 2번 키를 누르면 연막탄을 손에 들게 됨
     public void Handling()
     {
-        if (state == State.Empty && playerInput.skill_2_Button && !alreadyThrown)
+        if (state == State.Empty && playerInput.skill_1_Button && !alreadyThrown)
         {
             state = State.Ready;
-            Debug.Log(state);
             gameObject.SetActive(true);
         }
-        else if (state == State.Ready && (playerInput.skill_1_Button || playerInput.handleGunButton) && !alreadyThrown)
+        else if (state == State.Ready && (playerInput.skill_2_Button || playerInput.handleGunButton) && !alreadyThrown)
         {
             state = State.Empty;
-            Debug.Log(state);
             gameObject.SetActive(false);
         }
     }
@@ -72,7 +69,6 @@ public class Smoke : MonoBehaviour
     // 연막탄 쿠킹 및 투척을 위한 메서드
     public void Throwing()
     {
-        Debug.Log(cookingTime);
         if (state == State.Ready || state == State.Cooking)
         {
             if (Input.GetMouseButton(0) && !alreadyThrown)
@@ -82,8 +78,10 @@ public class Smoke : MonoBehaviour
                 Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
                 ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
             }
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && !alreadyThrown)
             {
+                lineRenderer.enabled = false;
+
                 rigidbody.isKinematic = false;
                 gameObject.transform.SetParent(null);
 

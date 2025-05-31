@@ -27,7 +27,6 @@ public class SmokeSkill : Skill
         currentSkillCount = maxSkillCount;
 
         playerInput = GetComponent<PlayerInput>();
-        smokePivot = transform.GetChild(4).gameObject; //q스킬 자리의 투척류 피벗
         handlingWeapon = GetComponent<HandlingWeapon>();
     }
 
@@ -74,7 +73,7 @@ public class SmokeSkill : Skill
     void Update()
     {
         skillCountCheck();
-        if (currentCoolDown >= 0f && playerInput.skill_2_Button)
+        if (currentCoolDown >= 0f && playerInput.skill_1_Button)
         {
             inputSkillKey();
         }

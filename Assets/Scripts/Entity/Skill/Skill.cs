@@ -36,6 +36,10 @@ public class Skill : MonoBehaviour
 
     public bool checkSkill = false; // 스킬이 현재 사용가능한지 확인
 
+    [Header("스킬 소리")]
+    protected AudioSource audioSource; // 스킬 사용 시 소리 재생을 위한 오디오 소스 컴포넌트
+    [SerializeField] protected AudioClip skillSound; // 스킬 사용 시 재생할 소리
+
 
     // 시작할 때 스킬 초기화
     public virtual void OnEnable()
