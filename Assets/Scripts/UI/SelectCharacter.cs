@@ -13,7 +13,7 @@ public class SelectCharacter : MonoBehaviour
     [Header("할당할 캐릭터 프리펩")]
     public GameObject[] characterPrefabs;
 
-    [Header("패널 관리")]
+    [Header("패널 관리 - 할당 X")]
     [SerializeField] private PanelManager panelManager;
 
     [Header("캐릭터 선택 시간 텍스트")]
@@ -23,7 +23,7 @@ public class SelectCharacter : MonoBehaviour
     [SerializeField]
     private float selectTime = 10f;
 
-    [Header("카메라 설정")]
+    [Header("카메라 설정 - 할당 X")]
     [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
     private CinemachineComposer cinemachineComposer;
