@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using Michsky.UI.Heat;
 public class SetButton : MonoBehaviour
 {
+    private PanelManager pannelManager;
     public GameObject optionPanel; //Option Panel Object 
     public GameObject pausePanel; //Pause Panel Object
 
@@ -13,10 +14,10 @@ public class SetButton : MonoBehaviour
     private bool isPauseClick; //bool Pause Panel
 
     private GameObject player;
-    private void Start()
+    private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-
+        pannelManager = FindObjectOfType<PanelManager>();
         optionPanel.SetActive(false);
         pausePanel.SetActive(false);
         isOptionClick = false;
@@ -46,9 +47,6 @@ public class SetButton : MonoBehaviour
         }
     }
 
-    public void OnClickGameExit()
-    {
-    }
 
     public void ExitPause()
     {

@@ -5009,6 +5009,7 @@ MonoBehaviour:
   energySlider: {fileID: 46279602573926384}
   uiElement: {fileID: 0}
   virtualCamera: {fileID: 0}
+  cinemachineComposer: {fileID: 0}
   footstepClip: {fileID: 8300000, guid: c79c897ef8ac23b4c82da0ab3bc1ad32, type: 3}
   footstepRadius: 10
   footstepInterval: 0.7
@@ -5544,6 +5545,10 @@ PrefabInstance:
     - target: {fileID: 1467667497346961242, guid: b6f5fc7323cb96347afb4014018102ea, type: 3}
       propertyPath: m_Name
       value: Rifle C
+      objectReference: {fileID: 0}
+    - target: {fileID: 1467667497346961242, guid: b6f5fc7323cb96347afb4014018102ea, type: 3}
+      propertyPath: m_TagString
+      value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 2239946513708013024, guid: b6f5fc7323cb96347afb4014018102ea, type: 3}
       propertyPath: m_LocalPosition.x
