@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Core\MenuManager.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Animation\NavigationBarEditor.cs" />
+    <Compile Include="Assets\Scripts\Entity\Skill\CreepSkill.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Misc\ExitGame.cs" />
     <Compile Include="Assets\ithappy\Cute_Characters\Scripts\Character_Controller\ThirdPersonCamera.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\BoxContainer.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\SliderManagerEditor.cs" />
     <Compile Include="Assets\Scripts\UI\LoadSettings.cs" />
     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
+    <Compile Include="Assets\QuickOutline\Scripts\Outline.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\HorizontalSelector.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\SettingsElementEditor.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\ModeSelector.cs" />
@@ -168,6 +170,7 @@
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\SettingsElement.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Animation\ImagePulse.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\BoxButtonManager.cs" />
+    <Compile Include="Assets\Scripts\Entity\Skill\ScanSkill.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Animation\NavigationBar.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\Localization\LocalizationSettings.cs" />
     <Compile Include="Assets\Heat - Complete Modern UI\Scripts\UI Elements\SliderInput.cs" />
@@ -236,35 +239,40 @@
     <Compile Include="Assets\Scripts\ScriptableObject\PlayerCharacter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\ShootingSound\ReadMe.txt" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\QuickOutline\Resources\Shaders\OutlineMask.shader" />
     <None Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Prefabs\Readme_Dissolve_Respawn_.txt" />
     <None Include="Assets\ithappy\Cute_Characters\Render_Pipeline_Convert\Documentation.txt" />
     <None Include="Assets\Heat - Complete Modern UI\Read Me.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\EffectExamples\Magic Effects\Shaders\Ice.shader" />
     <None Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Shaders\Respawn.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\Lana Studio\Hyper Casual FX\Demo\Readme.txt" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\QuickOutline\Readme.txt" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Fonts\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Shaders\FireFly.shader" />
     <None Include="Assets\ithappy\Interior_Realistic\Render_Pipeline_Convert\Documentation.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\QuickOutline\Resources\Shaders\OutlineFill.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\Prefabs\Grenade\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Shaders\Dissolve.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Fonts\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

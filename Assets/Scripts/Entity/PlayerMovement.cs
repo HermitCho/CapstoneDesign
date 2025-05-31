@@ -265,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (audioSource != null && footstepClip != null)
         {
-            audioSource.volume = creeper ? 0f : 1f;
+            audioSource.volume = creeper ? 0f :  audioSource.volume;
             audioSource.PlayOneShot(footstepClip);
         }
     }

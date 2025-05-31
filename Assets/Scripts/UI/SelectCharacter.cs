@@ -34,8 +34,12 @@ public class SelectCharacter : MonoBehaviour
     private GameObject selectedCharacter;
     private PlayerMovement playerMovement;
 
+    private CameraControl cameraControl;
+
     void Awake()
     {
+        cameraControl = FindObjectOfType<CameraControl>();
+
         // LoadSettings 컴포넌트 찾기
         loadSettings = FindObjectOfType<LoadSettings>();
         if (loadSettings == null)
@@ -235,7 +239,7 @@ public class SelectCharacter : MonoBehaviour
 
         // 캐릭터 생성 및 설정
         SettingCharacter();
-
+        cameraControl.SetPlayer(selectedCharacter.transform);
         // 게임 플레이 패널로 전환
         if (panelManager != null)
         {

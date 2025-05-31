@@ -193,6 +193,7 @@ public class LoadSettings : MonoBehaviour
                 {
                     playerAudioSource.volume = (data.soundVolume * 0.06f);
                 }
+
                 if (gunAudioSource != null)
                 {
                     gunAudioSource.volume = (data.soundVolume * 0.06f);
