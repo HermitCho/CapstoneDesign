@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 21181975536952287}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.8660254, w: -0.5}
-  m_LocalPosition: {x: 0.005000055, y: 0.085999966, z: 0.5680001}
+  m_LocalPosition: {x: -0.12, y: 0.105, z: 0.559}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1263,8 +1263,8 @@ Transform:
   m_GameObject: {fileID: 1000211218286143090}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.102999926, y: 0.24199994, z: 0.93031585}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.028, y: 0.418, z: 0.233}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8251619606079842207}
@@ -1519,7 +1519,7 @@ Transform:
   m_GameObject: {fileID: 1510905780497547952}
   serializedVersion: 2
   m_LocalRotation: {x: 0.049325276, y: -0.049325276, z: -0.7053843, w: 0.7053843}
-  m_LocalPosition: {x: -0.034999907, y: 0.13999999, z: 0.08800006}
+  m_LocalPosition: {x: 0.072, y: 0.067, z: 0.099}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4787,6 +4787,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8251619606079842207}
+  - component: {fileID: 4528070922926952728}
   m_Layer: 0
   m_Name: GunShakePivot
   m_TagString: Untagged
@@ -4803,13 +4804,28 @@ Transform:
   m_GameObject: {fileID: 8403852292514582939}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.102999926, y: -0.21599993, z: -0.54231584}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7728779440298129241}
   m_Father: {fileID: 8858011814001164273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4528070922926952728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8403852292514582939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95562e47ff9a9d94da04ff352faee07e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunShakePivot: {fileID: 8251619606079842207}
+  animator: {fileID: 3484525324614703382}
+  isRunning: 0
 --- !u!1 &8413554224787232622
 GameObject:
   m_ObjectHideFlags: 0
@@ -5041,7 +5057,6 @@ MonoBehaviour:
   yMouseSensitivity: 1
   energySlider: {fileID: 46279602573926384}
   uiElement: {fileID: 0}
-  isRunning: 0
   virtualCamera: {fileID: 0}
   cinemachineComposer: {fileID: 0}
   footstepClip: {fileID: 8300000, guid: c79c897ef8ac23b4c82da0ab3bc1ad32, type: 3}
