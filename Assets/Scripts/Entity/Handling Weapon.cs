@@ -25,7 +25,7 @@ public class HandlingWeapon : MonoBehaviour
             controlPlayerShooter(true);
         }
     }
-
+    
     //playerShooter 컴포넌트 제어
     public void controlPlayerShooter(bool onoff)
     {
