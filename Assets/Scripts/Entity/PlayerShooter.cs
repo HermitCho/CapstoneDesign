@@ -65,11 +65,18 @@ public class PlayerShooter : MonoBehaviour
         //UpdateUI();
     }
 
+    private bool IsPlayingAnimation(string animationName, int layerIndex = 0)
+    {
+    return playerAnimator.GetCurrentAnimatorStateInfo(layerIndex).IsName(animationName);
+    }
+
     private void OnAnimatorIK(int layerIndex)
     {
         if (gun == null)
             return;
 
+        bool isReloading = IsPlayingAnimation("Reload", 1);
+        bool isThrowingGrenade = IsPlayingAnimation("ThrowGrenade", 1);
         // 오른손 IK
         if (RightHandMount != null)
         {
@@ -77,6 +84,20 @@ public class PlayerShooter : MonoBehaviour
             playerAnimator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1.0f);
             playerAnimator.SetIKPosition(AvatarIKGoal.RightHand, RightHandMount.position);
             playerAnimator.SetIKRotation(AvatarIKGoal.RightHand, RightHandMount.rotation);
+        }
+
+        // 왼손 IK - 특정 상태에서만 활성화
+        if (!isReloading && !isThrowingGrenade && LeftHandMount != null)
+        {
+            playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
+            playerAnimator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
+            playerAnimator.SetIKPosition(AvatarIKGoal.LeftHand, LeftHandMount.position);
+            playerAnimator.SetIKRotation(AvatarIKGoal.LeftHand, LeftHandMount.rotation);
+        }
+        else
+        {
+            playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0f);
+            playerAnimator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0f);
         }
     }
 }

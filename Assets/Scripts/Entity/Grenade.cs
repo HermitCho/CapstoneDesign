@@ -38,8 +38,6 @@ public class Grenade : MonoBehaviour
 
     private PlayerInput playerInput; // 수류탄을 든 해당 캐릭터의 키인풋을 받아옴
 
-
-
     // 수류탄 투척 궤적
     LineRenderer lineRenderer; //수류탄 투척 궤적을 그리기 위한 라인렌더러
     Transform throwingposition; // 수튜탄 투척 위치
@@ -52,12 +50,12 @@ public class Grenade : MonoBehaviour
         collider = GetComponent<CapsuleCollider>();
 
         animator = GetComponentInParent<Animator>();
-        playerInput = GetComponentInParent<PlayerInput>();
 
         lineRenderer = GetComponentInParent<LineRenderer>();
         throwingposition = transform.parent.transform;
-    }
+        playerInput = GetComponentInParent<PlayerInput>();
 
+    }
     // Update is called once per frame
     void Update()
     {
@@ -67,17 +65,18 @@ public class Grenade : MonoBehaviour
     // '스킬 1' 키를 누르면 수류탄을 들게 됨 / '스킬 2' 혹은 '총' 키를 누르면 수류탄을 넣음
     public void Handling()
     {
+        
         if (state == State.Empty && playerInput.skill_1_Button && !alreadyThrown)
         {
             state = State.Ready;
-            //animator.SetBool("isHandleGrenade", true); 수류탄 드는 애니메이션 추가 시 사용
             gameObject.SetActive(true);
 
         }
+        
         else if (state == State.Ready && (playerInput.skill_2_Button || playerInput.handleGunButton) && !alreadyThrown)
         {
             state = State.Empty;
-            //animator.SetBool("isHandleGrenade", false); 수류탄 드는 애니메이션 추가 시 사용
+            animator.SetBool("HandleGrenade", false); // 수류탄 넣는 애니메이션 추가
             Debug.Log(state);
             gameObject.SetActive(false);
 
@@ -92,7 +91,7 @@ public class Grenade : MonoBehaviour
             if (Input.GetMouseButton(0) && !alreadyThrown)
             {
                 state = State.Cooking;
-                //animator.SetTrigger("PullOut"); 수류탄 핀 뽑는 애니메이션 추가 시 사용
+                animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
                 lineRenderer.enabled = true;
                 Debug.Log(state);
 
@@ -100,7 +99,7 @@ public class Grenade : MonoBehaviour
                 ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
             }
 
-            if (Input.GetMouseButtonUp(0) & !alreadyThrown)
+            if (Input.GetMouseButtonUp(0) && !alreadyThrown)
             {
                 lineRenderer.enabled = false;
 
@@ -113,10 +112,13 @@ public class Grenade : MonoBehaviour
 
                 state = State.Fire;
                 alreadyThrown = true;
+
+                animator.SetBool("HandleGrenade", false); 
+
             }
         }
     }
-
+    
     //수류탄이 터지는 것을 구현한 메서드
     void Explosion()
     {

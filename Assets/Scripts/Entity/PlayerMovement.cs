@@ -13,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public float verticalMoveSpeed; //앞뒤 움직임 속도
     [HideInInspector] public float horizontalMoveSpeed;//양옆 움직임 속도
     [HideInInspector] public float sprintSpeed;//달리기 속도 곱
+    private float currentMoveX = 0f;
+    private float currentMoveY = 0f;
+    public float dampSpeed = 7f; // Lerp 속도 조절용
 
     [Header("Mouse Settings")]
     [HideInInspector] public float xMouseSensitivity = 1f; //좌우 마우스 움직임 속도
@@ -30,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator playerAnimator; //플레이어 캐릭터 애니메이터
     float startEnergy;
     float energy;
-    private bool isRunning;
+    public bool isRunning;
     private Vector2 moveInput;
 
     [Header("Camera")]
@@ -45,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Sound")]
     [SerializeField] private AudioClip footstepClip; // 발소리 클립립
     [SerializeField] private float footstepRadius = 10f; // 소리가 들리는 반경
-    private float footstepTimer = 0f;
     [SerializeField] private float footstepInterval = 0.5f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
     private AudioSource audioSource; // 오디오 소스 컴포넌트트
     private bool isSprintingLocked = false; // sprint 잠금 상태
@@ -108,32 +110,28 @@ public class PlayerMovement : MonoBehaviour
             isSprintingLocked = false;
         }
 
+        Vector2 input = moveInput.normalized; // 방향 정규화
+        float inputMagnitude = 1f; // 대각선 이동 시에도 크기를 1로 고정
+        float speed = isRunning && energy > 0 ? sprintSpeed : 1f;
         isRunning = playerInput.sprintButton && !isSprintingLocked;
     
-        playerAnimator.SetFloat("MoveX", moveInput.x);
-        playerAnimator.SetFloat("MoveY", moveInput.y);
+        // 목표 값 계산
+        float targetMoveX = input.x * inputMagnitude * speed;
+        float targetMoveY = input.y * inputMagnitude * speed;
+
+        // Lerp를 통해 현재 값 갱신 (부드러운 변화)
+        currentMoveX = Mathf.Lerp(currentMoveX, targetMoveX, Time.deltaTime * dampSpeed);
+        currentMoveY = Mathf.Lerp(currentMoveY, targetMoveY, Time.deltaTime * dampSpeed);
+
+        // 애니메이터에 적용
+        playerAnimator.SetFloat("MoveX", currentMoveX);
+        playerAnimator.SetFloat("MoveY", currentMoveY);
         playerAnimator.SetBool("isRunning", isRunning);
         
         EnergyControl();
         Rotation();
         MoveUIElement();
         MovePlayer();
-
-        // 발소리 타이머
-        if (moveInput.magnitude > 0.1f) // 움직이고 있을 때만
-        {
-            footstepTimer += Time.deltaTime;
-            float interval = isRunning ? footstepInterval * 0.6f : footstepInterval; // 달리기는 더 짧게
-            if (footstepTimer >= interval)
-            {
-                FootStepSound();
-                footstepTimer = 0f;
-            }
-        }
-        else
-        {
-            footstepTimer = footstepInterval; // 멈추면 타이머 초기화
-        }
 
         prevSprintButton = playerInput.sprintButton;
     }
@@ -144,17 +142,34 @@ public class PlayerMovement : MonoBehaviour
     //     MovePlayer();
     // }
 
+    // 발소리 사운드
+    public void FootStepSound()
+    {
+        // 이동 중일 때만 발소리 재생
+        if (moveInput.sqrMagnitude < 0.01f) return;
 
-    //움직임 메서드
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource != null && footstepClip != null)
+        {
+            audioSource.PlayOneShot(footstepClip);
+        }
+    }
+    // 움직임 메서드
     private void MovePlayer()
     {
-        float forwardSpeed = isRunning && energy > 0 ? sprintSpeed * verticalMoveSpeed : verticalMoveSpeed;
-        float strafeSpeed = isRunning && energy > 0 ? sprintSpeed * horizontalMoveSpeed : horizontalMoveSpeed;
+        float speed = isRunning && energy > 0 ? sprintSpeed : 1f;
 
-        Vector3 forwardMovement = transform.forward * moveInput.y * forwardSpeed;
-        Vector3 strafeMovement = transform.right * moveInput.x * strafeSpeed;
+        // 입력 벡터 정규화
+        Vector2 input = moveInput.normalized;
 
-        Vector3 moveVelocity = forwardMovement + strafeMovement;
+        // 입력 방향 계산
+        Vector3 moveDirection = transform.forward * input.y + transform.right * input.x;
+
+        // 속도 조절
+        float finalSpeed = verticalMoveSpeed * speed;
+        Vector3 moveVelocity = moveDirection * finalSpeed;
 
         if (moveVelocity.sqrMagnitude > 0.01f)
         {
@@ -265,14 +280,6 @@ public class PlayerMovement : MonoBehaviour
         if (energy <= 0)
         {
             isSprintingLocked = true;
-        }
-    }
-
-    void FootStepSound()
-    {
-        if (audioSource != null && footstepClip != null)
-        {
-            audioSource.PlayOneShot(footstepClip);
         }
     }
 }

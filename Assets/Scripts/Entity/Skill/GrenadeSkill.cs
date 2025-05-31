@@ -17,7 +17,9 @@ public class GrenadeSkill : Skill
     Grenade grenade; //수류탄 프리팹
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
 
+    private Animator animator;
     public GameObject grenadePivot; // 수류탄 피벗
+    private Transform rightHandTransform; // 오른손 위치를 추적하기 위한 변수
 
     // 수류탄 스킬 초기화
     public override void OnEnable()
@@ -28,6 +30,7 @@ public class GrenadeSkill : Skill
 
         playerInput = GetComponent<PlayerInput>();
         handlingWeapon = GetComponent<HandlingWeapon>();
+        animator = GetComponentInParent<Animator>();
     }
 
     // 스킬 키 입력 시
@@ -38,6 +41,7 @@ public class GrenadeSkill : Skill
         if (checkSkill == true)
         {
             UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 1번 키를 눌렀으니 1 전송
+            animator.SetBool("HandleGrenade", true);
 
             //수류탄을 처음 꺼냄(스킬키를 처음 누름) 혹은 수류탄을 던진 후 스킬 개수가 남아있을 때 스킬키 입력 시
             if (grenadePivot.transform.childCount == 0)
@@ -53,6 +57,7 @@ public class GrenadeSkill : Skill
             else if (grenadePivot.transform.childCount > 0)
             {
                 grenadeObject.transform.parent = grenadePivot.transform;
+
                 handlingWeapon.showGun = false;
                 handlingWeapon.controlPlayerShooter(false);
             }
