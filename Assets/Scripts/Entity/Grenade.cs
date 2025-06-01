@@ -41,7 +41,6 @@ public class Grenade : MonoBehaviour
     // 수류탄 투척 궤적
     LineRenderer lineRenderer; //수류탄 투척 궤적을 그리기 위한 라인렌더러
     Transform throwingposition; // 수튜탄 투척 위치
-
     void Start()
     {
         state = State.Ready;
@@ -70,7 +69,6 @@ public class Grenade : MonoBehaviour
         {
             state = State.Ready;
             gameObject.SetActive(true);
-
         }
         
         else if (state == State.Ready && (playerInput.skill_2_Button || playerInput.handleGunButton) && !alreadyThrown)
@@ -88,33 +86,37 @@ public class Grenade : MonoBehaviour
     {
         if (state == State.Ready || state == State.Cooking)
         {
-            if (Input.GetMouseButton(0) && !alreadyThrown)
+            
+            if (state == State.Ready || state == State.Cooking)
             {
-                state = State.Cooking;
-                animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
-                lineRenderer.enabled = true;
-                Debug.Log(state);
+                if (Input.GetMouseButtonDown(0) && !alreadyThrown)
+                {
+                    state = State.Cooking;
+                    animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
+                    lineRenderer.enabled = true;
+                    Debug.Log(state);
 
-                Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
-                ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
-            }
+                    Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
+                    ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
+                }
 
-            if (Input.GetMouseButtonUp(0) && !alreadyThrown)
-            {
-                lineRenderer.enabled = false;
+                if (Input.GetMouseButtonUp(0) && !alreadyThrown)
+                {
+                    lineRenderer.enabled = false;
 
-                rigidbody.isKinematic = false;
-                gameObject.transform.SetParent(null);
-                animator.SetTrigger("ThrowGrenade"); //수류탄 던지는 애니메이션 추가 시 사용
+                    rigidbody.isKinematic = false;
+                    gameObject.transform.SetParent(null);
+                    animator.SetTrigger("ThrowGrenade"); //수류탄 던지는 애니메이션 추가 시 사용
 
-                Vector3 fireDirection = transform.forward + transform.up / 4; //수류탄이 날아갈 방향
-                rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
+                    Vector3 fireDirection = transform.forward + transform.up / 4; //수류탄이 날아갈 방향
+                    rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
 
-                state = State.Fire;
-                alreadyThrown = true;
+                    state = State.Fire;
+                    alreadyThrown = true;
 
-                animator.SetBool("HandleGrenade", false); 
+                    animator.SetBool("HandleGrenade", false); 
 
+                }
             }
         }
     }
