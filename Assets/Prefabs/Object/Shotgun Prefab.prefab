@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 2284368680970972364}
   - component: {fileID: 7145950410718543710}
   - component: {fileID: 8094337988070577044}
+  - component: {fileID: -6387296195564323269}
   m_Layer: 0
   m_Name: Shotgun Prefab
   m_TagString: Untagged
@@ -316,7 +317,29 @@ MonoBehaviour:
   muzzleFlashEffect: {fileID: 1626141457354944303}
   shellEjectEffect: {fileID: 9188351709634113619}
   gunData: {fileID: 11400000, guid: 3a9ec34d551e8fe429dcdaf0c6e93c74, type: 2}
+  gunAnimator: {fileID: 0}
   magAmmo: 0
+--- !u!65 &-6387296195564323269
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175890041089674172}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1737798, y: 0.4886951, z: 0.857011}
+  m_Center: {x: 0.0000002384186, y: 0.1044176, z: 0.30748}
 --- !u!1 &7776714561949633804
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +365,7 @@ Transform:
   m_GameObject: {fileID: 7776714561949633804}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00020003319, y: 0.253, z: 0.727}
+  m_LocalPosition: {x: 0, y: 0.253, z: 0.157}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

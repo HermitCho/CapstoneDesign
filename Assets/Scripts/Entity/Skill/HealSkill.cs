@@ -1,5 +1,3 @@
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +11,11 @@ public class HealSkill : Skill
     PlayerInput playerInput; // 회복 스킬을 가진 캐릭터의 플레이어 인풋 컴포넌트
     PlayerHealth playerHealth; // 회복 스킬을 가진 캐릭터의 플레이어 헬스 컴포넌트
 
+    [Header("particle")]
+    ParticleSystem particleSystem; // 회복 스킬의 파티클 시스템
+    [SerializeField] GameObject particlePrefab; // 회복 스킬의 파티클 프리팹
+    float particleDuration = 2f; // 회복 스킬 파티클 유지 시간간
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -23,13 +26,15 @@ public class HealSkill : Skill
         playerInput = GetComponent<PlayerInput>();
         playerMovement = GetComponent<PlayerMovement>();
         playerHealth = GetComponent<PlayerHealth>();
+        particleSystem = GetComponent<ParticleSystem>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void inputSkillKey()
     {
         base.inputSkillKey();
         UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
-
 
         invokeSkill();
     }
@@ -40,30 +45,72 @@ public class HealSkill : Skill
         Debug.Log("회복 스킬 사용");
         RaycastHit? hitInfo = playerMovement.LocalPosToWorldRaycast();
         Debug.Log(hitInfo);
-        if (hitInfo.Value.collider.tag == "Team")
+        if (hitInfo.HasValue && hitInfo.Value.collider != null && hitInfo.Value.collider.CompareTag("Team")) // null 체크 및 Tag 비교 개선
         {
             PlayerHealth teamPlayerHealth = hitInfo.Value.collider.GetComponent<PlayerHealth>();
             if (teamPlayerHealth != null)
             {
-                // playerHealth 컴포넌트가 존재하면 사용할 수 있음
-                teamPlayerHealth.RestoreHealth(10); // 체력 10 회복
+                // 팀원에게 힐
+                teamPlayerHealth.RestoreHealth(recoverHealth);
+                teamPlayerHealth.GetComponent<AudioSource>().PlayOneShot(skillSound); // Null Conditional Operator 사용
                 count -= 1;
+                
+                // 팀원 위치에 파티클 프리팹 인스턴스화 및 재생
+                Vector3 targetPosition = hitInfo.Value.collider.transform.position;
+                StartCoroutine(PlayParticlePrefabAtPosition(targetPosition));
             }
         }
         else
         {
-            playerHealth.RestoreHealth(recoverHealth); // 체력 10 회복
+            // 자신에게 힐
+            playerHealth.RestoreHealth(recoverHealth);
+            audioSource?.PlayOneShot(skillSound); // Null Conditional Operator 사용
             count -= 1;
+            
+            // 자신의 위치에 파티클 프리팹 인스턴스화 및 재생
+            Vector3 selfPosition = transform.position;
+            StartCoroutine(PlayParticlePrefabAtPosition(selfPosition));
+        }
+    }
+
+    // 지정된 위치에 파티클 프리팹을 인스턴스화하고 0.5초 후 제거
+    private IEnumerator PlayParticlePrefabAtPosition(Vector3 position)
+    {
+        if (particlePrefab != null)
+        {
+            GameObject particleInstance = Object.Instantiate(particlePrefab, position, Quaternion.identity);
+            
+            ParticleSystem ps = particleInstance.GetComponent<ParticleSystem>();
+            
+            if (ps != null)
+            {
+                ps.Play();
+                yield return new WaitForSeconds(particleDuration);
+                Debug.Log("ddd");
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
+            else
+            {
+                yield return new WaitForSeconds(particleDuration);
+                Debug.Log("dddd");
+            }
+            Debug.Log("dddddddd");
+            Destroy(particleInstance);
         }
     }
 
     private void Update()
     {
-        skillCountCheck();
+        skillbothCheck();
 
-        if (playerInput.skill_2_Button && currentCoolDown <= 0)
+        if (playerInput.skill_1_Button && checkSkill == true)
         {
             inputSkillKey();
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            this.GetComponent<PlayerHealth>().OnDamage(10, Vector3.zero, Vector3.zero);
         }
     }
 }

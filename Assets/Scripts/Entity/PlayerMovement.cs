@@ -33,12 +33,12 @@ public class PlayerMovement : MonoBehaviour
     private Animator playerAnimator; //플레이어 캐릭터 애니메이터
     float startEnergy;
     float energy;
-    public bool isRunning;
+    private bool isRunning;
     private Vector2 moveInput;
 
     [Header("Camera")]
     [HideInInspector] public CinemachineVirtualCamera virtualCamera;  // 시네머신 가상 카메라
-    private CinemachineComposer cinemachineComposer;  // CinemachineComposer
+    [HideInInspector] public CinemachineComposer cinemachineComposer;  // CinemachineComposer
     private PlayerShooter playerShooter; // 총구 위치를 가져오기 위한 컴포넌트
     private Vector3 previousUIPosition; // uiElement의 이전 위치를 저장
     private float xRotation = 0f; // x축 회전 누적 값 (카메라 pitch)
@@ -48,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Sound")]
     [SerializeField] private AudioClip footstepClip; // 발소리 클립립
     [SerializeField] private float footstepRadius = 10f; // 소리가 들리는 반경
-    [SerializeField] private float footstepInterval = 0.5f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
+    private float footstepTimer = 0f;
+    [SerializeField] private float footstepInterval = 0.4f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
     private AudioSource audioSource; // 오디오 소스 컴포넌트트
     private bool isSprintingLocked = false; // sprint 잠금 상태
     //private bool canRun = true;
@@ -136,27 +137,8 @@ public class PlayerMovement : MonoBehaviour
         prevSprintButton = playerInput.sprintButton;
     }
 
-    // Update is called once per frame
-    // private void FixedUpdate()
-    // {
-    //     MovePlayer();
-    // }
 
-    // 발소리 사운드
-    public void FootStepSound()
-    {
-        // 이동 중일 때만 발소리 재생
-        if (moveInput.sqrMagnitude < 0.01f) return;
-
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
-
-        if (audioSource != null && footstepClip != null)
-        {
-            audioSource.PlayOneShot(footstepClip);
-        }
-    }
-    // 움직임 메서드
+    //움직임 메서드
     private void MovePlayer()
     {
         float speed = isRunning && energy > 0 ? sprintSpeed : 1f;
@@ -203,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
         float deltaY = currentUIPosition.y - previousUIPosition.y; // 상하 변화량
 
         // y축 회전 (플레이어 본체 회전)
-        float yRotation = playerInput.xMouseMove * xMouseSensitivity;
+        float yRotation = playerInput.xMouseMove * (xMouseSensitivity * 0.06f);
 
         transform.Rotate(0f, yRotation, 0f);
 
@@ -211,9 +193,6 @@ public class PlayerMovement : MonoBehaviour
         // x축 회전 (카메라 pitch 적용)
         float pitch = deltaY;
         xRotation -= pitch; // 위로 움직이면 각도 감소, 아래로 움직이면 각도 증가
-
-        // 카메라의 x축 회전 적용
-        // Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
 
         // Cinemachine의 m_ScreenY 값을 uiElement의 y 위치에 따라 제한된 범위로 설정
@@ -232,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         float moveY = playerInput.yMouseMove;
 
         // 감도 값을 곱하여 UI 이동 반영
-        moveY *= yMouseSensitivity;
+        moveY *= (yMouseSensitivity * 0.06f);
 
         // UI 요소의 현재 위치에 이동량 반영
         Vector3 currentPosition = uiElement.localPosition;
@@ -281,5 +260,27 @@ public class PlayerMovement : MonoBehaviour
         {
             isSprintingLocked = true;
         }
+    }
+
+    public bool creeper{get; set;} = false;
+
+    void FootStepSound()
+    {
+        // 이동 중일 때만 발소리 재생
+        if (moveInput.sqrMagnitude < 0.01f) return;
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource != null && footstepClip != null)
+        {
+            audioSource.PlayOneShot(footstepClip);
+        }
+    }
+
+    public void SetCinemachineComposer(CinemachineComposer composer)
+    {
+        cinemachineComposer = composer;
+        Debug.Log("CinemachineComposer 설정 완료");
     }
 }

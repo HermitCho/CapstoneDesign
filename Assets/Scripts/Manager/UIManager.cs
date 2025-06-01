@@ -48,6 +48,11 @@ public class UIManager : Singleton<UIManager>
                 skill1 = skill;
                 skillImage_1.DOFade(0.5f, 0.5f);
             }
+            else if (skill is FlashbangSkill)
+            {
+                skill1 = skill;
+                skillImage_1.DOFade(0.5f, 0.5f);
+            }
             else if (skill is SmokeSkill)
             {
                 skill1 = skill;
@@ -61,17 +66,13 @@ public class UIManager : Singleton<UIManager>
             {
                 skill2 = skill;
             }
-            else if (skill is FlashbangSkill)
-            {
-                skill2 = skill;
-                skillImage_1.DOFade(0.5f, 0.5f);
-            }
-
             else if (skill is SpawnObstacleSkill)
             {
                 skill2 = skill;
                 skillImage_1.DOFade(0.5f, 0.5f);
             }
+            else if (skill is CreepSkill) skill2 = skill;
+            else if (skill is ScanSkill) skill2 = skill;
         }
         SetUI();
     }
@@ -135,18 +136,22 @@ public class UIManager : Singleton<UIManager>
         {
             text.text = skill.currentSkillCount.ToString();
         }
+
         else if (skill.skillType == Skill.SkillType.instantCooldown)
         {
             text.text = Math.Truncate(skill.currentCoolDown).ToString();
         }
+
         else if (skill.skillType == Skill.SkillType.count)
         {
             text.text = skill.currentSkillCount.ToString();
         }
+
         else if (skill.skillType == Skill.SkillType.cooldown)
         {
             text.text = Math.Truncate(skill.currentCoolDown).ToString();
         }
+        
         else if (skill.skillType == Skill.SkillType.countCooldown)
         {
             text.text = Math.Truncate(skill.currentCoolDown).ToString();

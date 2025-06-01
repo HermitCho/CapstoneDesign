@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 4106040303714761392}
   - component: {fileID: 4927963670135761186}
   - component: {fileID: 5717502338322190443}
+  - component: {fileID: -485505886425118423}
   m_Layer: 0
   m_Name: Rifle Prefab
   m_TagString: Untagged
@@ -94,8 +95,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8969139255665458834}
   - {fileID: 6748082070897953126}
+  - {fileID: 8969139255665458834}
   - {fileID: 6519787202385443027}
   - {fileID: 90077556023618419}
   - {fileID: 270280375054900554}
@@ -316,7 +317,29 @@ MonoBehaviour:
   muzzleFlashEffect: {fileID: 3591928405781313875}
   shellEjectEffect: {fileID: 6398407678700267055}
   gunData: {fileID: 11400000, guid: 8ca1d95a70572e9468b8233d36edbde7, type: 2}
+  gunAnimator: {fileID: 0}
   magAmmo: 0
+--- !u!65 &-485505886425118423
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4141746667003207104}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1737798, y: 0.4886951, z: 0.857011}
+  m_Center: {x: 0.0000002384186, y: 0.1044176, z: 0.2690748}
 --- !u!1 &5522627418013703024
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +365,7 @@ Transform:
   m_GameObject: {fileID: 5522627418013703024}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0002, y: 0.253, z: 0.727}
+  m_LocalPosition: {x: 0, y: 0.253, z: 0.135}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

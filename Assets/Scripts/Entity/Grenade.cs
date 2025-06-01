@@ -84,39 +84,36 @@ public class Grenade : MonoBehaviour
     // 수류탄 쿠킹 및 투척을 위한 메서드
     public void Throwing()
     {
+        
         if (state == State.Ready || state == State.Cooking)
         {
-            
-            if (state == State.Ready || state == State.Cooking)
+            if (Input.GetMouseButtonDown(0) && !alreadyThrown)
             {
-                if (Input.GetMouseButtonDown(0) && !alreadyThrown)
-                {
-                    state = State.Cooking;
-                    animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
-                    lineRenderer.enabled = true;
-                    Debug.Log(state);
+                state = State.Cooking;
+                animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
+                lineRenderer.enabled = true;
+                Debug.Log(state);
 
-                    Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
-                    ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
-                }
+                Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
+                ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
+            }
 
-                if (Input.GetMouseButtonUp(0) && !alreadyThrown)
-                {
-                    lineRenderer.enabled = false;
+            if (Input.GetMouseButtonUp(0) && !alreadyThrown)
+            {
+                lineRenderer.enabled = false;
 
-                    rigidbody.isKinematic = false;
-                    gameObject.transform.SetParent(null);
-                    animator.SetTrigger("ThrowGrenade"); //수류탄 던지는 애니메이션 추가 시 사용
+                rigidbody.isKinematic = false;
+                gameObject.transform.SetParent(null);
+                animator.SetTrigger("ThrowGrenade"); //수류탄 던지는 애니메이션 추가 시 사용
 
-                    Vector3 fireDirection = transform.forward + transform.up / 4; //수류탄이 날아갈 방향
-                    rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
+                Vector3 fireDirection = transform.forward + transform.up / 4; //수류탄이 날아갈 방향
+                rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
 
-                    state = State.Fire;
-                    alreadyThrown = true;
+                state = State.Fire;
+                alreadyThrown = true;
 
-                    animator.SetBool("HandleGrenade", false); 
+                animator.SetBool("HandleGrenade", false); 
 
-                }
             }
         }
     }

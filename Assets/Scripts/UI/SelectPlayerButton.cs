@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
-public class LobbyButton : MonoBehaviour
+public class SelectPlayerButton : MonoBehaviour
 {
     [Header("Character Selection")]
     public GameObject[] characters;       // SampleScene에 미리 배치된 4개의 캐릭터
@@ -12,29 +13,31 @@ public class LobbyButton : MonoBehaviour
     public TMP_Text timerText;           // 남은 시간 표시 UI
     public GameObject[] otherUIElements;  // 게임 중 활성화될 다른 UI (비활성화할 UI)
     public Canvas selectionCanvas;        // 캐릭터 선택 UI 캔버스
+    private LoadSettings loadSettings;     // LoadSettings 참조
 
     private int selectedCharacterIndex = -1; // 선택된 캐릭터 인덱스 (-1은 선택되지 않음)
-    private float selectionTime = 10f;       // 선택 가능 시간 (초)
+    private float selectionTime = 2f;       // 선택 가능 시간 (초)
     private bool isSelectionActive = false;  // 선택 가능 상태 확인
     private CameraControl cameraControl;     // 카메라 컨트롤 참조
-    private KeyRebindManager keyRebindManager; // 키 리바인드 매니저 참조
 
     private void Awake()
     {
-        // CameraControl 컴포넌트 찾기
+        // 컴포넌트 참조만 초기화
         cameraControl = FindObjectOfType<CameraControl>();
         if (cameraControl == null)
         {
             Debug.LogError("CameraControl을 찾을 수 없습니다!");
         }
 
-        // KeyRebindManager 컴포넌트 찾기
-        keyRebindManager = FindObjectOfType<KeyRebindManager>();
-        if (keyRebindManager == null)
+        loadSettings = FindObjectOfType<LoadSettings>();
+        if (loadSettings == null)
         {
-            Debug.LogError("KeyRebindManager를 찾을 수 없습니다!");
+            Debug.LogError("LoadSettings를 찾을 수 없습니다!");
         }
+    }
 
+    public void InitializeCharacterSelection()
+    {
         // 모든 캐릭터 비활성화 (초기 상태)
         foreach (GameObject character in characters)
         {
@@ -46,6 +49,9 @@ public class LobbyButton : MonoBehaviour
         {
             ui.SetActive(false);
         }
+        // 마우스 커서 표시 및 활성화
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         // 선택 시간 시작
         StartCoroutine(CharacterSelectionTimer());
@@ -104,21 +110,34 @@ public class LobbyButton : MonoBehaviour
         // CameraControl에 선택된 플레이어 설정
         if (cameraControl != null)
         {
+            // 카메라 설정 전에 잠시 대기
+            yield return new WaitForSeconds(0.1f);
+            
+            // 시네머신 가상 카메라 찾기
+            CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            if (virtualCamera != null)
+            {
+                // Follow와 LookAt 모두 선택된 캐릭터로 설정
+                virtualCamera.Follow = characters[selectedCharacterIndex].transform;
+                virtualCamera.LookAt = characters[selectedCharacterIndex].transform;
+            }
+            
             cameraControl.SetPlayer(characters[selectedCharacterIndex].transform);
         }
 
-        // KeyRebindManager에 선택된 플레이어의 PlayerInput 설정
-        if (keyRebindManager != null)
+        // LoadSettings에 선택된 플레이어의 PlayerInput 설정
+        PlayerInput playerInput = characters[selectedCharacterIndex].GetComponent<PlayerInput>();
+        if (playerInput != null && loadSettings != null)
         {
-            PlayerInput playerInput = characters[selectedCharacterIndex].GetComponent<PlayerInput>();
-            if (playerInput != null)
-            {
-                keyRebindManager.SetPlayerInput(playerInput);
-            }
-            else
-            {
-                Debug.LogError("선택된 캐릭터에 PlayerInput 컴포넌트가 없습니다!");
-            }
+            // PlayerInput 설정
+            loadSettings.SetPlayerInput(playerInput);
+            
+            // 저장된 설정을 플레이어에 적용
+            loadSettings.LoadSettingsToPlayer();
+        }
+        else
+        {
+            Debug.LogError("선택된 캐릭터에 PlayerInput 컴포넌트가 없거나 LoadSettings를 찾을 수 없습니다!");
         }
 
         // 게임 UI 활성화
@@ -132,6 +151,10 @@ public class LobbyButton : MonoBehaviour
         {
             selectionCanvas.gameObject.SetActive(false);
         }
+
+        // 마우스 커서 숨기기 및 중앙 고정
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         Debug.Log("게임 시작: " + characters[selectedCharacterIndex].name);
     }
@@ -165,21 +188,36 @@ public class LobbyButton : MonoBehaviour
         // CameraControl에 선택된 플레이어 설정
         if (cameraControl != null)
         {
-            cameraControl.SetPlayer(characters[selectedCharacterIndex].transform);
+            // 시네머신 가상 카메라 찾기
+            CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            if (virtualCamera != null)
+            {
+                // Follow와 LookAt 모두 선택된 캐릭터로 설정
+                virtualCamera.Follow = characters[selectedCharacterIndex].transform;
+                virtualCamera.LookAt = characters[selectedCharacterIndex].transform;
+            }
+            
+            // 카메라 설정 전에 잠시 대기
+            StartCoroutine(SetCameraAfterDelay(characters[selectedCharacterIndex].transform));
         }
 
-        // KeyRebindManager에 선택된 플레이어의 PlayerInput 설정
-        if (keyRebindManager != null)
+        // LoadSettings에 선택된 플레이어의 PlayerInput 설정
+        PlayerInput playerInput = characters[selectedCharacterIndex].GetComponent<PlayerInput>();
+        if (playerInput != null && loadSettings != null)
         {
-            PlayerInput playerInput = characters[selectedCharacterIndex].GetComponent<PlayerInput>();
-            if (playerInput != null)
-            {
-                keyRebindManager.SetPlayerInput(playerInput);
-            }
-            else
-            {
-                Debug.LogError("선택된 캐릭터에 PlayerInput 컴포넌트가 없습니다!");
-            }
+            // PlayerInput 설정
+            loadSettings.SetPlayerInput(playerInput);
+            
+            // 저장된 설정을 플레이어에 적용
+            loadSettings.LoadSettingsToPlayer();
+
+            // 현재 키 바인딩 상태 저장
+            string rebindsJson = playerInput.inputActions.SaveBindingOverridesAsJson();
+            Debug.Log($"씬 전환 시 키 바인딩 저장: {rebindsJson}");
+        }
+        else
+        {
+            Debug.LogError("선택된 캐릭터에 PlayerInput 컴포넌트가 없거나 LoadSettings를 찾을 수 없습니다!");
         }
 
         // 게임 UI 활성화
@@ -194,7 +232,16 @@ public class LobbyButton : MonoBehaviour
             selectionCanvas.gameObject.SetActive(false);
         }
 
-        // 게임 시작 로직 추가 (게임 매니저 호출 등)
+        // 마우스 커서 숨기기 및 중앙 고정
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         Debug.Log("게임 시작: " + characters[selectedCharacterIndex].name);
     }
+
+    private IEnumerator SetCameraAfterDelay(Transform playerTransform)
+    {
+        yield return new WaitForSeconds(0.1f);
+        cameraControl.SetPlayer(playerTransform);
+    }   
 }

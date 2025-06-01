@@ -71,7 +71,7 @@ public class SpawnObstacleSkill : Skill
         if (isPreview && obstaclePreviewPrefab != null)
         {
             UpdatePreviewPosition();
-            if (Input.GetMouseButtonDown(0)) // 마우스 클릭 시 설치
+            if (playerInput.fireButton) // 마우스 클릭 시 설치
             {
                 invokeSkill();
             }
