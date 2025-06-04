@@ -45,10 +45,12 @@ public class PlayerShooter : MonoBehaviour
         }
     }
 
+    public bool canShoot = true; //사격이 가능한 상태인지 확인
+    
     private void Update()
     {
 
-        if (playerInput.fireButton)
+        if (playerInput.fireButton && canShoot)
         {
             gun.Fire();
         }

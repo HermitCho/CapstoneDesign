@@ -14,6 +14,7 @@ public class ScanSkill : Skill
     {
         maxCoolDown = coolTime;
         playerInput = GetComponent<PlayerInput>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void inputSkillKey()
@@ -24,6 +25,7 @@ public class ScanSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
+        audioSource.PlayOneShot(skillSound);
         StartCoroutine(DetectAndHighlightEnemies());
     }
 

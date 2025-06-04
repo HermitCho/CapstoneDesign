@@ -43,12 +43,15 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lookAtPoint;
 
     [Header("Sound")]
-    [SerializeField] private AudioClip footstepClip; // 발소리 클립립
+    [SerializeField] private AudioClip footstepClip; // 발소리 클립
     [SerializeField] private float footstepRadius = 10f; // 소리가 들리는 반경
     private float footstepTimer = 0f;
     [SerializeField] private float footstepInterval = 0.4f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
-    private AudioSource audioSource; // 오디오 소스 컴포넌트트
+    private AudioSource audioSource; // 오디오 소스 컴포넌트
     private bool isSprintingLocked = false; // sprint 잠금 상태
+    private float currentVolume = 1f; // 현재 볼륨
+    private float targetVolume = 1f; // 목표 볼륨
+    private float volumeChangeSpeed = 2f; // 볼륨 변화 속도
     //private bool canRun = true;
     private bool prevSprintButton = false;
 
@@ -98,6 +101,8 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    public bool canMove = true; // 움직임이 가능한지 확인
+
     private void Update()
     {
         moveInput = new Vector2(playerInput.horizontalMove, playerInput.verticalMove);
@@ -109,15 +114,26 @@ public class PlayerMovement : MonoBehaviour
         }
 
         isRunning = playerInput.sprintButton && !isSprintingLocked;
-    
+
         playerAnimator.SetFloat("MoveX", moveInput.x);
         playerAnimator.SetFloat("MoveY", moveInput.y);
         playerAnimator.SetBool("isRunning", isRunning);
-        
-        EnergyControl();
-        Rotation();
-        MoveUIElement();
-        MovePlayer();
+
+        if (canMove)
+        {
+            EnergyControl();
+            Rotation();
+            MoveUIElement();
+            MovePlayer();
+        }
+
+        // 볼륨 점진적 변화
+        targetVolume = creeper ? 0f : 1f;
+        currentVolume = Mathf.Clamp(currentVolume + (targetVolume - currentVolume) * Time.deltaTime * volumeChangeSpeed, 0f, 1f);
+        if (audioSource != null)
+        {
+            audioSource.volume = currentVolume;
+        }
 
         // 발소리 타이머
         if (moveInput.magnitude > 0.1f) // 움직이고 있을 때만
@@ -134,7 +150,6 @@ public class PlayerMovement : MonoBehaviour
         {
             footstepTimer = footstepInterval; // 멈추면 타이머 초기화
         }
-
         prevSprintButton = playerInput.sprintButton;
     }
 
@@ -152,8 +167,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveVelocity.sqrMagnitude > 0.01f)
         {
-           //playerRigidbody.AddForce(moveVelocity, ForceMode.VelocityChange);
-                        // y축 속도(중력 등)는 보존
+            //playerRigidbody.AddForce(moveVelocity, ForceMode.VelocityChange);
+            // y축 속도(중력 등)는 보존
             Vector3 velocity = moveVelocity;
             velocity.y = playerRigidbody.velocity.y;
             playerRigidbody.velocity = velocity;
@@ -259,13 +274,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public bool creeper{get; set;} = false;
+    public bool creeper { get; set; } = false;
 
     void FootStepSound()
     {
         if (audioSource != null && footstepClip != null)
         {
-            audioSource.volume = creeper ? 0f :  audioSource.volume;
             audioSource.PlayOneShot(footstepClip);
         }
     }

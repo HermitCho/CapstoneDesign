@@ -17,5 +17,5 @@ MonoBehaviour:
   damage: 10
   magCapacity: 30
   timeBetFire: 0.1
-  reloadTime: 1.5
+  reloadTime: 3
   fireDistance: 20

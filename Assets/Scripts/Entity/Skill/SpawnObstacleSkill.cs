@@ -30,6 +30,7 @@ public class SpawnObstacleSkill : Skill
         maxCoolDown = coolTime; //쿨타임
         playerInput = GetComponent<PlayerInput>();
         handlingWeapon = GetComponent<HandlingWeapon>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // 스킬키 입력 감지 및 프리뷰 생성
@@ -42,7 +43,7 @@ public class SpawnObstacleSkill : Skill
             if (isPlacing == false)
             {
                 handlingWeapon.showGun = false;
-                handlingWeapon.controlPlayerShooter(false);
+                handlingWeapon.controlPlayerShooterOn(false);
                 isPreview = true;
                 if (currentPreview == null)
                 {
@@ -60,6 +61,7 @@ public class SpawnObstacleSkill : Skill
         base.invokeSkill();
         UIManager.Instance.CoolDownButtonInput(2); // 아이콘 업데이트
         SpawnObstacle();
+        audioSource.PlayOneShot(skillSound);
     }
 
     // 매 프레임마다 호출됨

@@ -27,13 +27,9 @@ public class UIManager : Singleton<UIManager>
     PlayerCharacter playerCharacter; // 캐릭터의 플레이어캐릭터 컴포넌트
     GameObject player; // 캐릭터의 플레이어 오브젝트
 
-    void Start()
-    {
-        GetDataForUI();
-    }
 
     // 게임 시작 전 UI 설정을 위한 데이터 가져오기
-    void GetDataForUI()
+    public void GetDataForUI()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerCharacter = player.GetComponent<PlayerHealth>().playerCharacter;

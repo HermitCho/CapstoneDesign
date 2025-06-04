@@ -1263,7 +1263,7 @@ Transform:
   m_GameObject: {fileID: 1000211218286143090}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.102999926, y: 0.24199994, z: 0.93031585}
+  m_LocalPosition: {x: -0.102999926, y: 0.541, z: 0.821}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5013,6 +5013,7 @@ MonoBehaviour:
   footstepClip: {fileID: 8300000, guid: c79c897ef8ac23b4c82da0ab3bc1ad32, type: 3}
   footstepRadius: 10
   footstepInterval: 0.7
+  canMove: 1
 --- !u!114 &-8743325993682860910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5029,6 +5030,7 @@ MonoBehaviour:
   gunPivot: {fileID: 8858011814001164273}
   LeftHandMount: {fileID: 3240792421774261313}
   RightHandMount: {fileID: 1326372685828099267}
+  canShoot: 1
 --- !u!114 &3491176564733354455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5089,7 +5091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkSkill: 0
-  skillSound: {fileID: 8300000, guid: f0cb06f9461ea8b4bba64f3f7064a702, type: 3}
+  skillSound: {fileID: 8300000, guid: 7a9de5c4d998126449cf964a6b27a8b0, type: 3}
   skillParticlePrefab: {fileID: 7823327091382468809, guid: af0d06ad2f476cc43be23ac0f464a510, type: 3}
   gun: {fileID: 6915068162978807675}
 --- !u!120 &7172126072109636532
@@ -5145,7 +5147,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.14935303
+        value: 0.07143402
         inSlope: 0
         outSlope: 0
         tangentMode: 0

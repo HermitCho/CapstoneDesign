@@ -2987,7 +2987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills: []
-  playerCharacter: {fileID: 11400000, guid: 77a57f982947c1f4cac3165e2f88e540, type: 2}
+  playerCharacter: {fileID: 11400000, guid: 6bdefc83cf6bb7f42bc7a5529f0d103a, type: 2}
   healthSlider: {fileID: 5782577937932516242}
   shieldSlider: {fileID: 3017286731622670258}
   energySlider: {fileID: 8454462188862414100}
@@ -3146,7 +3146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkSkill: 0
-  skillSound: {fileID: 0}
+  skillSound: {fileID: 8300000, guid: b7f8695cf65a4f24eb37544298821146, type: 3}
   obstacle: {fileID: 1636720908741532401, guid: c7b93e7a479549d4b9880fbaf2f19b3b, type: 3}
   obstaclePreviewPrefab: {fileID: 1636720908741532401, guid: f933ae461c1d57347aa9fceb64b94f43, type: 3}
 --- !u!120 &5578216138566706538

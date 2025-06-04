@@ -4586,6 +4586,7 @@ MonoBehaviour:
   energySlider: {fileID: 8760491518674384419}
   uiElement: {fileID: 0}
   virtualCamera: {fileID: 0}
+  cinemachineComposer: {fileID: 0}
   footstepClip: {fileID: 8300000, guid: c79c897ef8ac23b4c82da0ab3bc1ad32, type: 3}
   footstepRadius: 10
   footstepInterval: 0.4
@@ -4602,7 +4603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills: []
-  playerCharacter: {fileID: 11400000, guid: 77a57f982947c1f4cac3165e2f88e540, type: 2}
+  playerCharacter: {fileID: 11400000, guid: 06a5342c3213fac478143024e81d9aa5, type: 2}
   healthSlider: {fileID: 4894170432702747961}
   shieldSlider: {fileID: 5648293735398931900}
   energySlider: {fileID: 8760491518674384419}
@@ -4761,7 +4762,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkSkill: 0
-  skillSound: {fileID: 0}
+  skillSound: {fileID: 8300000, guid: c619008f1efb180488a78e4a966a3e16, type: 3}
+  skillEffect: {fileID: 5137123306192418792, guid: 5a8d99fb95262ea458a7b580f2a1611c, type: 3}
 --- !u!120 &-7603503833070056996
 LineRenderer:
   serializedVersion: 2

@@ -12,14 +12,12 @@ public class FlashbangSkill : Skill
     [SerializeField] GameObject flashbangPrefab; //섬광탄 프리팹 데이터
     GameObject flashbangObject; //직접 던져질 섬광탄 오브젝트
     Flashbang flashbang; //섬광탄 스크립트
-
+    public GameObject flashbangPivot; // 섬광탄 피벗
     private int count = 2; // 섬광탄 스킬 개수
     private PlayerInput playerInput; // 섬광탄을 가진 캐릭터의 키인풋 컴포넌트
-
-
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
 
-    public GameObject flashbangPivot; // 섬광탄 피벗
+
 
     // 섬광탄 스킬 초기화
     public override void OnEnable()
@@ -36,6 +34,7 @@ public class FlashbangSkill : Skill
     public override void inputSkillKey()
     {
         base.inputSkillKey();
+        skillCountCheck();
         if (checkSkill == true)
         {
             UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
@@ -47,13 +46,12 @@ public class FlashbangSkill : Skill
                 flashbang = flashbangObject.GetComponent<Flashbang>();
 
                 handlingWeapon.showGun = false;
-                handlingWeapon.controlPlayerShooter(false);
+                handlingWeapon.controlPlayerShooterOn(false);
             }
             else if (flashbangPivot.transform.childCount > 0)
             {
-                //flashbangPivot.transform.parent = flashbangPivot.transform;
                 handlingWeapon.showGun = false;
-                handlingWeapon.controlPlayerShooter(false);
+                handlingWeapon.controlPlayerShooterOn(false);
             }
         }
     }
@@ -64,22 +62,30 @@ public class FlashbangSkill : Skill
         base.invokeSkill();
     }
 
+    private bool hasInvokedSkill = false; // 스킬이 이미 호출되었는지 추적
+    
     void Update()
     {
-        skillCountCheck();
-
-        if (currentCoolDown >= 0f && playerInput.skill_1_Button)
+        if (currentSkillCount > 0 && playerInput.skill_1_Button)
         {
             inputSkillKey();
         }
+
+        Debug.Log(flashbang);
 
         if (flashbang != null) // flashbang가 null이 아닌 경우에만 Handling 호출
         {
             flashbang.HandleOn();
             flashbang.Throwing();
-            if (flashbang.state == Flashbang.State.Fire)
+
+            if (flashbang.state == Flashbang.State.Fire && !hasInvokedSkill)
             {
                 invokeSkill();
+                hasInvokedSkill = true;
+            }
+            else if (flashbang.state != Flashbang.State.Fire)
+            {
+                hasInvokedSkill = false;
             }
         }
         else

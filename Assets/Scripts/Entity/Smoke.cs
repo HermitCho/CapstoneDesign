@@ -52,7 +52,7 @@ public class Smoke : MonoBehaviour
     }
 
     // 2번 키를 누르면 연막탄을 손에 들게 됨
-    public void Handling()
+    public void HandleOn()
     {
         if (state == State.Empty && playerInput.skill_1_Button && !alreadyThrown)
         {

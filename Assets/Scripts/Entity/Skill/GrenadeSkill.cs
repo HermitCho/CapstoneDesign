@@ -47,14 +47,14 @@ public class GrenadeSkill : Skill
                 grenade = grenadeObject.GetComponent<Grenade>();
 
                 handlingWeapon.showGun = false;
-                handlingWeapon.controlPlayerShooter(false);
+                handlingWeapon.controlPlayerShooterOn(false);
             }
             //수류탄 피벗에 이미 수류탄이 있을 경우
             else if (grenadePivot.transform.childCount > 0)
             {
                 grenadeObject.transform.parent = grenadePivot.transform;
                 handlingWeapon.showGun = false;
-                handlingWeapon.controlPlayerShooter(false);
+                handlingWeapon.controlPlayerShooterOn(false);
             }
         }
     }
