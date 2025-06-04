@@ -67,13 +67,12 @@ public class Flashbang : MonoBehaviour
         if (state == State.Empty && playerInput.skill_2_Button && !alreadyThrown)
         {
             state = State.Ready;
-            animator.SetBool("isHandleFlashbang", true);
             gameObject.SetActive(true);
         }
         else if (state == State.Ready && playerInput.handleGunButton && !alreadyThrown)
         {
             state = State.Empty;
-            animator.SetBool("isHandleFlashbang", false);
+            animator.SetBool("HandleGrenade", false);
             gameObject.SetActive(false);
         }
     }
@@ -84,7 +83,7 @@ public class Flashbang : MonoBehaviour
         ///////////////Debug.Log(cookingTime);
         if (state == State.Ready || state == State.Cooking)
         {
-            if (Input.GetMouseButton(0) && !alreadyThrown)
+            if (Input.GetMouseButtonDown(0) && !alreadyThrown)
             {
                 state = State.Cooking;
                 animator.SetTrigger("PullOut");
@@ -98,12 +97,14 @@ public class Flashbang : MonoBehaviour
 
                 rigidbody.isKinematic = false;
                 gameObject.transform.SetParent(null);
-                animator.SetTrigger("Throwing");
+                animator.SetTrigger("ThrowGrenade");
 
                 Vector3 fireDirection = transform.forward + transform.up / 4; //섬광탄이 날아갈 방향
                 rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
                 state = State.Fire;
                 alreadyThrown = true;
+
+                animator.SetBool("HandleGrenade", false);
             }
         }
     }

@@ -19,7 +19,7 @@ public class Smoke : MonoBehaviour
     private Rigidbody rigidbody; // 연막탄의 리지드바디
     private Collider collider; // 연막탄의 콜라이더
     [SerializeField] ParticleSystem explosionParticle; // 연막탄 폭발 파티클
-
+    private Animator animator; // 연막탄을 던지는 캐릭터의 애니메이터
     // Start is called before the first frame update
 
     float cookingTime = 16f; // 최대 연막탄 쿠킹 시간 + 삭제까지 대기시간
@@ -39,6 +39,7 @@ public class Smoke : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
         playerMovement = GetComponentInParent<PlayerMovement>();
+        animator = GetComponentInParent<Animator>();
         alreadyThrown = false;
 
         lineRenderer = GetComponentInParent<LineRenderer>();
@@ -62,6 +63,7 @@ public class Smoke : MonoBehaviour
         else if (state == State.Ready && (playerInput.skill_2_Button || playerInput.handleGunButton) && !alreadyThrown)
         {
             state = State.Empty;
+            animator.SetBool("HandleGrenade", false);
             gameObject.SetActive(false);
         }
     }
@@ -71,10 +73,10 @@ public class Smoke : MonoBehaviour
     {
         if (state == State.Ready || state == State.Cooking)
         {
-            if (Input.GetMouseButton(0) && !alreadyThrown)
+            if (Input.GetMouseButtonDown(0) && !alreadyThrown)
             {
                 state = State.Cooking;
-
+                animator.SetTrigger("PullOut");
                 Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
                 ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
             }
@@ -82,6 +84,7 @@ public class Smoke : MonoBehaviour
             {
                 lineRenderer.enabled = false;
 
+                animator.SetTrigger("ThrowGrenade");
                 rigidbody.isKinematic = false;
                 gameObject.transform.SetParent(null);
 
@@ -89,6 +92,8 @@ public class Smoke : MonoBehaviour
                 rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
                 state = State.Fire;
                 alreadyThrown = true;
+
+                animator.SetBool("HandleGrenade", false);
             }
         }
     }

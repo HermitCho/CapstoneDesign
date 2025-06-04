@@ -15,7 +15,7 @@ public class FlashbangSkill : Skill
 
     private int count = 2; // 섬광탄 스킬 개수
     private PlayerInput playerInput; // 섬광탄을 가진 캐릭터의 키인풋 컴포넌트
-
+    private Animator animator; // 섬광탄을 던지는 캐릭터의 애니메이터
 
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
 
@@ -28,6 +28,7 @@ public class FlashbangSkill : Skill
         maxSkillCount = count;
         currentSkillCount = maxSkillCount;
 
+        animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         handlingWeapon = GetComponent<HandlingWeapon>();
     }
@@ -39,7 +40,7 @@ public class FlashbangSkill : Skill
         if (checkSkill == true)
         {
             UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
-
+            animator.SetBool("HandleGrenade", true);
             if (flashbangPivot.transform.childCount == 0)
             {
                 flashbangObject = Instantiate(flashbangPrefab, flashbangPivot.transform.position, transform.rotation);

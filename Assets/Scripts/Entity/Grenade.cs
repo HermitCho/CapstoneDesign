@@ -41,7 +41,6 @@ public class Grenade : MonoBehaviour
     // 수류탄 투척 궤적
     LineRenderer lineRenderer; //수류탄 투척 궤적을 그리기 위한 라인렌더러
     Transform throwingposition; // 수튜탄 투척 위치
-
     void Start()
     {
         state = State.Ready;
@@ -70,7 +69,6 @@ public class Grenade : MonoBehaviour
         {
             state = State.Ready;
             gameObject.SetActive(true);
-
         }
         
         else if (state == State.Ready && (playerInput.skill_2_Button || playerInput.handleGunButton) && !alreadyThrown)
@@ -86,9 +84,10 @@ public class Grenade : MonoBehaviour
     // 수류탄 쿠킹 및 투척을 위한 메서드
     public void Throwing()
     {
+        
         if (state == State.Ready || state == State.Cooking)
         {
-            if (Input.GetMouseButton(0) && !alreadyThrown)
+            if (Input.GetMouseButtonDown(0) && !alreadyThrown)
             {
                 state = State.Cooking;
                 animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
@@ -207,8 +206,10 @@ public class Grenade : MonoBehaviour
     //수류탄 투척 궤적을 그리기 위한 메서드
     void ShowTrajectLine(Vector3 origin, Vector3 speed)
     {
+       
         Vector3[] points = new Vector3[100];
         lineRenderer.positionCount = points.Length;
+        
         for (int i = 0; i < points.Length; i++)
         {
             float time = i * 0.1f;

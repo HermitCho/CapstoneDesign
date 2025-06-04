@@ -16,6 +16,7 @@ public class SmokeSkill : Skill
     private PlayerInput playerInput; // 연막탄을 가진 캐릭터의 키인풋 컴포넌트
     Smoke smoke; //연막탄 프리팹
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
+    Animator animator; // 연막탄을 던지는 캐릭터의 애니메이터
 
     public GameObject smokePivot; // 연막탄 피벗
 
@@ -26,6 +27,7 @@ public class SmokeSkill : Skill
         maxSkillCount = count;
         currentSkillCount = maxSkillCount;
 
+        animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         handlingWeapon = GetComponent<HandlingWeapon>();
     }
@@ -40,7 +42,8 @@ public class SmokeSkill : Skill
             if (checkSkill == true)
             {
                 UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 1번 키를 눌렀으니 1 전송
-
+                animator.SetBool("HandleGrenade", true);
+                
                 //연막탄을 처음 꺼냄(스킬키를 처음 누름) 혹은 연막탄을 던진 후 스킬 개수가 남아있을 때 스킬키 입력 시
                 if (smokePivot.transform.childCount == 0)
                 {

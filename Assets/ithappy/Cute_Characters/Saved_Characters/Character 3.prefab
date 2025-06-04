@@ -3351,8 +3351,8 @@ Transform:
   m_GameObject: {fileID: 7178732112558831101}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.119, y: 0.367, z: 0.146}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.03, y: 0.42, z: 0.23}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7529893635202052238}
@@ -4523,7 +4523,7 @@ Animator:
   m_GameObject: {fileID: 8878148421551963592}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 571adabd431d59248ab0524b96f6d52a, type: 3}
-  m_Controller: {fileID: 9100000, guid: f985015aaab1a50499295eed958cc7bf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0952c51e33db8ac47af367ea68526307, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4651,11 +4651,13 @@ MonoBehaviour:
   verticalMoveSpeed: 0
   horizontalMoveSpeed: 0
   sprintSpeed: 0
+  dampSpeed: 7
   xMouseSensitivity: 1
   yMouseSensitivity: 1
   energySlider: {fileID: 8838734006598230489}
   uiElement: {fileID: 0}
   virtualCamera: {fileID: 0}
+  cinemachineComposer: {fileID: 0}
   footstepClip: {fileID: 8300000, guid: c79c897ef8ac23b4c82da0ab3bc1ad32, type: 3}
   footstepRadius: 10
   footstepInterval: 0.4
@@ -4816,7 +4818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkSkill: 0
   skillSound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
-  healEffectPrefab: {fileID: 6331275906715107345, guid: 690951f4781b19649bc5c7892414ff37, type: 3}
+  particlePrefab: {fileID: 0}
 --- !u!114 &7653889400094894704
 MonoBehaviour:
   m_ObjectHideFlags: 0

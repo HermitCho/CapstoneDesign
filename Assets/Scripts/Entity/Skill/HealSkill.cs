@@ -15,6 +15,7 @@ public class HealSkill : Skill
     ParticleSystem particleSystem; // 회복 스킬의 파티클 시스템
     [SerializeField] GameObject particlePrefab; // 회복 스킬의 파티클 프리팹
     float particleDuration = 2f; // 회복 스킬 파티클 유지 시간간
+    Animator animator; // 애니메이터 컴포넌트
 
     public override void OnEnable()
     {
@@ -29,6 +30,7 @@ public class HealSkill : Skill
         particleSystem = GetComponent<ParticleSystem>();
 
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponentInParent<Animator>();
     }
 
     public override void inputSkillKey()
@@ -43,6 +45,13 @@ public class HealSkill : Skill
     {
         base.invokeSkill();
         Debug.Log("회복 스킬 사용");
+
+        // 애니메이션 트리거 실행
+        if (animator != null)
+        {
+            animator.SetTrigger("HandReach"); // 손을 앞으로 뻗는 애니메이션
+        }
+
         RaycastHit? hitInfo = playerMovement.LocalPosToWorldRaycast();
         Debug.Log(hitInfo);
         if (hitInfo.HasValue && hitInfo.Value.collider != null && hitInfo.Value.collider.CompareTag("Team")) // null 체크 및 Tag 비교 개선

@@ -15,10 +15,10 @@ public class WarmongerSkill : Skill
     //스킬 직접 관련
     float coolTime = 10f; // 전쟁광 스킬 사용 시 쿨타임
     float currentCoolDown = 0; // 전쟁광 스킬 현재 쿨타임
-
     bool onSkill = false; // 전쟁광 스킬 사용 중인지 확인
     float skillDuration = 5f; // 전쟁광 스킬 지속 시간
     // float nowSkillDuration = 0f; // 코루틴 사용 시 필요 없음
+    private Animator animator; // 애니메이터 컴포넌트
 
     [Header("Particle")]
     [SerializeField] GameObject skillParticlePrefab; // 전쟁광 스킬 파티클 프리팹
@@ -46,6 +46,8 @@ public class WarmongerSkill : Skill
         audioSource = GetComponent<AudioSource>();
 
         gunData = gun.gunData;
+
+        animator = GetComponentInParent<Animator>();
     }
 
     // 스킬 키 입력 시
@@ -65,6 +67,11 @@ public class WarmongerSkill : Skill
         base.invokeSkill();
 
         UIManager.Instance.CoolDownButtonInput(2); // 아이콘 업데이트
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Warmonger");
+        }
 
         // onSkill 플래그는 코루틴 시작 시 설정
         // 능력치 변경

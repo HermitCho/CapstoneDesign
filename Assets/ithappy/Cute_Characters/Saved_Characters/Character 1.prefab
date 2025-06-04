@@ -1427,8 +1427,8 @@ Transform:
   m_GameObject: {fileID: 2183461961137965159}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.119, y: 0.367, z: 0.146}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.03, y: 0.42, z: 0.23}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4856354949414762003}
@@ -2837,7 +2837,7 @@ Animator:
   m_GameObject: {fileID: 4379692382732418576}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 571adabd431d59248ab0524b96f6d52a, type: 3}
-  m_Controller: {fileID: 9100000, guid: f985015aaab1a50499295eed958cc7bf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 11436a022bf61b846b9890695fb0d3fe, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2965,6 +2965,7 @@ MonoBehaviour:
   verticalMoveSpeed: 5
   horizontalMoveSpeed: 2.5
   sprintSpeed: 3
+  dampSpeed: 7
   xMouseSensitivity: 1
   yMouseSensitivity: 1
   energySlider: {fileID: 8454462188862414100}
