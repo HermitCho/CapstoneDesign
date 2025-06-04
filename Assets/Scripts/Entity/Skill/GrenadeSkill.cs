@@ -19,8 +19,7 @@ public class GrenadeSkill : Skill
 
     private Animator animator;
     public GameObject grenadePivot; // 수류탄 피벗
-    private Transform rightHandTransform; // 오른손 위치를 추적하기 위한 변수
-
+    
     // 수류탄 스킬 초기화
     public override void OnEnable()
     {
@@ -49,6 +48,12 @@ public class GrenadeSkill : Skill
                 grenadeObject = Instantiate(grenadePrefab, grenadePivot.transform.position, transform.rotation);
                 grenadeObject.transform.parent = grenadePivot.transform;
                 grenade = grenadeObject.GetComponent<Grenade>();
+
+                // 캐릭터 밀림 방지를 위한 설정
+                Rigidbody rb = grenadeObject.GetComponent<Rigidbody>();
+                Collider col = grenadeObject.GetComponent<Collider>();
+                if (rb != null) rb.isKinematic = true;
+                if (col != null) col.enabled = false;
 
                 handlingWeapon.showGun = false;
                 handlingWeapon.controlPlayerShooter(false);

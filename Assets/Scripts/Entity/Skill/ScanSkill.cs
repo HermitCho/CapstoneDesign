@@ -10,10 +10,12 @@ public class ScanSkill : Skill
     }
     private PlayerInput playerInput;
     float coolTime = 10f; // 스킬 쿨타임
+    Animator animator; // 애니메이터 컴포넌트
     void OnEnable()
     {
         maxCoolDown = coolTime;
         playerInput = GetComponent<PlayerInput>();
+        animator = GetComponentInParent<Animator>();
     }
 
     public override void inputSkillKey()
@@ -24,6 +26,12 @@ public class ScanSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
+
+        // 애니메이션 트리거 실행
+        if (animator != null)
+        {
+            animator.SetTrigger("ScanUse"); // 손을 앞으로 뻗는 애니메이션
+        }
         StartCoroutine(DetectAndHighlightEnemies());
     }
 

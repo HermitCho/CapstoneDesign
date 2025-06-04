@@ -206,8 +206,10 @@ public class Grenade : MonoBehaviour
     //수류탄 투척 궤적을 그리기 위한 메서드
     void ShowTrajectLine(Vector3 origin, Vector3 speed)
     {
+       
         Vector3[] points = new Vector3[100];
         lineRenderer.positionCount = points.Length;
+        
         for (int i = 0; i < points.Length; i++)
         {
             float time = i * 0.1f;
