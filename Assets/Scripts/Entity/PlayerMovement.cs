@@ -15,8 +15,8 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public float sprintSpeed;//달리기 속도 곱
 
     [Header("Mouse Settings")]
-    [HideInInspector] public float xMouseSensitivity = 1f; //좌우 마우스 움직임 속도
-    [HideInInspector] public float yMouseSensitivity = 1f; //상하 마우스 움직임 속도
+    [HideInInspector] public float xMouseSensitivity; //좌우 마우스 움직임 속도
+    [HideInInspector] public float yMouseSensitivity; //상하 마우스 움직임 속도
 
     [Header("Energy Settings")]
     float maxEnergy = 100f;
@@ -89,8 +89,6 @@ public class PlayerMovement : MonoBehaviour
 
         playerShooter = GetComponent<PlayerShooter>();
 
-        xMouseSensitivity = 1f;
-        yMouseSensitivity = 1f;
         // 초기 UI 위치 저장
         previousUIPosition = uiElement.localPosition;
 
@@ -128,12 +126,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // 볼륨 점진적 변화
-        targetVolume = creeper ? 0f : 1f;
+    /*    targetVolume = creeper ? 0f : 1f;
         currentVolume = Mathf.Clamp(currentVolume + (targetVolume - currentVolume) * Time.deltaTime * volumeChangeSpeed, 0f, 1f);
         if (audioSource != null)
         {
             audioSource.volume = currentVolume;
-        }
+        } */
 
         // 발소리 타이머
         if (moveInput.magnitude > 0.1f) // 움직이고 있을 때만
@@ -142,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
             float interval = isRunning ? footstepInterval * 0.6f : footstepInterval; // 달리기는 더 짧게
             if (footstepTimer >= interval)
             {
-                FootStepSound();
+                //FootStepSound();
                 footstepTimer = 0f;
             }
         }

@@ -128,16 +128,8 @@ public class SelectCharacter : MonoBehaviour
         // 선택된 캐릭터 생성
         selectedCharacter = Instantiate(characterPrefabs[selectedCharacterIndex], Vector3.zero, Quaternion.identity);
 
-        // PlayerInput 컴포넌트 가져오기
-        PlayerInput playerInput = selectedCharacter.GetComponent<PlayerInput>();
-        if (playerInput != null && loadSettings != null)
-        {
-            // LoadSettings에 PlayerInput 설정
-            loadSettings.SetPlayerInput(playerInput);
-            
-            // 저장된 설정을 플레이어에 적용
-            loadSettings.LoadSettingsToPlayer();
-        }
+       
+
 
         // PlayerMovement 컴포넌트 가져오기
         playerMovement = selectedCharacter.GetComponent<PlayerMovement>();
@@ -222,6 +214,18 @@ public class SelectCharacter : MonoBehaviour
         {
             Debug.LogError("카메라 컴포넌트를 찾을 수 없습니다!");
         }
+        // PlayerInput 컴포넌트 가져오기
+        PlayerInput playerInput = selectedCharacter.GetComponent<PlayerInput>();
+        if (playerInput != null && loadSettings != null)
+        {
+            // LoadSettings에 PlayerInput 설정
+            loadSettings.SetPlayerInput(playerInput);
+            
+            // 저장된 설정을 플레이어에 적용
+            loadSettings.LoadSettingsToPlayer();
+            Debug.Log("PlayerInput 설정 완료");
+        }
+        
 
         UIManager.Instance.GetDataForUI();
         
@@ -252,6 +256,6 @@ public class SelectCharacter : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        Debug.Log("캐릭터 선택 시간 종료");
+        Debug.Log("캐릭터 선택 시간 종료 및 설정 완료");
     }
 }
