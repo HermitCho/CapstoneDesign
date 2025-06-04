@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HealSkill : Skill
@@ -56,12 +57,15 @@ public class HealSkill : Skill
         Debug.Log(hitInfo);
         if (hitInfo.HasValue && hitInfo.Value.collider != null && hitInfo.Value.collider.CompareTag("Team")) // null 체크 및 Tag 비교 개선
         {
+            // 팀원에게 힐
             PlayerHealth teamPlayerHealth = hitInfo.Value.collider.GetComponent<PlayerHealth>();
             if (teamPlayerHealth != null)
             {
-                // 팀원에게 힐
                 teamPlayerHealth.RestoreHealth(recoverHealth);
-                teamPlayerHealth.GetComponent<AudioSource>().PlayOneShot(skillSound); // Null Conditional Operator 사용
+                if (skillSound != null)
+                {
+                    hitInfo.Value.collider.GetComponent<AudioSource>()?.PlayOneShot(skillSound);
+                }
                 count -= 1;
                 
                 // 팀원 위치에 파티클 프리팹 인스턴스화 및 재생
@@ -73,7 +77,10 @@ public class HealSkill : Skill
         {
             // 자신에게 힐
             playerHealth.RestoreHealth(recoverHealth);
-            audioSource?.PlayOneShot(skillSound); // Null Conditional Operator 사용
+            if (skillSound != null)
+            {
+                audioSource?.PlayOneShot(skillSound);
+            }
             count -= 1;
             
             // 자신의 위치에 파티클 프리팹 인스턴스화 및 재생

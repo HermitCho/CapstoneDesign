@@ -23,14 +23,13 @@ public class Flashbang : MonoBehaviour
     [SerializeField] ParticleSystem explosionParticle; // 섬광탄 폭발 파티클
     private Animator animator; // 섬광탄을 던지는 캐릭터의 애니메이터
 
-    bool alreadyThrown; // 던져진 상태인지 확인
+    public bool alreadyThrown; // 던져진 상태인지 확인
     float cookingTime = 15f; // 최대 섬광탄 쿠킹 시간 + 삭제까지 대기시간
     float throwingPower = 20f; // 섬광탄 투척 속도
     float throwingDelay = 2f; // 섬광탄을 던질 때 너무 빨리 던지면 isKinematic이 off되기 전에 바닥을 뚫고 지나감, 그래서 약간의 딜레이를 넣음
     bool exploded = false; // 섬광탄이 한 번 터지면 다시 함수가 반복되지 않도록 조절
 
     Image whiteImage;
-    [SerializeField] AudioClip WhiteNoise;
     [SerializeField] AudioClip Bang;
     AudioSource audioSource;
 
@@ -41,7 +40,7 @@ public class Flashbang : MonoBehaviour
 
     void Start()
     {
-        state = State.Ready;
+        state = State.Empty;
 
         playerInput = GetComponentInParent<PlayerInput>();
         rigidbody = GetComponent<Rigidbody>();
@@ -64,12 +63,12 @@ public class Flashbang : MonoBehaviour
     // 2번 키를 누르면 섬광탄을 손에 들게 됨
     public void HandleOn()
     {
-        if (state == State.Empty && playerInput.skill_2_Button && !alreadyThrown)
+        if (state == State.Empty && playerInput.skill_1_Button && !alreadyThrown)
         {
             state = State.Ready;
             gameObject.SetActive(true);
         }
-        else if (state == State.Ready && playerInput.handleGunButton && !alreadyThrown)
+        else if (state == State.Ready && (playerInput.handleGunButton || playerInput.skill_2_Button) && !alreadyThrown)
         {
             state = State.Empty;
             animator.SetBool("HandleGrenade", false);
@@ -138,9 +137,18 @@ public class Flashbang : MonoBehaviour
                             audioSource.Play();
                             AudioSource iAudio = colls[i].GetComponent<AudioSource>();
 
+                            // 플레이어의 움직임과 사격을 제한
+                            PlayerMovement hitPlayerMovement = colls[i].GetComponent<PlayerMovement>();
+                            PlayerShooter hitPlayerShooter = colls[i].GetComponent<PlayerShooter>();
+                            HandlingWeapon hitHandlingWeapon = colls[i].GetComponent<HandlingWeapon>();
+                            
+                            if (hitPlayerMovement != null && hitPlayerShooter != null)
+                            {
+                                StartCoroutine(DisablePlayerActions(hitPlayerMovement, hitPlayerShooter, hitHandlingWeapon));
+                            }
+
                             if (dotProduct < 0) // 0보다 크면 앞쪽에 있음
                             {
-
                                 Debug.Log("플레이어가 섬광탄 앞쪽에 있음! 더 강한 효과");
                             }
                             else
@@ -158,6 +166,27 @@ public class Flashbang : MonoBehaviour
                 Destroy(gameObject); // 이 오브젝트를 파괴
             }
         }
+    }
+
+    private IEnumerator DisablePlayerActions(PlayerMovement movement, PlayerShooter shooter, HandlingWeapon handlingWeapon)
+    {
+        // 원래 상태 저장
+        bool originalMovementEnabled = movement.enabled;
+        bool originalShooterEnabled = shooter.enabled;
+        bool originalHandlingWeaponEnabled = handlingWeapon.enabled;
+
+        // 컴포넌트 비활성화
+        movement.enabled = false;
+        shooter.enabled = false;
+        handlingWeapon.enabled = false;
+
+        // 2초 대기
+        yield return new WaitForSeconds(2f);
+
+        // 컴포넌트 다시 활성화
+        movement.enabled = originalMovementEnabled;
+        shooter.enabled = originalShooterEnabled;
+        handlingWeapon.enabled = originalHandlingWeaponEnabled;
     }
 
     void ShowTrajectLine(Vector3 origin, Vector3 speed)

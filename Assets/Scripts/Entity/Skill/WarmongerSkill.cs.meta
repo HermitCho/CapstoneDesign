@@ -3,7 +3,10 @@ guid: 90dbf1e7c08ca1c48b199b4f7908a427
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - skillSound: {fileID: 8300000, guid: a652877b012108e41871f867ada9f176, type: 3}
+  - skillParticlePrefab: {instanceID: 0}
+  - gun: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

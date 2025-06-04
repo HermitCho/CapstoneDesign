@@ -17,17 +17,17 @@ public class HandlingWeapon : MonoBehaviour
     //1번 버튼 클릭 시, 손에 총을 나타나게 함
     void Update()
     {
-        if (playerInput.handleGunButton && !showGun)
+        if (playerInput.handleGunButton && !showGun && playerShooter.canShoot)
         {
             UIManager.Instance.SelectGunORSkillUI(0); // 인게임 UI에 수류탄 아이콘 표시, 총기 키를 눌렀으니 0 전송
 
             showGun = true;
-            controlPlayerShooter(true);
+            controlPlayerShooterOn(true);
         }
     }
     
     //playerShooter 컴포넌트 제어
-    public void controlPlayerShooter(bool onoff)
+    public void controlPlayerShooterOn(bool onoff)
     {
         if (onoff)
         {

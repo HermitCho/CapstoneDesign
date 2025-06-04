@@ -56,7 +56,7 @@ public class GrenadeSkill : Skill
                 if (col != null) col.enabled = false;
 
                 handlingWeapon.showGun = false;
-                handlingWeapon.controlPlayerShooter(false);
+                handlingWeapon.controlPlayerShooterOn(false);
             }
             //수류탄 피벗에 이미 수류탄이 있을 경우
             else if (grenadePivot.transform.childCount > 0)
@@ -64,7 +64,7 @@ public class GrenadeSkill : Skill
                 grenadeObject.transform.parent = grenadePivot.transform;
 
                 handlingWeapon.showGun = false;
-                handlingWeapon.controlPlayerShooter(false);
+                handlingWeapon.controlPlayerShooterOn(false);
             }
         }
     }

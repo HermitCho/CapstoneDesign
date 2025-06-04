@@ -222,7 +222,9 @@ public class SelectCharacter : MonoBehaviour
         {
             Debug.LogError("카메라 컴포넌트를 찾을 수 없습니다!");
         }
+
         UIManager.Instance.GetDataForUI();
+        
         Debug.Log($"캐릭터 설정 완료: {selectedCharacter.name}");
     }
 

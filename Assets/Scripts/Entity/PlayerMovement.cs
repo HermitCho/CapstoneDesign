@@ -13,9 +13,6 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public float verticalMoveSpeed; //앞뒤 움직임 속도
     [HideInInspector] public float horizontalMoveSpeed;//양옆 움직임 속도
     [HideInInspector] public float sprintSpeed;//달리기 속도 곱
-    private float currentMoveX = 0f;
-    private float currentMoveY = 0f;
-    public float dampSpeed = 7f; // Lerp 속도 조절용
 
     [Header("Mouse Settings")]
     [HideInInspector] public float xMouseSensitivity = 1f; //좌우 마우스 움직임 속도
@@ -46,12 +43,15 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lookAtPoint;
 
     [Header("Sound")]
-    [SerializeField] private AudioClip footstepClip; // 발소리 클립립
+    [SerializeField] private AudioClip footstepClip; // 발소리 클립
     [SerializeField] private float footstepRadius = 10f; // 소리가 들리는 반경
     private float footstepTimer = 0f;
     [SerializeField] private float footstepInterval = 0.4f; // 한 걸음마다 소리 간격(초), 걷기/뛰기 속도에 따라 조정
-    private AudioSource audioSource; // 오디오 소스 컴포넌트트
+    private AudioSource audioSource; // 오디오 소스 컴포넌트
     private bool isSprintingLocked = false; // sprint 잠금 상태
+    private float currentVolume = 1f; // 현재 볼륨
+    private float targetVolume = 1f; // 목표 볼륨
+    private float volumeChangeSpeed = 2f; // 볼륨 변화 속도
     //private bool canRun = true;
     private bool prevSprintButton = false;
 
@@ -101,6 +101,8 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    public bool canMove = true; // 움직임이 가능한지 확인
+
     private void Update()
     {
         moveInput = new Vector2(playerInput.horizontalMove, playerInput.verticalMove);
@@ -111,29 +113,43 @@ public class PlayerMovement : MonoBehaviour
             isSprintingLocked = false;
         }
 
-        Vector2 input = moveInput.normalized; // 방향 정규화
-        float inputMagnitude = 1f; // 대각선 이동 시에도 크기를 1로 고정
-        float speed = isRunning && energy > 0 ? sprintSpeed : 1f;
         isRunning = playerInput.sprintButton && !isSprintingLocked;
-    
-        // 목표 값 계산
-        float targetMoveX = input.x * inputMagnitude * speed;
-        float targetMoveY = input.y * inputMagnitude * speed;
 
-        // Lerp를 통해 현재 값 갱신 (부드러운 변화)
-        currentMoveX = Mathf.Lerp(currentMoveX, targetMoveX, Time.deltaTime * dampSpeed);
-        currentMoveY = Mathf.Lerp(currentMoveY, targetMoveY, Time.deltaTime * dampSpeed);
-
-        // 애니메이터에 적용
-        playerAnimator.SetFloat("MoveX", currentMoveX);
-        playerAnimator.SetFloat("MoveY", currentMoveY);
+        playerAnimator.SetFloat("MoveX", moveInput.x);
+        playerAnimator.SetFloat("MoveY", moveInput.y);
         playerAnimator.SetBool("isRunning", isRunning);
-        
-        EnergyControl();
-        Rotation();
-        MoveUIElement();
-        MovePlayer();
 
+        if (canMove)
+        {
+            EnergyControl();
+            Rotation();
+            MoveUIElement();
+            MovePlayer();
+        }
+
+        // 볼륨 점진적 변화
+        targetVolume = creeper ? 0f : 1f;
+        currentVolume = Mathf.Clamp(currentVolume + (targetVolume - currentVolume) * Time.deltaTime * volumeChangeSpeed, 0f, 1f);
+        if (audioSource != null)
+        {
+            audioSource.volume = currentVolume;
+        }
+
+        // 발소리 타이머
+        if (moveInput.magnitude > 0.1f) // 움직이고 있을 때만
+        {
+            footstepTimer += Time.deltaTime;
+            float interval = isRunning ? footstepInterval * 0.6f : footstepInterval; // 달리기는 더 짧게
+            if (footstepTimer >= interval)
+            {
+                FootStepSound();
+                footstepTimer = 0f;
+            }
+        }
+        else
+        {
+            footstepTimer = footstepInterval; // 멈추면 타이머 초기화
+        }
         prevSprintButton = playerInput.sprintButton;
     }
 
@@ -141,22 +157,18 @@ public class PlayerMovement : MonoBehaviour
     //움직임 메서드
     private void MovePlayer()
     {
-        float speed = isRunning && energy > 0 ? sprintSpeed : 1f;
+        float forwardSpeed = isRunning && energy > 0 ? sprintSpeed * verticalMoveSpeed : verticalMoveSpeed;
+        float strafeSpeed = isRunning && energy > 0 ? sprintSpeed * horizontalMoveSpeed : horizontalMoveSpeed;
 
-        // 입력 벡터 정규화
-        Vector2 input = moveInput.normalized;
+        Vector3 forwardMovement = transform.forward * moveInput.y * forwardSpeed;
+        Vector3 strafeMovement = transform.right * moveInput.x * strafeSpeed;
 
-        // 입력 방향 계산
-        Vector3 moveDirection = transform.forward * input.y + transform.right * input.x;
-
-        // 속도 조절
-        float finalSpeed = verticalMoveSpeed * speed;
-        Vector3 moveVelocity = moveDirection * finalSpeed;
+        Vector3 moveVelocity = forwardMovement + strafeMovement;
 
         if (moveVelocity.sqrMagnitude > 0.01f)
         {
-           //playerRigidbody.AddForce(moveVelocity, ForceMode.VelocityChange);
-                        // y축 속도(중력 등)는 보존
+            //playerRigidbody.AddForce(moveVelocity, ForceMode.VelocityChange);
+            // y축 속도(중력 등)는 보존
             Vector3 velocity = moveVelocity;
             velocity.y = playerRigidbody.velocity.y;
             playerRigidbody.velocity = velocity;
@@ -262,16 +274,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public bool creeper{get; set;} = false;
+    public bool creeper { get; set; } = false;
 
     void FootStepSound()
     {
-        // 이동 중일 때만 발소리 재생
-        if (moveInput.sqrMagnitude < 0.01f) return;
-
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
-
         if (audioSource != null && footstepClip != null)
         {
             audioSource.PlayOneShot(footstepClip);

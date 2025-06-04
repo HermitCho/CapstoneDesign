@@ -16,7 +16,6 @@ public class SmokeSkill : Skill
     private PlayerInput playerInput; // 연막탄을 가진 캐릭터의 키인풋 컴포넌트
     Smoke smoke; //연막탄 프리팹
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
-    Animator animator; // 연막탄을 던지는 캐릭터의 애니메이터
 
     public GameObject smokePivot; // 연막탄 피벗
 
@@ -27,7 +26,6 @@ public class SmokeSkill : Skill
         maxSkillCount = count;
         currentSkillCount = maxSkillCount;
 
-        animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         handlingWeapon = GetComponent<HandlingWeapon>();
     }
@@ -36,32 +34,28 @@ public class SmokeSkill : Skill
     public override void inputSkillKey()
     {
         base.inputSkillKey();
+        skillCountCheck();
         if (checkSkill == true)
         {
-            base.inputSkillKey();
-            if (checkSkill == true)
-            {
-                UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 1번 키를 눌렀으니 1 전송
-                animator.SetBool("HandleGrenade", true);
-                
-                //연막탄을 처음 꺼냄(스킬키를 처음 누름) 혹은 연막탄을 던진 후 스킬 개수가 남아있을 때 스킬키 입력 시
-                if (smokePivot.transform.childCount == 0)
-                {
-                    smokeObject = Instantiate(smokePrefab, smokePivot.transform.position, transform.rotation);
-                    smokeObject.transform.parent = smokePivot.transform;
-                    smoke = smokeObject.GetComponent<Smoke>();
-                    Debug.Log("연막탄 장착!");
+            UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 1번 키를 눌렀으니 1 전송
 
-                    handlingWeapon.showGun = false;
-                    handlingWeapon.controlPlayerShooter(false);
-                }
-                //연막탄 피벗에 이미 연막탄이 있을 경우
-                else if (smokePivot.transform.childCount > 0)
-                {
-                    smokeObject.transform.parent = smokePivot.transform;
-                    handlingWeapon.showGun = false;
-                    handlingWeapon.controlPlayerShooter(false);
-                }
+            //연막탄을 처음 꺼냄(스킬키를 처음 누름) 혹은 연막탄을 던진 후 스킬 개수가 남아있을 때 스킬키 입력 시
+            if (smokePivot.transform.childCount == 0)
+            {
+                smokeObject = Instantiate(smokePrefab, smokePivot.transform.position, transform.rotation);
+                smokeObject.transform.parent = smokePivot.transform;
+                smoke = smokeObject.GetComponent<Smoke>();
+                Debug.Log("연막탄 장착!");
+
+                handlingWeapon.showGun = false;
+                handlingWeapon.controlPlayerShooterOn(false);
+            }
+            //연막탄 피벗에 이미 연막탄이 있을 경우
+            else if (smokePivot.transform.childCount > 0)
+            {
+                smokeObject.transform.parent = smokePivot.transform;
+                handlingWeapon.showGun = false;
+                handlingWeapon.controlPlayerShooterOn(false);
             }
         }
     }
@@ -75,7 +69,6 @@ public class SmokeSkill : Skill
     //스킬 쿨타임 관리 + 키 입력 인식
     void Update()
     {
-        skillCountCheck();
         if (currentCoolDown >= 0f && playerInput.skill_1_Button)
         {
             inputSkillKey();
@@ -83,7 +76,7 @@ public class SmokeSkill : Skill
 
         if (smoke != null) // smoke가 null이 아닌 경우에만 Handling 호출
         {
-            smoke.Handling();
+            smoke.HandleOn();
             smoke.Throwing();
             if (smoke.state == Smoke.State.Fire)
             {
