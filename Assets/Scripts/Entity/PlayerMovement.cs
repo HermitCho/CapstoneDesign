@@ -55,6 +55,10 @@ public class PlayerMovement : MonoBehaviour
     //private bool canRun = true;
     private bool prevSprintButton = false;
 
+    private float currentMoveX = 0f;
+    private float currentMoveY = 0f;
+    [HideInInspector] public float dampSpeed = 7f; // Lerp 속도 조절용
+
     private void OnEnable()
     {
         startEnergy = maxEnergy;
@@ -111,10 +115,22 @@ public class PlayerMovement : MonoBehaviour
             isSprintingLocked = false;
         }
 
+        Vector2 input = moveInput.normalized; // 방향 정규화
+        float inputMagnitude = 1f; // 대각선 이동 시에도 크기를 1로 고정
+        float speed = isRunning && energy > 0 ? sprintSpeed : 1f;
+
         isRunning = playerInput.sprintButton && !isSprintingLocked;
 
-        playerAnimator.SetFloat("MoveX", moveInput.x);
-        playerAnimator.SetFloat("MoveY", moveInput.y);
+        // 목표 값 계산
+        float targetMoveX = input.x * inputMagnitude * speed;
+        float targetMoveY = input.y * inputMagnitude * speed;
+
+        // Lerp를 통해 현재 값 갱신 (부드러운 변화)
+        currentMoveX = Mathf.Lerp(currentMoveX, targetMoveX, Time.deltaTime * dampSpeed);
+        currentMoveY = Mathf.Lerp(currentMoveY, targetMoveY, Time.deltaTime * dampSpeed);
+
+        playerAnimator.SetFloat("MoveX",currentMoveX);
+        playerAnimator.SetFloat("MoveY", currentMoveY);
         playerAnimator.SetBool("isRunning", isRunning);
 
         if (canMove)
@@ -125,15 +141,6 @@ public class PlayerMovement : MonoBehaviour
             MovePlayer();
         }
 
-        // 볼륨 점진적 변화
-    /*    targetVolume = creeper ? 0f : 1f;
-        currentVolume = Mathf.Clamp(currentVolume + (targetVolume - currentVolume) * Time.deltaTime * volumeChangeSpeed, 0f, 1f);
-        if (audioSource != null)
-        {
-            audioSource.volume = currentVolume;
-        } */
-
-        // 발소리 타이머
         if (moveInput.magnitude > 0.1f) // 움직이고 있을 때만
         {
             footstepTimer += Time.deltaTime;
