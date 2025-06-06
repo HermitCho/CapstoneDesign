@@ -5013,6 +5013,7 @@ MonoBehaviour:
   footstepClip: {fileID: 8300000, guid: c79c897ef8ac23b4c82da0ab3bc1ad32, type: 3}
   footstepRadius: 10
   footstepInterval: 0.7
+  dampSpeed: 7
   canMove: 1
 --- !u!114 &-8743325993682860910
 MonoBehaviour:
@@ -5048,6 +5049,7 @@ MonoBehaviour:
   healthSlider: {fileID: 6727091063276816875}
   shieldSlider: {fileID: 75596563686770913}
   energySlider: {fileID: 46279602573926384}
+  canvas: {fileID: 3763229152075236701}
   isVisible: 1
 --- !u!114 &7523022288513447213
 MonoBehaviour:

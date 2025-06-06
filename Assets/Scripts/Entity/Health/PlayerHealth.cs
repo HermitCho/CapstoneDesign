@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI; // UI 관련 코드
+using Michsky.UI.Heat;
 
 // 해당 스크립트는 '레트로의 유니티 게임 프로그래밍 에센스 개정판'의 스크립트를 수정함
 
@@ -12,6 +13,8 @@ public class PlayerHealth : LivingEntity
     public Slider shieldSlider; // 추가 방어막을 표시할 UI 슬라이더
     public Slider energySlider; // 기력을 표시할 UI 슬라이더
 
+    public Canvas canvas; // 체력,방어막, 기력 UI 캔버스
+
     private AudioSource playerAudioPlayer; // 플레이어 소리 재생기
     private Animator playerAnimator; // 플레이어의 애니메이터
 
@@ -19,6 +22,7 @@ public class PlayerHealth : LivingEntity
     private PlayerMovement playerMovement; // 플레이어 움직임 컴포넌트
 
     private PlayerShooter playerShooter; // 플레이어 슈터 컴포넌트
+    private PanelManager panelManager; // Heat UI 패널 매니저
 
     private void Awake()
     {
@@ -28,6 +32,7 @@ public class PlayerHealth : LivingEntity
         playerMovement = GetComponent<PlayerMovement>();
         playerInput = GetComponent<PlayerInput>();
         playerShooter = GetComponent<PlayerShooter>();
+        panelManager = FindObjectOfType<PanelManager>(); // 패널 매니저 찾기
     }
 
     protected override void OnEnable()
@@ -42,12 +47,45 @@ public class PlayerHealth : LivingEntity
         startingShield = playerCharacter.maxShield;
         shield = startingShield;
 
-
         healthSlider.maxValue = startingHealth;
         healthSlider.value = health;
         shieldSlider.maxValue = startingShield;
         shieldSlider.value = shield;
+
+        // 패널 변경 이벤트에 리스너 추가
+        if (panelManager != null)
+        {
+            panelManager.onPanelChanged.AddListener(OnPanelChanged);
+        }
     }
+
+    private void OnDisable()
+    {
+        // 패널 변경 이벤트 리스너 제거
+        if (panelManager != null)
+        {
+            panelManager.onPanelChanged.RemoveListener(OnPanelChanged);
+        }
+    }
+
+    // 패널이 변경될 때 호출되는 메서드
+    private void OnPanelChanged(int panelIndex)
+    {
+        UpdateHealthUIVisibility(panelIndex);
+    }
+
+    // 체력 UI의 가시성을 업데이트하는 메서드
+    private void UpdateHealthUIVisibility(int currentPanelIndex)
+    {
+        // Crosshair 패널(0번째 패널)일 때만 UI를 보이게 함
+        bool shouldShowUI = currentPanelIndex == 0;
+        
+        if (canvas != null)
+        {
+            canvas.gameObject.SetActive(shouldShowUI);
+        }
+    }
+
 
     // 체력 회복
     public override void RestoreHealth(float newHealth)

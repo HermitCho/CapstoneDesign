@@ -4581,7 +4581,6 @@ MonoBehaviour:
   verticalMoveSpeed: 0
   horizontalMoveSpeed: 0
   sprintSpeed: 0
-  dampSpeed: 7
   xMouseSensitivity: 1
   yMouseSensitivity: 1
   energySlider: {fileID: 8760491518674384419}
@@ -4591,6 +4590,8 @@ MonoBehaviour:
   footstepClip: {fileID: 8300000, guid: c79c897ef8ac23b4c82da0ab3bc1ad32, type: 3}
   footstepRadius: 10
   footstepInterval: 0.4
+  dampSpeed: 7
+  canMove: 1
 --- !u!114 &1409730454862799161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4608,6 +4609,7 @@ MonoBehaviour:
   healthSlider: {fileID: 4894170432702747961}
   shieldSlider: {fileID: 5648293735398931900}
   energySlider: {fileID: 8760491518674384419}
+  canvas: {fileID: 451174917274118197}
   isVisible: 1
 --- !u!114 &7058070968603355476
 MonoBehaviour:
@@ -4625,6 +4627,7 @@ MonoBehaviour:
   gunPivot: {fileID: 2657840931686503230}
   LeftHandMount: {fileID: 7947300779749385789}
   RightHandMount: {fileID: 1624294849826478987}
+  canShoot: 1
 --- !u!114 &-4788599908075510464
 MonoBehaviour:
   m_ObjectHideFlags: 0
