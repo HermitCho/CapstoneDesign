@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class SmokeSkill : Skill
 {
-    // 스킬 타입을 카운트 타입으로 설정
-    public SmokeSkill()
-    {
-        skillType = SkillType.count;
-    }
-
     [SerializeField] GameObject smokePrefab; //연막탄 프리팹
     GameObject smokeObject; // 연막탄 오브젝트
     private int count = 2; // 연막탄 스킬 개수
@@ -18,6 +12,11 @@ public class SmokeSkill : Skill
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
 
     public GameObject smokePivot; // 연막탄 피벗
+
+    void Start()
+    {
+        skillType = SkillType.count;
+    }
 
     // 연막탄 스킬 초기화
     public override void OnEnable()
@@ -45,7 +44,6 @@ public class SmokeSkill : Skill
                 smokeObject = Instantiate(smokePrefab, smokePivot.transform.position, transform.rotation);
                 smokeObject.transform.parent = smokePivot.transform;
                 smoke = smokeObject.GetComponent<Smoke>();
-                Debug.Log("연막탄 장착!");
 
                 handlingWeapon.showGun = false;
                 handlingWeapon.controlPlayerShooterOn(false);
@@ -82,10 +80,6 @@ public class SmokeSkill : Skill
             {
                 invokeSkill();
             }
-        }
-        else
-        {
-            Debug.LogWarning("Grenade가 초기화되지 않았습니다.");
         }
     }
 }

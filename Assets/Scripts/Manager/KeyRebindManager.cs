@@ -56,20 +56,20 @@ public class KeyRebindManager : MonoBehaviour
         if (panelManager == null)
         {
             panelManager = FindObjectOfType<PanelManager>();
-            if (panelManager == null)
-            {
-                Debug.LogError("PanelManager를 찾을 수 없습니다!");
-            }
+            // if (panelManager == null)
+            // {
+            //     Debug.LogError("PanelManager를 찾을 수 없습니다!");
+            // }
         }
     }
 
     public void SetPlayerInput(PlayerInput newPlayerInput)
     {
-        if (newPlayerInput == null)
-        {
-            Debug.LogError("KeyRebindManager: PlayerInput이 null입니다!");
-            return;
-        }
+        // if (newPlayerInput == null)
+        // {
+        //     Debug.LogError("KeyRebindManager: PlayerInput이 null입니다!");
+        //     return;
+        // }
 
         playerInput = newPlayerInput;
         
@@ -115,10 +115,10 @@ public class KeyRebindManager : MonoBehaviour
         {
             // Lobby 씬에서는 KeyRebindManager 오브젝트의 PlayerInput 사용
             playerInput = GetComponent<PlayerInput>();
-            if (playerInput == null)
-            {
-                Debug.LogError("KeyRebindManager: Lobby 씬에서 PlayerInput 컴포넌트를 찾을 수 없습니다!");
-            }
+            // if (playerInput == null)
+            // {
+            //     Debug.LogError("KeyRebindManager: Lobby 씬에서 PlayerInput 컴포넌트를 찾을 수 없습니다!");
+            // }
         }
         else
         {
@@ -126,16 +126,16 @@ public class KeyRebindManager : MonoBehaviour
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
-                playerInput = player.GetComponent<PlayerInput>();
-                if (playerInput == null)
-                {
-                    Debug.LogError("KeyRebindManager: Player 오브젝트에서 PlayerInput 컴포넌트를 찾을 수 없습니다!");
-                }
+                // playerInput = player.GetComponent<PlayerInput>();
+                // if (playerInput == null)
+                // {
+                //     Debug.LogError("KeyRebindManager: Player 오브젝트에서 PlayerInput 컴포넌트를 찾을 수 없습니다!");
+                // }
             }
-            else
-            {
-                Debug.LogError("KeyRebindManager: Player 태그를 가진 오브젝트를 찾을 수 없습니다!");
-            }
+            // else
+            // {
+            //     Debug.LogError("KeyRebindManager: Player 태그를 가진 오브젝트를 찾을 수 없습니다!");
+            // }
         }
 
         // 초기 UI 업데이트
@@ -167,14 +167,14 @@ public class KeyRebindManager : MonoBehaviour
 
         if (playerInput == null)
         {
-            Debug.LogError("KeyRebindManager: PlayerInput을 찾을 수 없습니다!");
+            // Debug.LogError("KeyRebindManager: PlayerInput을 찾을 수 없습니다!");
             return;
         }
 
         InputAction action = playerInput.inputActions.FindAction(actionName);
         if (action == null)
         {
-            Debug.LogError($"KeyRebindManager: 액션을 찾을 수 없습니다: {actionName}");
+           // Debug.LogError($"KeyRebindManager: 액션을 찾을 수 없습니다: {actionName}");
             return;
         }
 
@@ -194,7 +194,7 @@ public class KeyRebindManager : MonoBehaviour
 
         if (bindingIndex == -1)
         {
-            Debug.LogError($"바인딩을 찾을 수 없습니다: {actionName} ({bindingName})");
+           // Debug.LogError($"바인딩을 찾을 수 없습니다: {actionName} ({bindingName})");
             return;
         }
 
@@ -330,11 +330,11 @@ public class KeyRebindManager : MonoBehaviour
 
             string jsonData = JsonUtility.ToJson(data, true);
             File.WriteAllText(savePath, jsonData);
-            Debug.Log($"설정이 저장되었습니다. 경로: {savePath}");
+        //    Debug.Log($"설정이 저장되었습니다. 경로: {savePath}");
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"설정 저장 중 오류 발생: {e.Message}");
+           // Debug.LogError($"설정 저장 중 오류 발생: {e.Message}");
         }
     }
 
@@ -345,7 +345,7 @@ public class KeyRebindManager : MonoBehaviour
             try
             {
                 string jsonData = File.ReadAllText(savePath);
-                Debug.Log($"설정 파일을 읽었습니다. 경로: {savePath}\n내용: {jsonData}");
+              //  Debug.Log($"설정 파일을 읽었습니다. 경로: {savePath}\n내용: {jsonData}");
                 
                 var data = JsonUtility.FromJson<SettingsData>(jsonData);
 
@@ -360,7 +360,7 @@ public class KeyRebindManager : MonoBehaviour
                 ySensitivity = data.ySensitivity;
                 soundVolume = data.soundVolume;
 
-                Debug.Log($"설정을 로드했습니다. X감도={xSensitivity}, Y감도={ySensitivity}, 소리={soundVolume}");
+             //   Debug.Log($"설정을 로드했습니다. X감도={xSensitivity}, Y감도={ySensitivity}, 소리={soundVolume}");
 
                 // UI 업데이트
                 if (xSensitivitySlider != null) xSensitivitySlider.mainSlider.value = xSensitivity;
@@ -374,13 +374,13 @@ public class KeyRebindManager : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"설정 파일을 로드하는 중 오류가 발생했습니다: {e.Message}");
+               // Debug.LogError($"설정 파일을 로드하는 중 오류가 발생했습니다: {e.Message}");
                 SetDefaultSettings();
             }
         }
         else
         {
-            Debug.Log("설정 파일이 없습니다. 기본 설정을 적용합니다.");
+           // Debug.Log("설정 파일이 없습니다. 기본 설정을 적용합니다.");
             SetDefaultSettings();
         }
     }
@@ -399,7 +399,7 @@ public class KeyRebindManager : MonoBehaviour
         if (ySensitivityField != null) ySensitivityField.text = ySensitivity.ToString("F2");
         if (soundField != null) soundField.text = soundVolume.ToString("F2");
 
-        Debug.Log($"기본 설정이 적용되었습니다. X감도={xSensitivity}, Y감도={ySensitivity}, 소리={soundVolume}");
+      //  Debug.Log($"기본 설정이 적용되었습니다. X감도={xSensitivity}, Y감도={ySensitivity}, 소리={soundVolume}");
     }
 
     private void OnApplicationQuit()
@@ -407,7 +407,7 @@ public class KeyRebindManager : MonoBehaviour
         if (playerInput != null && playerInput.inputActions != null)
         {
             string rebindsJson = playerInput.inputActions.SaveBindingOverridesAsJson();
-            Debug.Log($"게임 종료 시 키 바인딩 저장: {rebindsJson}");
+         //   Debug.Log($"게임 종료 시 키 바인딩 저장: {rebindsJson}");
             
             // LoadSettings를 통해 설정 저장
             LoadSettings loadSettings = FindObjectOfType<LoadSettings>();
@@ -416,7 +416,7 @@ public class KeyRebindManager : MonoBehaviour
                 loadSettings.SaveSettingsToJson(xSensitivity, ySensitivity, soundVolume);
             }
         }
-        Debug.Log("게임 종료: 설정이 저장되었습니다.");
+      //  Debug.Log("게임 종료: 설정이 저장되었습니다.");
     }
 
     #endregion

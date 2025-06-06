@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HealSkill : Skill
@@ -45,7 +44,6 @@ public class HealSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
-        Debug.Log("회복 스킬 사용");
 
         // 애니메이션 트리거 실행
         if (animator != null)
@@ -54,7 +52,6 @@ public class HealSkill : Skill
         }
 
         RaycastHit? hitInfo = playerMovement.LocalPosToWorldRaycast();
-        Debug.Log(hitInfo);
         if (hitInfo.HasValue && hitInfo.Value.collider != null && hitInfo.Value.collider.CompareTag("Team")) // null 체크 및 Tag 비교 개선
         {
             // 팀원에게 힐
@@ -102,15 +99,12 @@ public class HealSkill : Skill
             {
                 ps.Play();
                 yield return new WaitForSeconds(particleDuration);
-                Debug.Log("ddd");
                 ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             }
             else
             {
                 yield return new WaitForSeconds(particleDuration);
-                Debug.Log("dddd");
             }
-            Debug.Log("dddddddd");
             Destroy(particleInstance);
         }
     }

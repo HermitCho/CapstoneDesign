@@ -72,7 +72,6 @@ public class Skill : MonoBehaviour
         if (currentCoolDown > 0f)
         {
             currentCoolDown -= Time.deltaTime;
-            //Debug.Log(currentCoolDown);
         }
         //스킬 쿨타임이 0이고, 스킬 횟수가 있는 경우에만 스킬 사용 가능 확인
         else if (currentCoolDown <= 0f)
@@ -93,13 +92,10 @@ public class Skill : MonoBehaviour
     // 스킬 카운트와 쿨타임이 둘 다 사용 조건을 만족하는지 확인
     public void skillbothCheck()
     {
-        // Debug.Log("currentSkillCount : " + currentSkillCount);
-        // Debug.Log("currentCoolDown : " + currentCoolDown);
         if (currentSkillCount > 0)
         {
             if (currentCoolDown <= 0f)
             {
-                Debug.Log("스킬 사용 가능");
                 checkSkill = true;
             }
             else

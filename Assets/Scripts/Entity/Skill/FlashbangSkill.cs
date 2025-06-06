@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class FlashbangSkill : Skill
 {
-    public FlashbangSkill()
-    {
-        skillType = SkillType.count;
-    }
-
     [SerializeField] GameObject flashbangPrefab; //섬광탄 프리팹 데이터
     GameObject flashbangObject; //직접 던져질 섬광탄 오브젝트
     Flashbang flashbang; //섬광탄 스크립트
@@ -16,8 +11,12 @@ public class FlashbangSkill : Skill
     private int count = 2; // 섬광탄 스킬 개수
     private PlayerInput playerInput; // 섬광탄을 가진 캐릭터의 키인풋 컴포넌트
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
+    private bool hasInvokedSkill = false; // 스킬이 이미 호출되었는지 추적
 
-
+    void Start()
+    {
+        skillType = SkillType.count;
+    }
 
     // 섬광탄 스킬 초기화
     public override void OnEnable()
@@ -61,8 +60,6 @@ public class FlashbangSkill : Skill
     {
         base.invokeSkill();
     }
-
-    private bool hasInvokedSkill = false; // 스킬이 이미 호출되었는지 추적
     
     void Update()
     {
@@ -70,8 +67,6 @@ public class FlashbangSkill : Skill
         {
             inputSkillKey();
         }
-
-        Debug.Log(flashbang);
 
         if (flashbang != null) // flashbang가 null이 아닌 경우에만 Handling 호출
         {
@@ -87,10 +82,6 @@ public class FlashbangSkill : Skill
             {
                 hasInvokedSkill = false;
             }
-        }
-        else
-        {
-            Debug.LogWarning("Flashbang가 초기화되지 않았습니다.");
         }
     }
 }

@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
-using UnityEditor.Experimental.GraphView;
-using VFolders.Libs;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -94,7 +92,7 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            image1.Destroy();
+            Destroy(image1.gameObject);
         }
 
         if (skill2.skillType == Skill.SkillType.cooldown || skill2.skillType == Skill.SkillType.instantCooldown || skill2.skillType == Skill.SkillType.countCooldown)
@@ -105,7 +103,7 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            image1.Destroy();
+            Destroy(image2.gameObject);
         }
 
         checkSkillType();

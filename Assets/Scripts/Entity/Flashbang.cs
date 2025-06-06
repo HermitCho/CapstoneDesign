@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Flashbang : MonoBehaviour
 {
@@ -29,14 +28,14 @@ public class Flashbang : MonoBehaviour
     float throwingDelay = 2f; // 섬광탄을 던질 때 너무 빨리 던지면 isKinematic이 off되기 전에 바닥을 뚫고 지나감, 그래서 약간의 딜레이를 넣음
     bool exploded = false; // 섬광탄이 한 번 터지면 다시 함수가 반복되지 않도록 조절
 
-    Image whiteImage;
-    [SerializeField] AudioClip Bang;
+    [SerializeField] private Image whiteImage; // 화면 전체를 덮는 흰색 이미지
+    [SerializeField] private float flashDuration = 2f; // 섬광 효과 지속 시간
+    [SerializeField] private float flashIntensity = 1f; // 섬광 효과 강도
+    [SerializeField] private AudioClip Bang;
     AudioSource audioSource;
-
 
     LineRenderer lineRenderer; //섬광탄 투척 궤적을 그리기 위한 라인렌더러
     Transform throwingposition; //섬광탄 투척 위치
-
 
     void Start()
     {
@@ -52,6 +51,12 @@ public class Flashbang : MonoBehaviour
 
         lineRenderer = GetComponentInParent<LineRenderer>();
         throwingposition = transform.parent.transform;
+
+        // 흰색 이미지 초기화
+        if (whiteImage != null)
+        {
+            whiteImage.color = new Color(1f, 1f, 1f, 0f);
+        }
     }
 
     // Update is called once per frame
@@ -79,7 +84,6 @@ public class Flashbang : MonoBehaviour
     // 섬광탄 쿠킹 및 투척을 위한 메서드
     public void Throwing()
     {
-        ///////////////Debug.Log(cookingTime);
         if (state == State.Ready || state == State.Cooking)
         {
             if (Input.GetMouseButtonDown(0) && !alreadyThrown)
@@ -145,15 +149,7 @@ public class Flashbang : MonoBehaviour
                             if (hitPlayerMovement != null && hitPlayerShooter != null)
                             {
                                 StartCoroutine(DisablePlayerActions(hitPlayerMovement, hitPlayerShooter, hitHandlingWeapon));
-                            }
-
-                            if (dotProduct < 0) // 0보다 크면 앞쪽에 있음
-                            {
-                                Debug.Log("플레이어가 섬광탄 앞쪽에 있음! 더 강한 효과");
-                            }
-                            else
-                            {
-                                Debug.Log("플레이어가 섬광탄 뒤쪽에 있음! 더 약한 효과");
+                                StartCoroutine(FlashEffect(dotProduct < 0));
                             }
                         }
                     }
@@ -166,6 +162,36 @@ public class Flashbang : MonoBehaviour
                 Destroy(gameObject); // 이 오브젝트를 파괴
             }
         }
+    }
+
+    private IEnumerator FlashEffect(bool isStrongEffect)
+    {
+        if (whiteImage == null) yield break;
+
+        float duration = isStrongEffect ? flashDuration : flashDuration * 0.5f;
+        float intensity = isStrongEffect ? flashIntensity : flashIntensity * 0.5f;
+        float elapsed = 0f;
+
+        // 페이드 인
+        while (elapsed < duration * 0.2f)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(0f, intensity, elapsed / (duration * 0.2f));
+            whiteImage.color = new Color(1f, 1f, 1f, alpha);
+            yield return null;
+        }
+
+        // 페이드 아웃
+        elapsed = 0f;
+        while (elapsed < duration * 0.8f)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(intensity, 0f, elapsed / (duration * 0.8f));
+            whiteImage.color = new Color(1f, 1f, 1f, alpha);
+            yield return null;
+        }
+
+        whiteImage.color = new Color(1f, 1f, 1f, 0f);
     }
 
     private IEnumerator DisablePlayerActions(PlayerMovement movement, PlayerShooter shooter, HandlingWeapon handlingWeapon)

@@ -6,24 +6,16 @@ using UnityEngine;
 /// </summary>
 public class WarmongerSkill : Skill
 {
-
-    public WarmongerSkill()
-    {
-        skillType = SkillType.instantCooldown;
-    }
-
     //스킬 직접 관련
     float coolTime = 10f; // 전쟁광 스킬 사용 시 쿨타임
     float currentCoolDown = 0; // 전쟁광 스킬 현재 쿨타임
     bool onSkill = false; // 전쟁광 스킬 사용 중인지 확인
     float skillDuration = 5f; // 전쟁광 스킬 지속 시간
-    // float nowSkillDuration = 0f; // 코루틴 사용 시 필요 없음
     private Animator animator; // 애니메이터 컴포넌트
 
     [Header("Particle")]
     [SerializeField] GameObject skillParticlePrefab; // 전쟁광 스킬 파티클 프리팹
     private ParticleSystem skillParticleInstance; // 인스턴스화된 파티클 시스템
-
 
     // 스킬 간접 관련
     PlayerInput playerInput; // 캐릭터의 키인풋 컴포넌트
@@ -32,14 +24,16 @@ public class WarmongerSkill : Skill
     [SerializeField] Gun gun; // 사용 캐릭터의 총기
     GunData gunData; // 전쟁광 스킬로 변할 캐릭터 총기 데이터
 
-
+    void Start()
+    {
+        skillType = SkillType.instantCooldown;
+    }
 
     // 전쟁광 스킬 초기화
     public override void OnEnable()
     {
         base.OnEnable();
         maxCoolDown = coolTime; // 최대 쿨타임 설정
-
 
         playerInput = GetComponent<PlayerInput>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -80,7 +74,6 @@ public class WarmongerSkill : Skill
         playerMovement.horizontalMoveSpeed = playerMovement.horizontalMoveSpeed * 1.2f;
         playerMovement.sprintSpeed = playerMovement.sprintSpeed * 1.2f;
 
-        Debug.Log(skillSound);
         audioSource.PlayOneShot(skillSound);
         // 스킬 지속 시간 코루틴 시작
         StartCoroutine(WarmongerDurationCoroutine());
@@ -117,19 +110,11 @@ public class WarmongerSkill : Skill
         // 스킬 지속 시간만큼 대기
         yield return new WaitForSeconds(skillDuration);
 
-        // 스킬 종료
-        Debug.Log("전쟁광 스킬 종료!");
-
         // 능력치 원상 복구
         gunData.reloadTime = gunData.reloadTime * 2;
         playerMovement.verticalMoveSpeed = playerMovement.verticalMoveSpeed / 1.2f;
         playerMovement.horizontalMoveSpeed = playerMovement.horizontalMoveSpeed / 1.2f;
         playerMovement.sprintSpeed = playerMovement.sprintSpeed / 1.2f;
-
-        // Debug.Log(gunData.reloadTime);
-        // Debug.Log(playerMovement.verticalMoveSpeed);
-        // Debug.Log(playerMovement.horizontalMoveSpeed);
-        // Debug.Log(playerMovement.sprintSpeed);
 
         // 파티클 정지 및 제거
         if (skillParticleInstance != null)

@@ -42,37 +42,22 @@ public class SelectCharacter : MonoBehaviour
 
         // LoadSettings 컴포넌트 찾기
         loadSettings = FindObjectOfType<LoadSettings>();
-        if (loadSettings == null)
-        {
-            Debug.LogError("LoadSettings를 찾을 수 없습니다!");
-        }
+
 
         // PanelManager 찾기
         if (panelManager == null)
         {
             panelManager = FindObjectOfType<PanelManager>();
-            if (panelManager == null)
-            {
-                Debug.LogError("PanelManager를 찾을 수 없습니다!");
-            }
+
         }
 
         // 시네머신 가상 카메라 찾기
         if (virtualCamera == null)
         {
             virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-            if (virtualCamera == null)
+            if (virtualCamera != null)
             {
-                Debug.LogError("CinemachineVirtualCamera를 찾을 수 없습니다!");
-            }
-            else
-            {
-                // CinemachineComposer 컴포넌트 가져오기
-                cinemachineComposer = virtualCamera.GetCinemachineComponent<CinemachineComposer>();
-                if (cinemachineComposer == null)
-                {
-                    Debug.LogError("CinemachineComposer를 찾을 수 없습니다!");
-                }
+               cinemachineComposer = virtualCamera.GetCinemachineComponent<CinemachineComposer>();
             }
         }
 
@@ -112,7 +97,7 @@ public class SelectCharacter : MonoBehaviour
         if (!isSelectionActive) return;
 
         selectedCharacterIndex = index;
-        Debug.Log($"캐릭터 {index + 1}번 선택됨");
+       // Debug.Log($"캐릭터 {index + 1}번 선택됨");
     }
 
     public void SettingCharacter()
@@ -133,17 +118,17 @@ public class SelectCharacter : MonoBehaviour
 
         // PlayerMovement 컴포넌트 가져오기
         playerMovement = selectedCharacter.GetComponent<PlayerMovement>();
-        if (playerMovement == null)
-        {
-            Debug.LogError("PlayerMovement 컴포넌트를 찾을 수 없습니다!");
-        }
+        // if (playerMovement == null)
+        // {
+        //     Debug.LogError("PlayerMovement 컴포넌트를 찾을 수 없습니다!");
+        // }
 
         // AudioSource 컴포넌트 가져오기
         AudioSource playerAudioSource = selectedCharacter.GetComponent<AudioSource>();
-        if (playerAudioSource == null)
-        {
-            Debug.LogError("AudioSource 컴포넌트를 찾을 수 없습니다!");
-        }
+        // if (playerAudioSource == null)
+        // {
+        //     Debug.LogError("AudioSource 컴포넌트를 찾을 수 없습니다!");
+        // }
 
         // 총 오디오 소스 찾기
         AudioSource gunAudioSource = null;
@@ -173,24 +158,24 @@ public class SelectCharacter : MonoBehaviour
                     {
                         playerMovement.xMouseSensitivity = data.xSensitivity;
                         playerMovement.yMouseSensitivity = data.ySensitivity;
-                        Debug.Log($"감도 설정 적용: X={data.xSensitivity}, Y={data.ySensitivity}");
+                      //  Debug.Log($"감도 설정 적용: X={data.xSensitivity}, Y={data.ySensitivity}");
                     }
 
                     // 소리 설정 적용
                     if (playerAudioSource != null)
                     {
                         playerAudioSource.volume = data.soundVolume;
-                        Debug.Log($"플레이어 소리 설정 적용: {data.soundVolume}");
+                       // Debug.Log($"플레이어 소리 설정 적용: {data.soundVolume}");
                     }
                     if (gunAudioSource != null)
                     {
                         gunAudioSource.volume = data.soundVolume;
-                        Debug.Log($"총 소리 설정 적용: {data.soundVolume}");
+                      //  Debug.Log($"총 소리 설정 적용: {data.soundVolume}");
                     }
                 }
                 catch (System.Exception e)
                 {
-                    Debug.LogError($"설정 파일을 로드하는 중 오류가 발생했습니다: {e.Message}");
+                  //  Debug.LogError($"설정 파일을 로드하는 중 오류가 발생했습니다: {e.Message}");
                 }
             }
         }
@@ -208,11 +193,11 @@ public class SelectCharacter : MonoBehaviour
                 playerMovement.SetCinemachineComposer(cinemachineComposer);
             }
 
-            Debug.Log("카메라 설정 완료");
+           // Debug.Log("카메라 설정 완료");
         }
         else
         {
-            Debug.LogError("카메라 컴포넌트를 찾을 수 없습니다!");
+          //  Debug.LogError("카메라 컴포넌트를 찾을 수 없습니다!");
         }
         // PlayerInput 컴포넌트 가져오기
         PlayerInput playerInput = selectedCharacter.GetComponent<PlayerInput>();
@@ -223,13 +208,13 @@ public class SelectCharacter : MonoBehaviour
             
             // 저장된 설정을 플레이어에 적용
             loadSettings.LoadSettingsToPlayer();
-            Debug.Log("PlayerInput 설정 완료");
+          //  Debug.Log("PlayerInput 설정 완료");
         }
         
 
         UIManager.Instance.GetDataForUI();
         
-        Debug.Log($"캐릭터 설정 완료: {selectedCharacter.name}");
+       // Debug.Log($"캐릭터 설정 완료: {selectedCharacter.name}");
     }
 
     public void EndSelectTime()
@@ -256,6 +241,6 @@ public class SelectCharacter : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        Debug.Log("캐릭터 선택 시간 종료 및 설정 완료");
+      //  Debug.Log("캐릭터 선택 시간 종료 및 설정 완료");
     }
 }
