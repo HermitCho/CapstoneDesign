@@ -59,13 +59,8 @@ public class WarmongerSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
-
+        animator.SetTrigger("Warmonger");
         UIManager.Instance.CoolDownButtonInput(2); // 아이콘 업데이트
-
-        if (animator != null)
-        {
-            animator.SetTrigger("Warmonger");
-        }
 
         // onSkill 플래그는 코루틴 시작 시 설정
         // 능력치 변경

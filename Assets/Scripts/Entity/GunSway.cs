@@ -61,12 +61,12 @@ public class GunSway : MonoBehaviour
             // 장전 중일 때 흔들림 적용
             shake = new Vector3(
                 0f,                                                // x축
-                Mathf.Cos(Time.time * speed * 0.7f) * shakeAmount, // y축
+                Mathf.Cos(Time.time * speed * 0.5f) * shakeAmount, // y축
                 Mathf.Sin(Time.time * speed * 0.2f) * shakeAmount  // z축
             );
 
             // 장전 중일 때 총기를 약간 뒤쪽으로 위치 이동
-            Vector3 targetPosition = initialLocalPosition + new Vector3(0f, 0f, -0.2f);
+            Vector3 targetPosition = initialLocalPosition + new Vector3(0f, 0f, -0.1f);
             // 총기의 위치를 흔들림 위치로 부드럽게 이동
             gunShakePivot.localPosition = Vector3.Lerp(
                 gunShakePivot.localPosition,
