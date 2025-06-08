@@ -39,18 +39,28 @@ public class Flashbang : MonoBehaviour
 
     void Start()
     {
-        state = State.Empty;
+        state = State.Ready;
 
         playerInput = GetComponentInParent<PlayerInput>();
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
         playerMovement = GetComponentInParent<PlayerMovement>();
-        alreadyThrown = false;
         animator = GetComponentInParent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
         lineRenderer = GetComponentInParent<LineRenderer>();
-        throwingposition = transform.parent.transform;
+
+        // 캐릭터 애니메이터에서 RightHand를 가져옴
+        if (animator != null)
+        {
+            throwingposition = animator.GetBoneTransform(HumanBodyBones.RightHand);
+            if (throwingposition != null)
+            {
+                transform.SetParent(throwingposition);
+                transform.localPosition = Vector3.zero;
+                transform.localRotation = Quaternion.identity;
+            }
+        }
 
         // 흰색 이미지 초기화
         if (whiteImage != null)
@@ -63,6 +73,18 @@ public class Flashbang : MonoBehaviour
     void Update()
     {
         Explosion();
+
+        // 쿠깅중일 때 실시간 궤적을 계산
+        if (state == State.Cooking && Input.GetMouseButton(0) && !alreadyThrown)
+        {
+            Vector3 camForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
+            transform.rotation = Quaternion.LookRotation(camForward);
+
+            Vector3 flashbangVelocity = (camForward + Vector3.up * 0.2f).normalized * throwingPower;
+            Vector3 start = throwingposition.position + camForward + throwingposition.up / 4;
+
+            ShowTrajectLine(start, flashbangVelocity);
+        }
     }
 
     // 2번 키를 누르면 섬광탄을 손에 들게 됨
@@ -91,28 +113,43 @@ public class Flashbang : MonoBehaviour
                 state = State.Cooking;
                 animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
                 lineRenderer.enabled = true;
+
+                // 카메라 방향으로 회전
+                Vector3 camForward = Camera.main.transform.forward;
+                transform.rotation = Quaternion.LookRotation(camForward);
+
+                Debug.Log(state);
             }
-            if (Input.GetMouseButton(0) && !alreadyThrown)
-            {
-                Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
-                ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
-            }
-            if (Input.GetMouseButtonUp(0) & !alreadyThrown)
+            if (Input.GetMouseButtonUp(0) && !alreadyThrown)
             {
                 lineRenderer.enabled = false;
-
-                rigidbody.isKinematic = false;
-                gameObject.transform.SetParent(null);
                 animator.SetTrigger("ThrowGrenade");
 
-                Vector3 fireDirection = transform.forward + transform.up / 4; //섬광탄이 날아갈 방향
-                rigidbody.AddForce(fireDirection * throwingPower, ForceMode.Impulse);
-                state = State.Fire;
-                alreadyThrown = true;
+                transform.SetParent(null);
 
-                animator.SetBool("HandleGrenade", false);
+                // 수류탄을 캐릭터 앞으로 살짝 이동
+                Vector3 camForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
+                Vector3 fireDirection = camForward + Vector3.up * 0.2f; // 방향 약간 위로 보정
+                transform.position = throwingposition.position + camForward * 0.5f + Vector3.up * 0.1f;
+
+                // 한 프레임 기다려 충돌 안정화 후 힘 적용
+                StartCoroutine(ThrowAfterDelay(fireDirection));
+
             }
         }
+    }
+    IEnumerator ThrowAfterDelay(Vector3 fireDirection)
+    {
+        yield return null;
+
+        collider.enabled = true;
+        rigidbody.isKinematic = false;
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.AddForce(fireDirection.normalized * throwingPower, ForceMode.Impulse);
+
+        state = State.Fire;
+        alreadyThrown = true;
+        animator.SetBool("HandleGrenade", false);
     }
 
     //섬광탄이 터지는 것을 구현한 메서드

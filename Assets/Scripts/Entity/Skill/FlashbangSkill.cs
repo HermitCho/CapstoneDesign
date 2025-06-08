@@ -12,6 +12,7 @@ public class FlashbangSkill : Skill
     private PlayerInput playerInput; // 섬광탄을 가진 캐릭터의 키인풋 컴포넌트
     HandlingWeapon handlingWeapon; //손에 든 무기에 관한 컴포넌트
     private bool hasInvokedSkill = false; // 스킬이 이미 호출되었는지 추적
+    private Animator animator; // 섬광탄을 던지는 캐릭터의 애니메이터
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class FlashbangSkill : Skill
 
         playerInput = GetComponent<PlayerInput>();
         handlingWeapon = GetComponent<HandlingWeapon>();
+        animator = GetComponent<Animator>();
     }
 
     // 스킬 키 입력 시
@@ -37,12 +39,18 @@ public class FlashbangSkill : Skill
         if (checkSkill == true)
         {
             UIManager.Instance.SelectGunORSkillUI(1); // 인게임 UI에 수류탄 아이콘 표시, 스킬 2번 키를 눌렀으니 2 전송
-
+            animator.SetBool("HandleGrenade", true);
             if (flashbangPivot.transform.childCount == 0)
             {
                 flashbangObject = Instantiate(flashbangPrefab, flashbangPivot.transform.position, transform.rotation);
                 flashbangObject.transform.parent = flashbangPivot.transform;
                 flashbang = flashbangObject.GetComponent<Flashbang>();
+
+                // 캐릭터 밀림 방지를 위한 설정
+                Rigidbody rb = flashbangObject.GetComponent<Rigidbody>();
+                Collider col = flashbangObject.GetComponent<Collider>();
+                if (rb != null) rb.isKinematic = true;
+                if (col != null) col.enabled = false;
 
                 handlingWeapon.showGun = false;
                 handlingWeapon.controlPlayerShooterOn(false);

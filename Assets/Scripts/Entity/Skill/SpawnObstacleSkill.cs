@@ -20,6 +20,7 @@ public class SpawnObstacleSkill : Skill
     PlayerInput playerInput; // 플레이어 입력 컴포넌트 참조
 
     HandlingWeapon handlingWeapon; // 손에 든 무기에 관한 컴포넌트
+    Animator animator; // 플레이어 애니메이션
 
     // 스킬이 활성화될 때 호출됨 (초기화)
     public override void OnEnable()
@@ -31,6 +32,7 @@ public class SpawnObstacleSkill : Skill
         playerInput = GetComponent<PlayerInput>();
         handlingWeapon = GetComponent<HandlingWeapon>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
     }
 
     // 스킬키 입력 감지 및 프리뷰 생성
@@ -45,6 +47,7 @@ public class SpawnObstacleSkill : Skill
                 handlingWeapon.showGun = false;
                 handlingWeapon.controlPlayerShooterOn(false);
                 isPreview = true;
+                animator.SetBool("SpawnStart", true);
                 if (currentPreview == null)
                 {
                     currentPreview = Instantiate(obstaclePreviewPrefab);
@@ -62,6 +65,7 @@ public class SpawnObstacleSkill : Skill
         UIManager.Instance.CoolDownButtonInput(2); // 아이콘 업데이트
         SpawnObstacle();
         audioSource.PlayOneShot(skillSound);
+        animator.SetBool("SpawnStart", false);
     }
 
     // 매 프레임마다 호출됨
@@ -75,11 +79,13 @@ public class SpawnObstacleSkill : Skill
             UpdatePreviewPosition();
             if (playerInput.fireButton) // 마우스 클릭 시 설치
             {
+                animator.SetTrigger("SpawnEnd");
                 invokeSkill();
             }
             else if (playerInput.handleGunButton || playerInput.skill_1_Button) // 취소
             {
                 CancelPlacing();
+                animator.SetBool("SpawnStart", false);
             }
         }
     }

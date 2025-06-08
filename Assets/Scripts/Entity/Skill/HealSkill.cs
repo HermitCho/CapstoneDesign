@@ -44,12 +44,7 @@ public class HealSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
-
-        // 애니메이션 트리거 실행
-        if (animator != null)
-        {
-            animator.SetTrigger("HandReach"); // 손을 앞으로 뻗는 애니메이션
-        }
+        animator.SetTrigger("HandReach");
 
         RaycastHit? hitInfo = playerMovement.LocalPosToWorldRaycast();
         if (hitInfo.HasValue && hitInfo.Value.collider != null && hitInfo.Value.collider.CompareTag("Team")) // null 체크 및 Tag 비교 개선
