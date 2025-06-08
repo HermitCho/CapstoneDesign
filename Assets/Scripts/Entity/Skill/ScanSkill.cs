@@ -9,12 +9,14 @@ public class ScanSkill : Skill
         skillType = SkillType.cooldown;
     }
     private PlayerInput playerInput;
+    private Animator animator;
     float coolTime = 10f; // 스킬 쿨타임
     void OnEnable()
     {
         maxCoolDown = coolTime;
         playerInput = GetComponent<PlayerInput>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
     }
 
     public override void inputSkillKey()
@@ -25,6 +27,7 @@ public class ScanSkill : Skill
     public override void invokeSkill()
     {
         base.invokeSkill();
+        animator.SetTrigger("ScanUse");
         audioSource.PlayOneShot(skillSound);
         StartCoroutine(DetectAndHighlightEnemies());
     }
