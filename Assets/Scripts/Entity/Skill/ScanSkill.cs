@@ -23,7 +23,7 @@ public class ScanSkill : Skill
     {
         invokeSkill();
     }
-    
+
     public override void invokeSkill()
     {
         base.invokeSkill();
@@ -35,19 +35,11 @@ public class ScanSkill : Skill
     IEnumerator DetectAndHighlightEnemies()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        List<Renderer> changedRenderers = new List<Renderer>();
         List<Outline> changedOutlines = new List<Outline>();
 
         foreach (GameObject enemy in enemies)
         {
             Debug.Log(enemy.name);
-            Renderer rend = enemy.GetComponent<Renderer>();
-            if (rend != null)
-            {
-                rend.material.color = Color.yellow; // 하이라이트 색상
-                changedRenderers.Add(rend);
-            }
-
             var outline = enemy.GetComponent<Outline>();
             if (outline == null)
                 outline = enemy.AddComponent<Outline>();
@@ -58,12 +50,6 @@ public class ScanSkill : Skill
         }
 
         yield return new WaitForSeconds(5f); // 5초간 하이라이트
-
-        foreach (Renderer rend in changedRenderers)
-        {
-            if (rend != null)
-                rend.material.color = Color.white; // 원래 색상(필요시 원래 색상 저장/복구)
-        }
 
         foreach (Outline outline in changedOutlines)
         {
