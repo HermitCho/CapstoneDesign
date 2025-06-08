@@ -64,13 +64,13 @@ public class Grenade : MonoBehaviour
     // '스킬 1' 키를 누르면 수류탄을 들게 됨 / '스킬 2' 혹은 '총' 키를 누르면 수류탄을 넣음
     public void Handling()
     {
-        
+
         if (state == State.Empty && playerInput.skill_1_Button && !alreadyThrown)
         {
             state = State.Ready;
             gameObject.SetActive(true);
         }
-        
+
         else if (state == State.Ready && (playerInput.skill_2_Button || playerInput.handleGunButton) && !alreadyThrown)
         {
             state = State.Empty;
@@ -84,7 +84,7 @@ public class Grenade : MonoBehaviour
     // 수류탄 쿠킹 및 투척을 위한 메서드
     public void Throwing()
     {
-        
+
         if (state == State.Ready || state == State.Cooking)
         {
             if (Input.GetMouseButtonDown(0) && !alreadyThrown)
@@ -92,8 +92,9 @@ public class Grenade : MonoBehaviour
                 state = State.Cooking;
                 animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
                 lineRenderer.enabled = true;
-                Debug.Log(state);
-
+            }
+            if (Input.GetMouseButton(0) && !alreadyThrown)
+            {
                 Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
                 ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
             }
@@ -112,12 +113,12 @@ public class Grenade : MonoBehaviour
                 state = State.Fire;
                 alreadyThrown = true;
 
-                animator.SetBool("HandleGrenade", false); 
+                animator.SetBool("HandleGrenade", false);
 
             }
         }
     }
-    
+
     //수류탄이 터지는 것을 구현한 메서드
     void Explosion()
     {
@@ -206,10 +207,10 @@ public class Grenade : MonoBehaviour
     //수류탄 투척 궤적을 그리기 위한 메서드
     void ShowTrajectLine(Vector3 origin, Vector3 speed)
     {
-       
+
         Vector3[] points = new Vector3[100];
         lineRenderer.positionCount = points.Length;
-        
+
         for (int i = 0; i < points.Length; i++)
         {
             float time = i * 0.1f;

@@ -76,7 +76,11 @@ public class Smoke : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !alreadyThrown)
             {
                 state = State.Cooking;
-                animator.SetTrigger("PullOut");
+                animator.SetTrigger("PullOut"); // 수류탄 핀 뽑는 애니메이션 추가
+                lineRenderer.enabled = true;
+            }
+            if (Input.GetMouseButton(0) && !alreadyThrown)
+            {
                 Vector3 grenadeVelocity = (throwingposition.forward).normalized * throwingPower;
                 ShowTrajectLine(throwingposition.position + throwingposition.forward + throwingposition.up / 4, grenadeVelocity);
             }
