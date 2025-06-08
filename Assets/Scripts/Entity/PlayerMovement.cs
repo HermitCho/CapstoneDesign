@@ -129,9 +129,15 @@ public class PlayerMovement : MonoBehaviour
         currentMoveX = Mathf.Lerp(currentMoveX, targetMoveX, Time.deltaTime * dampSpeed);
         currentMoveY = Mathf.Lerp(currentMoveY, targetMoveY, Time.deltaTime * dampSpeed);
 
-        playerAnimator.SetFloat("MoveX",currentMoveX);
+
+        if (Mathf.Abs(currentMoveX) < 0.01f) currentMoveX = 0f;
+        if (Mathf.Abs(currentMoveY) < 0.01f) currentMoveY = 0f;
+
+        playerAnimator.SetFloat("MoveX", currentMoveX);
         playerAnimator.SetFloat("MoveY", currentMoveY);
         playerAnimator.SetBool("isRunning", isRunning);
+        // 애니메이션 파라미터 설정
+        
 
         if (canMove)
         {
@@ -286,6 +292,7 @@ public class PlayerMovement : MonoBehaviour
         if (audioSource != null && footstepClip != null)
         {
             audioSource.PlayOneShot(footstepClip);
+            Debug.Log("FootStepSound");
         }
     }
 

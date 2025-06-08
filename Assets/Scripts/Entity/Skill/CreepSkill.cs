@@ -16,7 +16,7 @@ public class CreepSkill : Skill
     [SerializeField] GameObject skillEffect; // 스킬 이펙트
 
 
-    void OnEnable()
+    void Start()
     {
         maxCoolDown = coolTime;
         playerMovement = GetComponent<PlayerMovement>();
